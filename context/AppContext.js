@@ -18,6 +18,8 @@ export function AppProvider({
   initialDocuments,
   initialApplications,
   initialCvVersions,
+  initialAnalysis,
+  initialAnalysesUsed,
 }) {
   // ---- navigation ----
   const [panel, setPanelState] = useState("dashboard");
@@ -31,11 +33,13 @@ export function AppProvider({
   const [selectedApplicationId, setSelectedApplicationId] = useState(null);
   const [cvVersions, setCvVersions] = useState(initialCvVersions || []);
   const [selectedVersionId, setSelectedVersionId] = useState(initialCvVersions?.[0]?.id || null);
+  const [currentAnalysis, setCurrentAnalysis] = useState(initialAnalysis || null);
+  const [analyzing, setAnalyzing] = useState(false);
 
   // ---- plan / paywall ----
   const [isPro, setIsPro] = useState(false);
   const [priceMode, setPriceMode] = useState("monthly");
-  const [analysesUsed, setAnalysesUsed] = useState(2);
+  const [analysesUsed, setAnalysesUsed] = useState(initialAnalysesUsed || 0);
   const [aiMessagesUsed, setAiMessagesUsed] = useState(0);
 
   // ---- ui ----
@@ -75,31 +79,47 @@ export function AppProvider({
   );
 
   const runAnalysis = useCallback(
-    (onDone) => {
+    async (jobDescription) => {
       if (!isPro && analysesUsed >= FREE_ANALYSIS_LIMIT) {
-        toast("Du hast alle 3 freien Analysen diesen Monat genutzt.");
+        toast(`Du hast alle ${FREE_ANALYSIS_LIMIT} freien Analysen diesen Monat genutzt.`);
         setPanel("pricing");
         return;
       }
-      if (!isPro) setAnalysesUsed((n) => n + 1);
+      if (!jobDescription || jobDescription.trim().length < 20) {
+        toast("Bitte füge eine vollständige Job Description ein.");
+        return;
+      }
       setLoading(true);
-      setLoadingStep(0);
-      const steps = 4;
-      let i = 0;
-      const tick = () => {
-        i++;
-        setLoadingStep(i);
-        if (i < steps) {
-          setTimeout(tick, 850);
-        } else {
-          setTimeout(() => {
-            setLoading(false);
-            setPanel("analysis");
-            if (onDone) onDone();
-          }, 400);
+      setLoadingStep(1);
+      setAnalyzing(true);
+      // Echte Analyse hat unbekannte Dauer (mehrere Sekunden) — die Schritte sind
+      // kosmetisch, damit die Wartezeit nicht wie ein eingefrorenes UI wirkt.
+      const stepInterval = setInterval(() => {
+        setLoadingStep((s) => Math.min(s + 1, 3));
+      }, 1800);
+      try {
+        const res = await fetch("/api/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ jobDescription }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          toast(data?.message || "Analyse fehlgeschlagen. Bitte versuch es erneut.");
+          return;
         }
-      };
-      setTimeout(tick, 850);
+        setLoadingStep(4);
+        setCurrentAnalysis(data.analysis);
+        setApplications((a) => [data.application, ...a]);
+        if (!isPro) setAnalysesUsed((n) => n + 1);
+        setPanel("analysis");
+      } catch (err) {
+        toast("Analyse fehlgeschlagen. Bitte versuch es erneut.");
+      } finally {
+        clearInterval(stepInterval);
+        setLoading(false);
+        setAnalyzing(false);
+      }
     },
     [isPro, analysesUsed, toast, setPanel]
   );
@@ -462,7 +482,7 @@ export function AppProvider({
     createCvVersion, updateVersionField, saveCvVersion, deleteCvVersion, downloadCv,
     chatMessages, sendChatMessage,
     prepShown, setPrepShown,
-    runAnalysis,
+    runAnalysis, currentAnalysis, analyzing,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

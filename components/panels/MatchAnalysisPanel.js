@@ -1,38 +1,52 @@
 "use client";
 import { useApp } from "@/context/AppContext";
 
-const BARS = [
-  ["Skills Match", 92], ["Experience Match", 88], ["Keyword Coverage", 81],
-  ["Education Match", 95], ["ATS Readiness", 86],
+const SCORE_LABELS = [
+  ["skills_match", "Skills Match"],
+  ["experience_match", "Experience Match"],
+  ["keyword_coverage", "Keyword Coverage"],
+  ["education_match", "Education Match"],
+  ["ats_readiness", "ATS Readiness"],
 ];
-const STRENGTHS = [
-  "8+ Jahre relevante Marketing-Erfahrung", "Starker B2B-SaaS-Hintergrund",
-  "Erfahrung mit HubSpot", "Leadership-Erfahrung passt zur Rolle", "Bachelor-Abschluss erfüllt Anforderung",
-];
-const GAPS = [
-  "Product-Marketing-Erfahrung nicht klar hervorgehoben",
-  '"Go-to-Market-Strategie" steht in der Job Description, aber nicht in deinem CV',
-  "Keine klare Pricing-Strategie-Erfahrung belegt",
-  "Analytics-Tools könnten konkreter beschrieben werden",
-];
+
+function matchBadge(score) {
+  if (score >= 80) return { cls: "badge-mint", label: "Starker Match" };
+  if (score >= 60) return { cls: "badge-warning", label: "Guter Match" };
+  return { cls: "badge-error", label: "Ausbaufähiger Match" };
+}
 
 export default function MatchAnalysisPanel() {
-  const { setPanel } = useApp();
+  const { setPanel, currentAnalysis } = useApp();
+
+  if (!currentAnalysis) {
+    return (
+      <div className="panel">
+        <div className="panel-head"><h1>Dein Match</h1></div>
+        <p style={{ fontSize: 13.5, color: "var(--text-muted)" }}>
+          Noch keine Analyse vorhanden.{" "}
+          <a href="#" onClick={(e) => { e.preventDefault(); setPanel("analyze"); }}>Jetzt einen Job analysieren →</a>
+        </p>
+      </div>
+    );
+  }
+
+  const badge = matchBadge(currentAnalysis.match_score);
+
   return (
     <div className="panel">
-      <div className="panel-head"><h1>Dein Match</h1><p>Product Marketing Manager — HubSpot</p></div>
+      <div className="panel-head"><h1>Dein Match</h1><p>{currentAnalysis.job_title} — {currentAnalysis.company}</p></div>
 
       <div className="dark-card score-hero">
-        <div className="score-ring" style={{ "--pct": "87%" }}>
-          <div className="score-ring-inner"><div className="v">87</div><div className="m">/ 100</div></div>
+        <div className="score-ring" style={{ "--pct": `${currentAnalysis.match_score}%` }}>
+          <div className="score-ring-inner"><div className="v">{currentAnalysis.match_score}</div><div className="m">/ 100</div></div>
         </div>
         <div style={{ flex: 1, minWidth: 260 }}>
-          <span className="badge badge-mint">Starker Match</span>
+          <span className={`badge ${badge.cls}`}>{badge.label}</span>
           <div style={{ marginTop: 18 }}>
-            {BARS.map(([label, val]) => (
-              <div className="bar-row" key={label}>
-                <div className="bar-row-head"><span className="n">{label}</span><span className="v">{val}%</span></div>
-                <div className="bar-track"><div className="bar-fill" style={{ width: `${val}%` }} /></div>
+            {SCORE_LABELS.map(([key, label]) => (
+              <div className="bar-row" key={key}>
+                <div className="bar-row-head"><span className="n">{label}</span><span className="v">{currentAnalysis.scores?.[key] ?? 0}%</span></div>
+                <div className="bar-track"><div className="bar-fill" style={{ width: `${currentAnalysis.scores?.[key] ?? 0}%` }} /></div>
               </div>
             ))}
           </div>
@@ -43,7 +57,7 @@ export default function MatchAnalysisPanel() {
         <div className="glass" style={{ padding: 22 }}>
           <h4 style={{ fontSize: 15, color: "var(--ink)", marginBottom: 14 }}>Was funktioniert</h4>
           <div className="chip-list">
-            {STRENGTHS.map((s) => (
+            {(currentAnalysis.strengths || []).map((s) => (
               <div className="chip-item good" key={s}>
                 <svg className="icon" style={{ width: 15, height: 15, color: "var(--success)", strokeWidth: 2.2 }}><use href="#i-check" /></svg>
                 <span>{s}</span>
@@ -54,7 +68,7 @@ export default function MatchAnalysisPanel() {
         <div className="glass" style={{ padding: 22 }}>
           <h4 style={{ fontSize: 15, color: "var(--ink)", marginBottom: 14 }}>Was fehlt</h4>
           <div className="chip-list">
-            {GAPS.map((g) => (
+            {(currentAnalysis.gaps || []).map((g) => (
               <div className="chip-item bad" key={g}>
                 <svg className="icon" style={{ width: 15, height: 15, color: "var(--warning)" }}><use href="#i-alert" /></svg>
                 <span>{g}</span>
@@ -62,7 +76,7 @@ export default function MatchAnalysisPanel() {
             ))}
           </div>
           <div className="note-box">
-            💡 Vielleicht hast du diese Erfahrung bereits — wir konnten sie nur nicht in deinem CV finden.
+            💡 Vielleicht hast du diese Erfahrung bereits — wir konnten sie nur nicht in deinem Profil finden.
             Wir schlagen nie vor, eine Qualifikation hinzuzufügen, die du nicht hast.
           </div>
         </div>
