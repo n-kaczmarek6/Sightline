@@ -23,11 +23,11 @@ export default function LandingPage() {
 
         <header className="hero">
           <div className="hero-badge"><span></span>AI Job Application Copilot</div>
-          <h1>Jede Bewerbung deine <span className="gradient-word">stärkste</span> Bewerbung.</h1>
+          <h1>Schluss mit <span className="gradient-word">blind</span> bewerben.</h1>
           <p className="hero-sub">
             Match dein CV mit jedem Job, sieh was Recruiter und ATS-Systeme wirklich suchen, und
             erstelle in Minuten eine stärkere Bewerbung — ohne je eine Qualifikation zu erfinden,
-            die du nicht hast.
+            die du nicht hast. <strong>Zielsicher bewerben.</strong>
           </p>
           <div className="hero-cta-row">
             <Link className="btn btn-primary" href="/app?panel=analyze">CV analysieren</Link>
@@ -171,10 +171,17 @@ export default function LandingPage() {
         </section>
 
         <section className="final-cta">
-          <h2 style={{ fontSize: "clamp(30px,3.8vw,46px)", color: "var(--ink)" }}>Bau deine stärkste Bewerbung.</h2>
+          <h2 style={{ fontSize: "clamp(30px,3.8vw,46px)", color: "var(--ink)" }}>Zielsicher bewerben.</h2>
           <p style={{ fontSize: 16, color: "var(--text-muted)", margin: "14px 0 26px" }}>Dauert ein paar Minuten. Deine erste Match-Analyse ist kostenlos.</p>
           <Link className="btn btn-primary" href="/app?panel=analyze">CV analysieren</Link>
         </section>
+
+        <footer style={{ textAlign: "center", padding: "40px 24px 56px" }}>
+          <div className="logo" style={{ justifyContent: "center" }}>
+            <div className="logo-mark"></div>Sightline
+          </div>
+          <p style={{ fontSize: 12.5, color: "var(--text-faint)", marginTop: 8 }}>Zielsicher bewerben.</p>
+        </footer>
       </div>
     </>
   );
