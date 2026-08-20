@@ -9,11 +9,6 @@ const FREE_AI_LIMIT = 4;
 const FREE_DOCUMENT_LIMIT = 2;
 const FREE_APPLICATION_LIMIT = 5;
 
-const ORIGINAL_SUMMARY =
-  "Senior Marketing Manager mit 8+ Jahren Erfahrung im B2B-SaaS-Wachstum durch integrierte Marketing-Kampagnen und Teamführung.";
-const IMPROVED_SUMMARY =
-  "Senior Marketing Manager mit 8+ Jahren Erfahrung in Go-to-Market-Strategie und Product Marketing für B2B-SaaS-Plattformen — cross-funktionale Zusammenarbeit für Produkt-Launches und Pipeline-Wachstum.";
-
 export function AppProvider({
   children,
   userEmail,
@@ -22,6 +17,7 @@ export function AppProvider({
   initialSkills,
   initialDocuments,
   initialApplications,
+  initialCvVersions,
 }) {
   // ---- navigation ----
   const [panel, setPanelState] = useState("dashboard");
@@ -33,6 +29,8 @@ export function AppProvider({
   const [documents, setDocuments] = useState(initialDocuments || []);
   const [applications, setApplications] = useState(initialApplications || []);
   const [selectedApplicationId, setSelectedApplicationId] = useState(null);
+  const [cvVersions, setCvVersions] = useState(initialCvVersions || []);
+  const [selectedVersionId, setSelectedVersionId] = useState(initialCvVersions?.[0]?.id || null);
 
   // ---- plan / paywall ----
   const [isPro, setIsPro] = useState(false);
@@ -44,21 +42,6 @@ export function AppProvider({
   const [toasts, setToasts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
-
-  // ---- cv builder ----
-  const [cvSummary, setCvSummary] = useState(ORIGINAL_SUMMARY);
-  const [cvExperience, setCvExperience] = useState(
-    "Led go-to-market campaigns for 3 SaaS product launches, increasing qualified pipeline by 28%. Partnered cross-functionally with product, sales and design. Managed a team of 4 marketing specialists."
-  );
-  const [cvEducation, setCvEducation] = useState(
-    "MBA, Digital Business — Hochschule Reutlingen · B.Sc. Business Administration"
-  );
-  const [cvSkills, setCvSkills] = useState(
-    "Product Marketing · Go-to-Market Strategy · B2B SaaS · Cross-functional Leadership · Google Analytics · HubSpot"
-  );
-  const [cvAchievements, setCvAchievements] = useState(
-    "Google Analytics Certification (2025) · Teamproduktivität um 18% gesteigert (Performance Review 2025)"
-  );
 
   // ---- chat ----
   const [chatMessages, setChatMessages] = useState([
@@ -341,15 +324,68 @@ export function AppProvider({
     [toast]
   );
 
-  const improveSummary = useCallback(() => {
-    setCvSummary(IMPROVED_SUMMARY);
-    toast("Summary mit AI verbessert.");
-  }, [toast]);
+  const createCvVersion = useCallback(
+    async (label, duplicateFromId) => {
+      if (!profile) return;
+      const source = cvVersions.find((v) => v.id === duplicateFromId);
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("cv_versions")
+        .insert({
+          user_id: profile.id,
+          label,
+          summary: source?.summary || "",
+          experience_text: source?.experience_text || "",
+          education_text: source?.education_text || "",
+          skills_text: source?.skills_text || skills.map((s) => s.name).join(" · "),
+          achievements_text: source?.achievements_text || "",
+        })
+        .select()
+        .single();
+      if (error) {
+        toast("Version konnte nicht erstellt werden.");
+        return;
+      }
+      setCvVersions((v) => [data, ...v]);
+      setSelectedVersionId(data.id);
+      toast("Neue CV-Version erstellt.");
+    },
+    [profile, cvVersions, skills, toast]
+  );
 
-  const revertSummary = useCallback(() => {
-    setCvSummary(ORIGINAL_SUMMARY);
-    toast("Zurück zum Original-Summary.");
-  }, [toast]);
+  const updateVersionField = useCallback(
+    (field, value) => {
+      setCvVersions((v) => v.map((ver) => (ver.id === selectedVersionId ? { ...ver, [field]: value } : ver)));
+    },
+    [selectedVersionId]
+  );
+
+  const saveCvVersion = useCallback(async () => {
+    const version = cvVersions.find((v) => v.id === selectedVersionId);
+    if (!version) return;
+    const supabase = createClient();
+    const { id, label, summary, experience_text, education_text, skills_text, achievements_text, application_id } = version;
+    const { error } = await supabase
+      .from("cv_versions")
+      .update({ label, summary, experience_text, education_text, skills_text, achievements_text, application_id })
+      .eq("id", id);
+    toast(error ? `Fehler beim Speichern: ${error.message}` : "CV-Version gespeichert.");
+  }, [cvVersions, selectedVersionId, toast]);
+
+  const deleteCvVersion = useCallback(
+    async (id) => {
+      const supabase = createClient();
+      setCvVersions((v) => v.filter((ver) => ver.id !== id));
+      setSelectedVersionId((cur) => {
+        if (cur !== id) return cur;
+        const remaining = cvVersions.filter((ver) => ver.id !== id);
+        return remaining[0]?.id ?? null;
+      });
+      const { error } = await supabase.from("cv_versions").delete().eq("id", id);
+      if (error) toast("Version konnte nicht gelöscht werden.");
+    },
+    [cvVersions, toast]
+  );
 
   const downloadCv = useCallback(
     (type) => {
@@ -358,14 +394,20 @@ export function AppProvider({
         setPanel("pricing");
         return;
       }
+      const version = cvVersions.find((v) => v.id === selectedVersionId);
+      if (!version) {
+        toast("Keine CV-Version ausgewählt.");
+        return;
+      }
       toast(`${type} wird vorbereitet…`);
       setTimeout(() => {
-        const content = `ALEX MORGAN\nProduct Marketing Manager — angepasst für HubSpot\n\nSUMMARY\n${cvSummary}\n\nEXPERIENCE\n${cvExperience}\n\nEDUCATION\n${cvEducation}\n\nSKILLS\n${cvSkills}\n\nCERTIFICATIONS & ACHIEVEMENTS\n${cvAchievements}`;
+        const name = profile?.full_name || userEmail || "Lebenslauf";
+        const content = `${name.toUpperCase()}\n${version.label}\n\nSUMMARY\n${version.summary || ""}\n\nEXPERIENCE\n${version.experience_text || ""}\n\nEDUCATION\n${version.education_text || ""}\n\nSKILLS\n${version.skills_text || ""}\n\nCERTIFICATIONS & ACHIEVEMENTS\n${version.achievements_text || ""}`;
         const blob = new Blob([content], { type: "text/plain" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "Alex_Morgan_CV_HubSpot_v4.txt";
+        a.download = `${name.replace(/\s+/g, "_")}_CV_${version.label.replace(/\s+/g, "_")}.txt`;
         document.body.appendChild(a);
         a.click();
         a.remove();
@@ -373,7 +415,7 @@ export function AppProvider({
         toast("CV heruntergeladen (Prototyp-Export).");
       }, 700);
     },
-    [isPro, cvSummary, cvExperience, cvEducation, cvSkills, cvAchievements, toast, setPanel]
+    [isPro, cvVersions, selectedVersionId, profile, userEmail, toast, setPanel]
   );
 
   const sendChatMessage = useCallback(
@@ -416,12 +458,8 @@ export function AppProvider({
     aiMessagesUsed, FREE_AI_LIMIT, chatLocked,
     toasts, toast,
     loading, loadingStep,
-    cvSummary, setCvSummary,
-    cvExperience, setCvExperience,
-    cvEducation, setCvEducation,
-    cvSkills, setCvSkills,
-    cvAchievements, setCvAchievements,
-    improveSummary, revertSummary, downloadCv,
+    cvVersions, selectedVersionId, setSelectedVersionId,
+    createCvVersion, updateVersionField, saveCvVersion, deleteCvVersion, downloadCv,
     chatMessages, sendChatMessage,
     prepShown, setPrepShown,
     runAnalysis,
