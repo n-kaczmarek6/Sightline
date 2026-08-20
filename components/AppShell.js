@@ -69,13 +69,14 @@ function ShellInner() {
   );
 }
 
-export default function AppShell({ userEmail, initialProfile, initialWorkExperience, initialSkills }) {
+export default function AppShell({ userEmail, initialProfile, initialWorkExperience, initialSkills, initialDocuments }) {
   return (
     <AppProvider
       userEmail={userEmail}
       initialProfile={initialProfile}
       initialWorkExperience={initialWorkExperience}
       initialSkills={initialSkills}
+      initialDocuments={initialDocuments}
     >
       <ShellInner />
     </AppProvider>

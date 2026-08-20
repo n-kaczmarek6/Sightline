@@ -6,6 +6,7 @@ const AppContext = createContext(null);
 
 const FREE_ANALYSIS_LIMIT = 3;
 const FREE_AI_LIMIT = 4;
+const FREE_DOCUMENT_LIMIT = 2;
 
 const initialKanban = {
   saved: [
@@ -41,6 +42,7 @@ export function AppProvider({
   initialProfile,
   initialWorkExperience,
   initialSkills,
+  initialDocuments,
 }) {
   // ---- navigation ----
   const [panel, setPanelState] = useState("dashboard");
@@ -49,6 +51,7 @@ export function AppProvider({
   const [profile, setProfile] = useState(initialProfile || null);
   const [workExperience, setWorkExperience] = useState(initialWorkExperience || []);
   const [skills, setSkills] = useState(initialSkills || []);
+  const [documents, setDocuments] = useState(initialDocuments || []);
 
   // ---- plan / paywall ----
   const [isPro, setIsPro] = useState(false);
@@ -249,6 +252,67 @@ export function AppProvider({
     [toast]
   );
 
+  const uploadDocument = useCallback(
+    async ({ file, title, category, description }) => {
+      if (!profile) return;
+      if (!isPro && documents.length >= FREE_DOCUMENT_LIMIT) {
+        toast(`Free speichert ${FREE_DOCUMENT_LIMIT} Dokumente.`);
+        setPanel("pricing");
+        return;
+      }
+      const supabase = createClient();
+      const path = `${profile.id}/${Date.now()}-${file.name}`;
+      const { error: uploadError } = await supabase.storage.from("documents").upload(path, file);
+      if (uploadError) {
+        toast(`Upload fehlgeschlagen: ${uploadError.message}`);
+        return;
+      }
+      const { data, error } = await supabase
+        .from("documents")
+        .insert({
+          user_id: profile.id,
+          title: title || file.name,
+          description: description || null,
+          category,
+          file_path: path,
+        })
+        .select()
+        .single();
+      if (error) {
+        toast("Dokument konnte nicht gespeichert werden.");
+        await supabase.storage.from("documents").remove([path]);
+        return;
+      }
+      setDocuments((d) => [data, ...d]);
+      toast("Dokument hochgeladen.");
+    },
+    [profile, documents.length, isPro, toast, setPanel]
+  );
+
+  const deleteDocument = useCallback(
+    async (doc) => {
+      const supabase = createClient();
+      setDocuments((d) => d.filter((x) => x.id !== doc.id));
+      await supabase.storage.from("documents").remove([doc.file_path]);
+      const { error } = await supabase.from("documents").delete().eq("id", doc.id);
+      if (error) toast("Dokument konnte nicht gelöscht werden.");
+    },
+    [toast]
+  );
+
+  const downloadDocument = useCallback(
+    async (doc) => {
+      const supabase = createClient();
+      const { data, error } = await supabase.storage.from("documents").createSignedUrl(doc.file_path, 60);
+      if (error || !data) {
+        toast("Download-Link konnte nicht erstellt werden.");
+        return;
+      }
+      window.open(data.signedUrl, "_blank");
+    },
+    [toast]
+  );
+
   const moveCard = useCallback((cardId, fromCol, toCol) => {
     setKanban((prev) => {
       if (fromCol === toCol) return prev;
@@ -328,6 +392,7 @@ export function AppProvider({
     profile, updateProfileField, saveProfile,
     workExperience, addWorkExperience, removeWorkExperience,
     skills, addSkill, removeSkill,
+    documents, uploadDocument, deleteDocument, downloadDocument, FREE_DOCUMENT_LIMIT,
     isPro, setPlan,
     priceMode, setPriceMode,
     analysesUsed, FREE_ANALYSIS_LIMIT,
