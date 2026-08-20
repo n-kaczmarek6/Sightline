@@ -14,7 +14,6 @@ const CRUMBS = {
   profile: "Mein Profil",
   documents: "Dokumente",
   applications: "Bewerbungen",
-  appdetail: "Bewerbungen / HubSpot",
   assistant: "AI Career Copilot",
   settings: "Einstellungen",
   pricing: "Upgrade auf Pro",
@@ -29,10 +28,14 @@ function initials(name, email) {
 }
 
 export default function Topbar() {
-  const { panel, setPanel, toast, profile, userEmail } = useApp();
+  const { panel, setPanel, toast, profile, userEmail, applications, selectedApplicationId } = useApp();
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
   const displayName = profile?.full_name || userEmail || "Nutzer:in";
+  const selectedApp = applications.find((a) => a.id === selectedApplicationId);
+  const crumb = panel === "appdetail"
+    ? `Bewerbungen / ${selectedApp ? selectedApp.company : "Detail"}`
+    : CRUMBS[panel] || panel;
 
   const handleLogout = async () => {
     const supabase = createClient();
@@ -43,7 +46,7 @@ export default function Topbar() {
 
   return (
     <div className="topbar">
-      <div className="topbar-left">{CRUMBS[panel] || panel}</div>
+      <div className="topbar-left">{crumb}</div>
       <div className="topbar-right">
         <button
           className="icon-btn"

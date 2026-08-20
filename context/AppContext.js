@@ -7,29 +7,7 @@ const AppContext = createContext(null);
 const FREE_ANALYSIS_LIMIT = 3;
 const FREE_AI_LIMIT = 4;
 const FREE_DOCUMENT_LIMIT = 2;
-
-const initialKanban = {
-  saved: [
-    { id: "hubspot-pmm", co: "HubSpot", role: "Product Marketing Manager", match: "91%" },
-    { id: "zalando-gm", co: "Zalando", role: "Growth Manager", match: "76%" },
-  ],
-  applied: [
-    { id: "spotify-mm", co: "Spotify", role: "Marketing Manager", match: "84%" },
-    { id: "salesforce-pmm", co: "Salesforce", role: "Product Marketing Manager", match: "79%" },
-  ],
-  screening: [
-    { id: "personio-gmm", co: "Personio", role: "Growth Marketing Manager", match: "80%" },
-  ],
-  interview: [
-    { id: "adobe-smm", co: "Adobe", role: "Senior Marketing Manager", match: "88%" },
-  ],
-  offer: [
-    { id: "example-pml", co: "Example Corp.", role: "Product Marketing Lead", match: "90%" },
-  ],
-  rejected: [
-    { id: "example-mm", co: "Example Co.", role: "Marketing Manager", match: "68%" },
-  ],
-};
+const FREE_APPLICATION_LIMIT = 5;
 
 const ORIGINAL_SUMMARY =
   "Senior Marketing Manager mit 8+ Jahren Erfahrung im B2B-SaaS-Wachstum durch integrierte Marketing-Kampagnen und Teamführung.";
@@ -43,6 +21,7 @@ export function AppProvider({
   initialWorkExperience,
   initialSkills,
   initialDocuments,
+  initialApplications,
 }) {
   // ---- navigation ----
   const [panel, setPanelState] = useState("dashboard");
@@ -52,6 +31,8 @@ export function AppProvider({
   const [workExperience, setWorkExperience] = useState(initialWorkExperience || []);
   const [skills, setSkills] = useState(initialSkills || []);
   const [documents, setDocuments] = useState(initialDocuments || []);
+  const [applications, setApplications] = useState(initialApplications || []);
+  const [selectedApplicationId, setSelectedApplicationId] = useState(null);
 
   // ---- plan / paywall ----
   const [isPro, setIsPro] = useState(false);
@@ -63,9 +44,6 @@ export function AppProvider({
   const [toasts, setToasts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
-
-  // ---- kanban ----
-  const [kanban, setKanban] = useState(initialKanban);
 
   // ---- cv builder ----
   const [cvSummary, setCvSummary] = useState(ORIGINAL_SUMMARY);
@@ -313,18 +291,55 @@ export function AppProvider({
     [toast]
   );
 
-  const moveCard = useCallback((cardId, fromCol, toCol) => {
-    setKanban((prev) => {
-      if (fromCol === toCol) return prev;
-      const card = prev[fromCol].find((c) => c.id === cardId);
-      if (!card) return prev;
-      return {
-        ...prev,
-        [fromCol]: prev[fromCol].filter((c) => c.id !== cardId),
-        [toCol]: [...prev[toCol], card],
-      };
-    });
-  }, []);
+  const addApplication = useCallback(
+    async ({ company, role_title, match_score }) => {
+      if (!profile) return;
+      if (!isPro && applications.length >= FREE_APPLICATION_LIMIT) {
+        toast(`Free trackt bis zu ${FREE_APPLICATION_LIMIT} Bewerbungen.`);
+        setPanel("pricing");
+        return;
+      }
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("applications")
+        .insert({ user_id: profile.id, company, role_title, match_score: match_score ?? null, status: "saved" })
+        .select()
+        .single();
+      if (error) {
+        toast("Bewerbung konnte nicht gespeichert werden.");
+        return;
+      }
+      setApplications((a) => [data, ...a]);
+      toast("Bewerbung hinzugefügt.");
+    },
+    [profile, applications.length, isPro, toast, setPanel]
+  );
+
+  const updateApplicationStatus = useCallback(
+    async (id, status) => {
+      const current = applications.find((a) => a.id === id);
+      if (!current || current.status === status) return;
+      const patch = { status };
+      if (status !== "saved" && !current.applied_at) {
+        patch.applied_at = new Date().toISOString();
+      }
+      setApplications((a) => a.map((app) => (app.id === id ? { ...app, ...patch } : app)));
+      const supabase = createClient();
+      const { error } = await supabase.from("applications").update(patch).eq("id", id);
+      if (error) toast("Status konnte nicht aktualisiert werden.");
+    },
+    [applications, toast]
+  );
+
+  const deleteApplication = useCallback(
+    async (id) => {
+      const supabase = createClient();
+      setApplications((a) => a.filter((app) => app.id !== id));
+      const { error } = await supabase.from("applications").delete().eq("id", id);
+      if (error) toast("Bewerbung konnte nicht gelöscht werden.");
+    },
+    [toast]
+  );
 
   const improveSummary = useCallback(() => {
     setCvSummary(IMPROVED_SUMMARY);
@@ -393,13 +408,14 @@ export function AppProvider({
     workExperience, addWorkExperience, removeWorkExperience,
     skills, addSkill, removeSkill,
     documents, uploadDocument, deleteDocument, downloadDocument, FREE_DOCUMENT_LIMIT,
+    applications, addApplication, updateApplicationStatus, deleteApplication, FREE_APPLICATION_LIMIT,
+    selectedApplicationId, setSelectedApplicationId,
     isPro, setPlan,
     priceMode, setPriceMode,
     analysesUsed, FREE_ANALYSIS_LIMIT,
     aiMessagesUsed, FREE_AI_LIMIT, chatLocked,
     toasts, toast,
     loading, loadingStep,
-    kanban, moveCard,
     cvSummary, setCvSummary,
     cvExperience, setCvExperience,
     cvEducation, setCvEducation,

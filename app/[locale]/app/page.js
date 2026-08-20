@@ -14,12 +14,14 @@ export default async function AppPage() {
 
   // Middleware garantiert bereits eine Session für /app — hier holen wir
   // nur noch die Daten des eingeloggten Nutzers.
-  const [{ data: profile }, { data: workExperience }, { data: skills }, { data: documents }] = await Promise.all([
-    supabase.from("profiles").select("*").eq("id", user.id).single(),
-    supabase.from("work_experience").select("*").eq("profile_id", user.id).order("sort_order"),
-    supabase.from("skills").select("*").eq("profile_id", user.id).order("created_at"),
-    supabase.from("documents").select("*").eq("user_id", user.id).order("created_at", { ascending: false }),
-  ]);
+  const [{ data: profile }, { data: workExperience }, { data: skills }, { data: documents }, { data: applications }] =
+    await Promise.all([
+      supabase.from("profiles").select("*").eq("id", user.id).single(),
+      supabase.from("work_experience").select("*").eq("profile_id", user.id).order("sort_order"),
+      supabase.from("skills").select("*").eq("profile_id", user.id).order("created_at"),
+      supabase.from("documents").select("*").eq("user_id", user.id).order("created_at", { ascending: false }),
+      supabase.from("applications").select("*").eq("user_id", user.id).order("created_at", { ascending: false }),
+    ]);
 
   return (
     <Suspense fallback={null}>
@@ -29,6 +31,7 @@ export default async function AppPage() {
         initialWorkExperience={workExperience ?? []}
         initialSkills={skills ?? []}
         initialDocuments={documents ?? []}
+        initialApplications={applications ?? []}
       />
     </Suspense>
   );
