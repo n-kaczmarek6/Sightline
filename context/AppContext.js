@@ -165,6 +165,36 @@ export function AppProvider({
     toast(error ? `Fehler beim Speichern: ${error.message}` : "Profil gespeichert.");
   }, [profile, toast]);
 
+  const changePassword = useCallback(
+    async (newPassword) => {
+      const supabase = createClient();
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
+      toast(error ? `Fehler: ${error.message}` : "Passwort geändert.");
+      return !error;
+    },
+    [toast]
+  );
+
+  const updateLocale = useCallback(
+    async (newLocale) => {
+      if (!profile) return;
+      setProfile((p) => ({ ...p, locale: newLocale }));
+      const supabase = createClient();
+      const { error } = await supabase.from("profiles").update({ locale: newLocale }).eq("id", profile.id);
+      if (error) toast("Sprache konnte nicht gespeichert werden.");
+    },
+    [profile, toast]
+  );
+
+  const deleteAccount = useCallback(async () => {
+    const res = await fetch("/api/account", { method: "DELETE" });
+    if (!res.ok) {
+      toast("Konto konnte nicht gelöscht werden.");
+      return false;
+    }
+    return true;
+  }, [toast]);
+
   const addSkill = useCallback(
     async (name) => {
       const trimmed = name.trim();
@@ -467,6 +497,7 @@ export function AppProvider({
     panel, setPanel,
     userEmail,
     profile, updateProfileField, saveProfile,
+    changePassword, updateLocale, deleteAccount,
     workExperience, addWorkExperience, removeWorkExperience,
     skills, addSkill, removeSkill,
     documents, uploadDocument, deleteDocument, downloadDocument, FREE_DOCUMENT_LIMIT,
