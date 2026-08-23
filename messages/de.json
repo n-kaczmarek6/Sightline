@@ -2,5 +2,109 @@
   "metadata": {
     "title": "Sightline — Zielsicher bewerben.",
     "description": "Match dein CV mit jedem Job, sieh was Recruiter und ATS-Systeme wirklich suchen, und erstelle in Minuten eine stärkere Bewerbung."
+  },
+  "landing": {
+    "nav": {
+      "how": "So funktioniert's",
+      "trust": "Trust & Privacy",
+      "pricing": "Preise",
+      "login": "Log in",
+      "cta": "CV analysieren"
+    },
+    "hero": {
+      "badge": "AI Job Application Copilot",
+      "titlePre": "Schluss mit",
+      "titleHighlight": "blind",
+      "titlePost": "bewerben.",
+      "sub": "Match dein CV mit jedem Job, sieh was Recruiter und ATS-Systeme wirklich suchen, und erstelle in Minuten eine stärkere Bewerbung — ohne je eine Qualifikation zu erfinden, die du nicht hast.",
+      "subBold": "Zielsicher bewerben.",
+      "cta": "CV analysieren",
+      "howItWorks": "So funktioniert's",
+      "atsBadge": "ATS-freundlich, immer",
+      "matchBadge": "/100 Match",
+      "jobDescLabel": "Job Description — HubSpot",
+      "matchLabel": "Match-Analyse",
+      "strongMatch": "Starker Match",
+      "strengthsGaps": "5 Stärken · 4 Lücken gefunden"
+    },
+    "how": {
+      "eyebrow": "So funktioniert's",
+      "title": "Von der Stellenanzeige zur maßgeschneiderten Bewerbung",
+      "sub": "Ein Profil, einmal aufgebaut. Sightline passt es für jede Bewerbung an.",
+      "step1Title": "Job hinzufügen",
+      "step1Desc": "Job Description einfügen oder hochladen.",
+      "step2Title": "Profil verbinden",
+      "step2Desc": "CV und Berufserfahrung importieren.",
+      "step3Title": "Match-Analyse erhalten",
+      "step3Desc": "AI findet Stärken, Lücken und Keywords.",
+      "step4Title": "Bewerbung optimieren",
+      "step4Desc": "Maßgeschneidertes, ATS-freundliches CV.",
+      "step5Title": "Tracking",
+      "step5Desc": "Alle Bewerbungen an einem Ort."
+    },
+    "statsBand": {
+      "eyebrow": "Nicht mehr blind bewerben",
+      "title": "Wisse genau, wo du stehst — bevor du auf Senden klickst",
+      "cvMatch": "CV Match",
+      "keywordCoverage": "Keyword Coverage",
+      "skillsAlignment": "Skills Alignment",
+      "experienceRelevance": "Experience Relevance",
+      "atsReadiness": "ATS Readiness"
+    },
+    "trust": {
+      "eyebrow": "Trust & Privacy",
+      "title": "Dein Profil ist die Quelle der Wahrheit",
+      "sub": "Statt nur Keywords zu jagen, versteht Sightline deinen echten, vollständigen Werdegang — und stellt ihn nur klarer dar.",
+      "chip1": "Private, verschlüsselte Dokumente",
+      "chip2": "Erfindet nie Skills oder Erfahrung",
+      "chip3": "Du entscheidest über jeden Vorschlag",
+      "chip4": "Transparent, was AI-generiert ist"
+    },
+    "finalCta": {
+      "title": "Zielsicher bewerben.",
+      "sub": "Dauert ein paar Minuten. Deine erste Match-Analyse ist kostenlos.",
+      "cta": "CV analysieren"
+    },
+    "footer": {
+      "tagline": "Zielsicher bewerben."
+    }
+  },
+  "shell": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "analyze": "Job analysieren",
+      "profile": "Mein Profil",
+      "builder": "CV Builder",
+      "applications": "Bewerbungen",
+      "documents": "Dokumente",
+      "assistant": "AI Career Copilot",
+      "settings": "Einstellungen"
+    },
+    "newApplication": "+ Neue Bewerbung",
+    "upgradeToPro": "Upgrade auf Pro",
+    "plan": {
+      "free": "Free Plan",
+      "pro": "Pro Plan",
+      "proSprint": "Pro · Sprint"
+    },
+    "defaultUser": "Nutzer:in",
+    "notifications": "Benachrichtigungen",
+    "notificationsToast": "Du hast 3 ungelesene Benachrichtigungen.",
+    "logout": "Log out",
+    "breadcrumbs": {
+      "dashboard": "Dashboard",
+      "analyze": "Job analysieren",
+      "analysis": "Job analysieren / Match",
+      "keywords": "Job analysieren / Keywords",
+      "recommendations": "Job analysieren / Empfehlungen",
+      "builder": "CV Builder",
+      "profile": "Mein Profil",
+      "documents": "Dokumente",
+      "applications": "Bewerbungen",
+      "assistant": "AI Career Copilot",
+      "settings": "Einstellungen",
+      "pricing": "Upgrade auf Pro",
+      "appDetailFallback": "Detail"
+    }
   }
 }

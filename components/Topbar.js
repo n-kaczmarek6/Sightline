@@ -1,23 +1,9 @@
 "use client";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useApp } from "@/context/AppContext";
-
-const CRUMBS = {
-  dashboard: "Dashboard",
-  analyze: "Job analysieren",
-  analysis: "Job analysieren / Match",
-  keywords: "Job analysieren / Keywords",
-  recommendations: "Job analysieren / Empfehlungen",
-  builder: "CV Builder",
-  profile: "Mein Profil",
-  documents: "Dokumente",
-  applications: "Bewerbungen",
-  assistant: "AI Career Copilot",
-  settings: "Einstellungen",
-  pricing: "Upgrade auf Pro",
-};
 
 function initials(name, email) {
   if (name) {
@@ -29,13 +15,14 @@ function initials(name, email) {
 
 export default function Topbar() {
   const { panel, setPanel, toast, profile, userEmail, applications, selectedApplicationId } = useApp();
+  const t = useTranslations("shell");
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
-  const displayName = profile?.full_name || userEmail || "Nutzer:in";
+  const displayName = profile?.full_name || userEmail || t("defaultUser");
   const selectedApp = applications.find((a) => a.id === selectedApplicationId);
   const crumb = panel === "appdetail"
-    ? `Bewerbungen / ${selectedApp ? selectedApp.company : "Detail"}`
-    : CRUMBS[panel] || panel;
+    ? `${t("breadcrumbs.applications")} / ${selectedApp ? selectedApp.company : t("breadcrumbs.appDetailFallback")}`
+    : t(`breadcrumbs.${panel}`);
 
   const handleLogout = async () => {
     const supabase = createClient();
@@ -50,8 +37,8 @@ export default function Topbar() {
       <div className="topbar-right">
         <button
           className="icon-btn"
-          title="Benachrichtigungen"
-          onClick={() => toast("Du hast 3 ungelesene Benachrichtigungen.")}
+          title={t("notifications")}
+          onClick={() => toast(t("notificationsToast"))}
         >
           <svg className="icon" style={{ width: 17, height: 17 }}><use href="#i-bell" /></svg>
           <span className="notif-dot"></span>
@@ -62,8 +49,8 @@ export default function Topbar() {
         </button>
         {menuOpen && (
           <div className="user-menu">
-            <button onClick={() => { setPanel("settings"); setMenuOpen(false); }}>Einstellungen</button>
-            <button className="danger" onClick={handleLogout}>Log out</button>
+            <button onClick={() => { setPanel("settings"); setMenuOpen(false); }}>{t("nav.settings")}</button>
+            <button className="danger" onClick={handleLogout}>{t("logout")}</button>
           </div>
         )}
       </div>

@@ -1,6 +1,110 @@
 {
   "metadata": {
-    "title": "Sightline — Your AI Job Application Copilot",
+    "title": "Sightline — Apply with precision.",
     "description": "Match your resume to any job, see what recruiters and ATS systems really look for, and build a stronger application in minutes."
+  },
+  "landing": {
+    "nav": {
+      "how": "How it works",
+      "trust": "Trust & Privacy",
+      "pricing": "Pricing",
+      "login": "Log in",
+      "cta": "Analyze my CV"
+    },
+    "hero": {
+      "badge": "AI Job Application Copilot",
+      "titlePre": "Stop applying",
+      "titleHighlight": "blind",
+      "titlePost": ".",
+      "sub": "Match your CV to any job, see what recruiters and ATS systems really look for, and build a stronger application in minutes — without ever inventing a qualification you don't have.",
+      "subBold": "Apply with precision.",
+      "cta": "Analyze my CV",
+      "howItWorks": "How it works",
+      "atsBadge": "ATS-friendly, always",
+      "matchBadge": "/100 Match",
+      "jobDescLabel": "Job Description — HubSpot",
+      "matchLabel": "Match Analysis",
+      "strongMatch": "Strong Match",
+      "strengthsGaps": "5 strengths · 4 gaps found"
+    },
+    "how": {
+      "eyebrow": "How it works",
+      "title": "From job posting to tailored application",
+      "sub": "Build your profile once. Sightline adapts it for every application.",
+      "step1Title": "Add a job",
+      "step1Desc": "Paste or upload the job description.",
+      "step2Title": "Connect your profile",
+      "step2Desc": "Import your CV and work experience.",
+      "step3Title": "Get a match analysis",
+      "step3Desc": "AI finds strengths, gaps, and keywords.",
+      "step4Title": "Optimize your application",
+      "step4Desc": "A tailored, ATS-friendly CV.",
+      "step5Title": "Track",
+      "step5Desc": "All your applications in one place."
+    },
+    "statsBand": {
+      "eyebrow": "Stop applying blind",
+      "title": "Know exactly where you stand — before you hit send",
+      "cvMatch": "CV Match",
+      "keywordCoverage": "Keyword Coverage",
+      "skillsAlignment": "Skills Alignment",
+      "experienceRelevance": "Experience Relevance",
+      "atsReadiness": "ATS Readiness"
+    },
+    "trust": {
+      "eyebrow": "Trust & Privacy",
+      "title": "Your profile is the source of truth",
+      "sub": "Instead of just chasing keywords, Sightline understands your real, complete background — and simply presents it more clearly.",
+      "chip1": "Private, encrypted documents",
+      "chip2": "Never invents skills or experience",
+      "chip3": "You decide on every suggestion",
+      "chip4": "Transparent about what's AI-generated"
+    },
+    "finalCta": {
+      "title": "Apply with precision.",
+      "sub": "Takes a few minutes. Your first match analysis is free.",
+      "cta": "Analyze my CV"
+    },
+    "footer": {
+      "tagline": "Apply with precision."
+    }
+  },
+  "shell": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "analyze": "Analyze Job",
+      "profile": "My Profile",
+      "builder": "CV Builder",
+      "applications": "Applications",
+      "documents": "Documents",
+      "assistant": "AI Career Copilot",
+      "settings": "Settings"
+    },
+    "newApplication": "+ New Application",
+    "upgradeToPro": "Upgrade to Pro",
+    "plan": {
+      "free": "Free Plan",
+      "pro": "Pro Plan",
+      "proSprint": "Pro · Sprint"
+    },
+    "defaultUser": "User",
+    "notifications": "Notifications",
+    "notificationsToast": "You have 3 unread notifications.",
+    "logout": "Log out",
+    "breadcrumbs": {
+      "dashboard": "Dashboard",
+      "analyze": "Analyze Job",
+      "analysis": "Analyze Job / Match",
+      "keywords": "Analyze Job / Keywords",
+      "recommendations": "Analyze Job / Recommendations",
+      "builder": "CV Builder",
+      "profile": "My Profile",
+      "documents": "Documents",
+      "applications": "Applications",
+      "assistant": "AI Career Copilot",
+      "settings": "Settings",
+      "pricing": "Upgrade to Pro",
+      "appDetailFallback": "Detail"
+    }
   }
 }

@@ -1,15 +1,16 @@
 "use client";
+import { useTranslations } from "next-intl";
 import { useApp } from "@/context/AppContext";
 
 const NAV = [
-  { key: "dashboard", label: "Dashboard", icon: "i-dashboard" },
-  { key: "analyze", label: "Job analysieren", icon: "i-search" },
-  { key: "profile", label: "Mein Profil", icon: "i-user" },
-  { key: "builder", label: "CV Builder", icon: "i-edit" },
-  { key: "applications", label: "Bewerbungen", icon: "i-folder" },
-  { key: "documents", label: "Dokumente", icon: "i-docs" },
-  { key: "assistant", label: "AI Career Copilot", icon: "i-chat" },
-  { key: "settings", label: "Einstellungen", icon: "i-settings" },
+  { key: "dashboard", icon: "i-dashboard" },
+  { key: "analyze", icon: "i-search" },
+  { key: "profile", icon: "i-user" },
+  { key: "builder", icon: "i-edit" },
+  { key: "applications", icon: "i-folder" },
+  { key: "documents", icon: "i-docs" },
+  { key: "assistant", icon: "i-chat" },
+  { key: "settings", icon: "i-settings" },
 ];
 
 function initials(name, email) {
@@ -22,13 +23,14 @@ function initials(name, email) {
 
 export default function Sidebar() {
   const { panel, setPanel, isPro, priceMode, profile, userEmail } = useApp();
-  const planLabel = isPro ? (priceMode === "sprint" ? "Pro · Sprint" : "Pro Plan") : "Free Plan";
-  const displayName = profile?.full_name || userEmail || "Nutzer:in";
+  const t = useTranslations("shell");
+  const planLabel = isPro ? (priceMode === "sprint" ? t("plan.proSprint") : t("plan.pro")) : t("plan.free");
+  const displayName = profile?.full_name || userEmail || t("defaultUser");
 
   return (
     <aside className="sidebar">
       <div className="sidebar-logo"><div className="logo-mark" style={{ width: 24, height: 24 }}></div>Sightline</div>
-      <button className="sidebar-newbtn" onClick={() => setPanel("analyze")}>+ Neue Bewerbung</button>
+      <button className="sidebar-newbtn" onClick={() => setPanel("analyze")}>{t("newApplication")}</button>
       <div className="nav-group">
         {NAV.map((n) => (
           <button
@@ -37,14 +39,14 @@ export default function Sidebar() {
             onClick={() => setPanel(n.key)}
           >
             <svg className="icon nav-icon"><use href={`#${n.icon}`} /></svg>
-            {n.label}
+            {t(`nav.${n.key}`)}
           </button>
         ))}
       </div>
       {!isPro && (
         <div>
           <button className="sidebar-upgrade" onClick={() => setPanel("pricing")}>
-            <svg className="icon nav-icon"><use href="#i-star" /></svg>Upgrade auf Pro
+            <svg className="icon nav-icon"><use href="#i-star" /></svg>{t("upgradeToPro")}
           </button>
         </div>
       )}
