@@ -185,6 +185,7 @@ function completeness(profile, workExperience, skills) {
 }
 
 function ExperienceForm({ onAdd, onCancel, t, roleOptions, locationOptions }) {
+  const { addSkill, skills, toast } = useApp();
   const [title, setTitle] = useState("");
   const [company, setCompany] = useState("");
   const [location, setLocation] = useState("");
@@ -192,6 +193,31 @@ function ExperienceForm({ onAdd, onCancel, t, roleOptions, locationOptions }) {
   const [endDate, setEndDate] = useState("");
   const [current, setCurrent] = useState(false);
   const [bulletsText, setBulletsText] = useState("");
+  const [suggesting, setSuggesting] = useState(false);
+  const [suggestedSkills, setSuggestedSkills] = useState([]);
+
+  const handleSuggestSkills = async () => {
+    if (!bulletsText.trim()) return;
+    setSuggesting(true);
+    setSuggestedSkills([]);
+    try {
+      const res = await fetch("/api/skills/suggest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ description: bulletsText }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast(t("experience.form.suggestSkillsError"));
+        return;
+      }
+      setSuggestedSkills(data.skills || []);
+    } catch {
+      toast(t("experience.form.suggestSkillsError"));
+    } finally {
+      setSuggesting(false);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -226,6 +252,37 @@ function ExperienceForm({ onAdd, onCancel, t, roleOptions, locationOptions }) {
         value={bulletsText}
         onChange={(e) => setBulletsText(e.target.value)}
       />
+      <div>
+        <button
+          type="button"
+          className="btn btn-secondary btn-sm"
+          disabled={!bulletsText.trim() || suggesting}
+          onClick={handleSuggestSkills}
+        >
+          {suggesting ? t("experience.form.suggestingSkills") : t("experience.form.suggestSkills")}
+        </button>
+        {suggestedSkills.length > 0 && (
+          <>
+            <div className="suggestion-lbl-sm">{t("experience.form.suggestedSkillsLabel")}</div>
+            <div className="tag-row">
+              {suggestedSkills.map((s) => {
+                const alreadyAdded = skills.some((sk) => sk.name === s);
+                return (
+                  <button
+                    key={s}
+                    type="button"
+                    className="tag suggestion-chip"
+                    disabled={alreadyAdded}
+                    onClick={() => { addSkill(s); setSuggestedSkills((prev) => prev.filter((x) => x !== s)); }}
+                  >
+                    {alreadyAdded ? "✓ " : "+ "}{s}
+                  </button>
+                );
+              })}
+            </div>
+          </>
+        )}
+      </div>
       <div style={{ display: "flex", gap: 8 }}>
         <button className="btn btn-primary btn-sm" type="submit">{t("experience.form.add")}</button>
         <button className="btn btn-ghost btn-sm" type="button" onClick={onCancel}>{t("experience.form.cancel")}</button>

@@ -342,6 +342,11 @@
         "end": "Ende",
         "toToday": "Bis heute",
         "bulletsPlaceholder": "Ein Punkt pro Zeile…",
+        "suggestSkills": "Skills vorschlagen",
+        "suggestingSkills": "Analysiere…",
+        "suggestSkillsError": "Skills konnten nicht vorgeschlagen werden.",
+        "suggestSkillsEmpty": "Keine passenden Skills gefunden.",
+        "suggestedSkillsLabel": "Vorgeschlagene Skills — anklicken zum Hinzufügen",
         "add": "Hinzufügen",
         "cancel": "Abbrechen"
       }

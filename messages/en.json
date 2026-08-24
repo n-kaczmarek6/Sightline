@@ -342,6 +342,11 @@
         "end": "End",
         "toToday": "Present",
         "bulletsPlaceholder": "One bullet point per line…",
+        "suggestSkills": "Suggest skills",
+        "suggestingSkills": "Analyzing…",
+        "suggestSkillsError": "Skills could not be suggested.",
+        "suggestSkillsEmpty": "No matching skills found.",
+        "suggestedSkillsLabel": "Suggested skills — click to add",
         "add": "Add",
         "cancel": "Cancel"
       }
