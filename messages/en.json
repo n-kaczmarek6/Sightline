@@ -194,7 +194,9 @@
     "whatsMissing": "What's missing",
     "gapsNote": "You might already have this experience — we just couldn't find it in your profile. We never suggest adding a qualification you don't have.",
     "keywordAnalysis": "Keyword Analysis →",
-    "cvRecommendations": "CV Recommendations →"
+    "cvRecommendations": "CV Recommendations →",
+    "generateCv": "Generate CV",
+    "generatingCv": "Generating CV…"
   },
   "keywords": {
     "title": "What the job description is looking for",
@@ -631,6 +633,9 @@
     "noVersionSelected": "No CV version selected.",
     "preparingDownload": "Preparing {type}…",
     "cvDownloaded": "CV downloaded.",
-    "exportFailed": "Export failed. Please try again."
+    "exportFailed": "Export failed. Please try again.",
+    "cvGenerated": "CV generated.",
+    "cvGenerateFailed": "CV generation failed. Please try again.",
+    "cvGenerateProOnly": "AI CV generation is a Pro feature."
   }
 }

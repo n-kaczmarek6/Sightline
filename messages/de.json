@@ -194,7 +194,9 @@
     "whatsMissing": "Was fehlt",
     "gapsNote": "Vielleicht hast du diese Erfahrung bereits — wir konnten sie nur nicht in deinem Profil finden. Wir schlagen nie vor, eine Qualifikation hinzuzufügen, die du nicht hast.",
     "keywordAnalysis": "Keyword-Analyse →",
-    "cvRecommendations": "CV-Empfehlungen →"
+    "cvRecommendations": "CV-Empfehlungen →",
+    "generateCv": "Lebenslauf generieren",
+    "generatingCv": "Generiere Lebenslauf…"
   },
   "keywords": {
     "title": "Wonach die Job Description sucht",
@@ -631,6 +633,9 @@
     "noVersionSelected": "Keine CV-Version ausgewählt.",
     "preparingDownload": "{type} wird vorbereitet…",
     "cvDownloaded": "CV heruntergeladen.",
-    "exportFailed": "Export fehlgeschlagen. Bitte versuch es erneut."
+    "exportFailed": "Export fehlgeschlagen. Bitte versuch es erneut.",
+    "cvGenerated": "Lebenslauf generiert.",
+    "cvGenerateFailed": "Lebenslauf-Generierung fehlgeschlagen. Bitte versuch es erneut.",
+    "cvGenerateProOnly": "Die KI-Lebenslauf-Generierung ist ein Pro-Feature."
   }
 }

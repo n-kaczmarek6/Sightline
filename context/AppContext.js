@@ -36,6 +36,7 @@ export function AppProvider({
   const [selectedVersionId, setSelectedVersionId] = useState(initialCvVersions?.[0]?.id || null);
   const [currentAnalysis, setCurrentAnalysis] = useState(initialAnalysis || null);
   const [analyzing, setAnalyzing] = useState(false);
+  const [generatingCv, setGeneratingCv] = useState(false);
 
   // ---- plan / paywall ----
   const [isPro, setIsPro] = useState(false);
@@ -482,6 +483,39 @@ export function AppProvider({
     [isPro, cvVersions, selectedVersionId, profile, userEmail, toast, setPanel, t]
   );
 
+  const generateCv = useCallback(
+    async (analysisId) => {
+      if (!isPro) {
+        toast(t("cvGenerateProOnly"));
+        setPanel("pricing");
+        return;
+      }
+      if (!analysisId) return;
+      setGeneratingCv(true);
+      try {
+        const res = await fetch("/api/cv/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ analysisId }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          toast(data?.message || t("cvGenerateFailed"));
+          return;
+        }
+        setCvVersions((v) => [data.version, ...v]);
+        setSelectedVersionId(data.version.id);
+        setPanel("builder");
+        toast(t("cvGenerated"));
+      } catch (err) {
+        toast(t("cvGenerateFailed"));
+      } finally {
+        setGeneratingCv(false);
+      }
+    },
+    [isPro, toast, setPanel, t]
+  );
+
   const sendChatMessage = useCallback(
     (text, replyMap) => {
       if (!isPro && aiMessagesUsed >= FREE_AI_LIMIT) {
@@ -520,6 +554,7 @@ export function AppProvider({
     loading, loadingStep,
     cvVersions, selectedVersionId, setSelectedVersionId,
     createCvVersion, updateVersionField, saveCvVersion, deleteCvVersion, downloadCv,
+    generateCv, generatingCv,
     chatMessages, sendChatMessage,
     prepShown, setPrepShown,
     runAnalysis, currentAnalysis, analyzing,

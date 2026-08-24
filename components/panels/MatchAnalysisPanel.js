@@ -5,7 +5,7 @@ import { useApp } from "@/context/AppContext";
 const SCORE_KEYS = ["skills_match", "experience_match", "keyword_coverage", "education_match", "ats_readiness"];
 
 export default function MatchAnalysisPanel() {
-  const { setPanel, currentAnalysis } = useApp();
+  const { setPanel, currentAnalysis, generateCv, generatingCv, isPro } = useApp();
   const t = useTranslations("matchAnalysis");
 
   if (!currentAnalysis) {
@@ -76,7 +76,10 @@ export default function MatchAnalysisPanel() {
 
       <div style={{ display: "flex", gap: 10, marginTop: 22, flexWrap: "wrap" }}>
         <button className="btn btn-secondary" onClick={() => setPanel("keywords")}>{t("keywordAnalysis")}</button>
-        <button className="btn btn-primary" onClick={() => setPanel("recommendations")}>{t("cvRecommendations")}</button>
+        <button className="btn btn-secondary" onClick={() => setPanel("recommendations")}>{t("cvRecommendations")}</button>
+        <button className="btn btn-primary" disabled={generatingCv} onClick={() => generateCv(currentAnalysis.id)}>
+          {generatingCv ? t("generatingCv") : t("generateCv")} {!isPro && <span className="pro-tag">PRO</span>}
+        </button>
       </div>
     </div>
   );
