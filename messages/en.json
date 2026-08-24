@@ -155,9 +155,12 @@
       "myProfile": "My Profile"
     },
     "toasts": {
-      "pdfUpload": "Upload a PDF job description.",
-      "docxUpload": "Upload a DOCX job description.",
-      "urlImport": "Import a job URL.",
+      "fileExtracted": "Text pulled in from the file — please give it a quick check.",
+      "extractFailed": "Couldn't read the file. Please use a PDF or DOCX.",
+      "extractEmpty": "Couldn't extract any text from the file or page.",
+      "urlImported": "Text pulled in from the page — please give it a quick check.",
+      "urlImportFailed": "URL import failed. Please paste the job description as text instead.",
+      "urlNotHtml": "This URL doesn't return readable HTML.",
       "openProfile": "Open My Profile from the menu."
     },
     "jobDescriptionLabel": "Job Description",
@@ -176,7 +179,10 @@
       "hint": "PDF or DOCX — used alongside your profile for the analysis and CV generation.",
       "chooseFile": "Choose file",
       "remove": "Remove",
-      "selected": "{name} selected"
+      "selected": "{name} selected",
+      "extracting": "Reading file…",
+      "urlPlaceholder": "https://…",
+      "importButton": "Import"
     },
     "analyzing": "Analyzing…",
     "submit": "Analyze match"
