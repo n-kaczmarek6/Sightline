@@ -443,7 +443,7 @@ export function AppProvider({
   );
 
   const downloadCv = useCallback(
-    (type) => {
+    async (type) => {
       if (!isPro) {
         toast(t("downloadsProOnly"));
         setPanel("pricing");
@@ -455,20 +455,27 @@ export function AppProvider({
         return;
       }
       toast(t("preparingDownload", { type }));
-      setTimeout(() => {
-        const name = profile?.full_name || userEmail || "Lebenslauf";
-        const content = `${name.toUpperCase()}\n${version.label}\n\nSUMMARY\n${version.summary || ""}\n\nEXPERIENCE\n${version.experience_text || ""}\n\nEDUCATION\n${version.education_text || ""}\n\nSKILLS\n${version.skills_text || ""}\n\nCERTIFICATIONS & ACHIEVEMENTS\n${version.achievements_text || ""}`;
-        const blob = new Blob([content], { type: "text/plain" });
+      try {
+        const res = await fetch(`/api/cv/export?versionId=${version.id}&type=${type.toLowerCase()}`);
+        if (!res.ok) {
+          toast(t("exportFailed"));
+          return;
+        }
+        const blob = await res.blob();
+        const name = profile?.full_name || userEmail || "CV";
+        const filename = `${name.replace(/\s+/g, "_")}_${version.label.replace(/\s+/g, "_")}.${type.toLowerCase()}`;
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `${name.replace(/\s+/g, "_")}_CV_${version.label.replace(/\s+/g, "_")}.txt`;
+        a.download = filename;
         document.body.appendChild(a);
         a.click();
         a.remove();
         URL.revokeObjectURL(url);
         toast(t("cvDownloaded"));
-      }, 700);
+      } catch (err) {
+        toast(t("exportFailed"));
+      }
     },
     [isPro, cvVersions, selectedVersionId, profile, userEmail, toast, setPanel, t]
   );

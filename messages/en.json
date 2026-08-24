@@ -557,6 +557,7 @@
     "downloadsProOnly": "CV downloads are a Pro feature.",
     "noVersionSelected": "No CV version selected.",
     "preparingDownload": "Preparing {type}…",
-    "cvDownloaded": "CV downloaded (prototype export)."
+    "cvDownloaded": "CV downloaded.",
+    "exportFailed": "Export failed. Please try again."
   }
 }
