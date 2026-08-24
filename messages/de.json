@@ -106,5 +106,283 @@
       "pricing": "Upgrade auf Pro",
       "appDetailFallback": "Detail"
     }
+  },
+  "common": {
+    "status": {
+      "saved": "Saved",
+      "applied": "Applied",
+      "screening": "Screening",
+      "interview": "Interview",
+      "offer": "Offer",
+      "rejected": "Rejected"
+    }
+  },
+  "dashboard": {
+    "greeting": "Guten Morgen",
+    "subtitle": "Dein Job Search auf einen Blick.",
+    "usage": "{used} von {limit} Job-Analysen diesen Monat genutzt",
+    "unlockUnlimited": "Unlimited freischalten",
+    "kpi": {
+      "applicationsSent": "Applications Sent",
+      "total": "Insgesamt",
+      "interviews": "Interviews",
+      "conversion": "{pct}% Conversion",
+      "offers": "Offers",
+      "decisionPending": "Entscheidung offen",
+      "noneYet": "Noch keine",
+      "avgMatch": "Ø Match Score",
+      "overallFit": "Gesamt-Fit",
+      "noData": "Noch keine Daten"
+    },
+    "recentApplications": "Letzte Bewerbungen",
+    "viewAll": "Alle ansehen →",
+    "noApplicationsYet": "Noch keine Bewerbungen getrackt.",
+    "analyzeNewJob": "Neuen Job analysieren",
+    "daysAgo": {
+      "today": "Heute",
+      "oneDay": "Vor 1 Tag",
+      "other": "Vor {days} Tagen"
+    }
+  },
+  "analyze": {
+    "title": "Job analysieren",
+    "subtitle": "Sieh vor dem Absenden, wie gut deine Erfahrung zur Position passt.",
+    "tabs": {
+      "pasteText": "Text einfügen",
+      "pdf": "PDF",
+      "docx": "DOCX",
+      "importUrl": "URL importieren",
+      "myProfile": "Mein Profil"
+    },
+    "toasts": {
+      "pdfUpload": "PDF-Job-Description hochladen.",
+      "docxUpload": "DOCX-Job-Description hochladen.",
+      "urlImport": "Job-URL importieren.",
+      "openProfile": "Öffne Mein Profil im Menü."
+    },
+    "jobDescriptionLabel": "Job Description",
+    "jobDescriptionPlaceholder": "Füge hier die vollständige Stellenbeschreibung ein…",
+    "yourProfileLabel": "Dein Profil",
+    "profileReady": "Profil wird für die Analyse genutzt",
+    "profileEmpty": "Profil ist noch leer",
+    "experienceCount": "{count, plural, one {# Berufserfahrung} other {# Berufserfahrungen}}",
+    "skillCount": "{count, plural, one {# Skill} other {# Skills}}",
+    "privacyNote": "Deine Daten sind privat und werden nur für deine Bewerbungen genutzt.",
+    "emptyProfileWarningPre": "Dein Profil ist noch leer — die Analyse wird dadurch wenig aussagekräftig. Füll erst dein",
+    "profileLinkText": "Profil",
+    "emptyProfileWarningPost": "aus.",
+    "analyzing": "Analysiere…",
+    "submit": "Match analysieren"
+  },
+  "matchAnalysis": {
+    "title": "Dein Match",
+    "noAnalysis": "Noch keine Analyse vorhanden.",
+    "analyzeNow": "Jetzt einen Job analysieren →",
+    "badges": {
+      "strong": "Starker Match",
+      "good": "Guter Match",
+      "weak": "Ausbaufähiger Match"
+    },
+    "scores": {
+      "skills_match": "Skills Match",
+      "experience_match": "Experience Match",
+      "keyword_coverage": "Keyword Coverage",
+      "education_match": "Education Match",
+      "ats_readiness": "ATS Readiness"
+    },
+    "whatWorks": "Was funktioniert",
+    "whatsMissing": "Was fehlt",
+    "gapsNote": "Vielleicht hast du diese Erfahrung bereits — wir konnten sie nur nicht in deinem Profil finden. Wir schlagen nie vor, eine Qualifikation hinzuzufügen, die du nicht hast.",
+    "keywordAnalysis": "Keyword-Analyse →",
+    "cvRecommendations": "CV-Empfehlungen →"
+  },
+  "keywords": {
+    "title": "Wonach die Job Description sucht",
+    "subtitle": "Klick ein Keyword, um zu sehen, wie gut es in deinem Profil belegt ist.",
+    "noAnalysis": "Noch keine Analyse vorhanden.",
+    "analyzeNow": "Jetzt einen Job analysieren →",
+    "categories": {
+      "skills": "Core Skills",
+      "tools": "Tools",
+      "soft_skills": "Soft Skills"
+    },
+    "status": {
+      "demonstrated": "Belegt",
+      "weak": "Erwähnt, aber schwach belegt",
+      "missing": "Nicht gefunden"
+    },
+    "noneDetected": "Keine erkannt.",
+    "lockNote": "Tools und Soft Skills — die volle Keyword-Aufschlüsselung gibt's mit Pro.",
+    "upgrade": "Upgrade auf Pro",
+    "suggestionLabel": "Vorschlag"
+  },
+  "recommendations": {
+    "title": "Dein CV-Verbesserungsplan",
+    "subtitle": "Priorisiert nach Wirkung auf deinen Match Score für diese Rolle.",
+    "noAnalysis": "Noch keine Analyse vorhanden.",
+    "analyzeNow": "Jetzt einen Job analysieren →",
+    "noRecommendations": "Keine Empfehlungen — dein Profil passt bereits gut.",
+    "priority": "Priorität {n}",
+    "impact": {
+      "high": "Hohe Wirkung",
+      "medium": "Mittlere Wirkung",
+      "low": "Geringe Wirkung"
+    },
+    "current": "Aktuell",
+    "suggested": "Vorschlag",
+    "applySuggestion": "Vorschlag übernehmen",
+    "editInBuilder": "Im CV Builder bearbeiten",
+    "ignore": "Ignorieren",
+    "appliedToast": "Vorschlag übernommen — bearbeite ihn im CV Builder.",
+    "ignoredToast": "Vorschlag ignoriert.",
+    "appliedBadge": "✓ Übernommen",
+    "lockNote": "{count, plural, one {# weitere priorisierte Empfehlung ist} other {# weitere priorisierte Empfehlungen sind}} fertig — freischalten mit Pro.",
+    "upgrade": "Upgrade auf Pro",
+    "footerNote": "KI-Vorschläge basieren auf deinem Profil. Sightline empfiehlt nie, Erfahrung zu ergänzen, die du nicht hast.",
+    "continueToBuilder": "Weiter zum CV Builder →"
+  },
+  "builder": {
+    "title": "CV Builder",
+    "subtitle": "Maßgeschneidert auf die Zielrolle — jeder Abschnitt direkt editierbar.",
+    "noVersionsYet": "Noch keine CV-Version erstellt.",
+    "createFirst": "Erste Version erstellen",
+    "noVersionSelected": "Keine Version ausgewählt.",
+    "versionLabel": "Version",
+    "newVersion": "+ Neu",
+    "generalCv": "Allgemeiner Lebenslauf",
+    "docx": "DOCX",
+    "pdf": "CV als PDF",
+    "newVersionNamePlaceholder": "Name der neuen Version",
+    "createCopyOf": "Als Kopie von \"{label}\" erstellen",
+    "cancel": "Abbrechen",
+    "sections": {
+      "title": "Titel dieser Version",
+      "summary": "Summary",
+      "experience": "Experience",
+      "education": "Education",
+      "skills": "Skills",
+      "achievements": "Certifications & Achievements"
+    },
+    "aiSuggestions": "KI-Vorschläge",
+    "aiSuggestionsPlaceholder": "KI-gestützte Verbesserungsvorschläge erscheinen hier, sobald du eine Job-Match-Analyse mit dieser Version verknüpfst.",
+    "saveChanges": "Änderungen speichern",
+    "deleteVersion": "Version löschen",
+    "defaultVersionName": "Version {n}"
+  },
+  "profile": {
+    "title": "Dein Profil",
+    "subtitle": "Alle Karriere-Infos an einem Ort — Basis für jede künftige Bewerbung.",
+    "saveChanges": "Änderungen speichern",
+    "notLoaded": "Profil konnte nicht geladen werden.",
+    "sections": {
+      "personalInfo": "Personal Information",
+      "workExperience": "Work Experience",
+      "skills": "Skills",
+      "careerPreferences": "Career Preferences"
+    },
+    "fields": {
+      "name": "Name",
+      "namePlaceholder": "Dein Name",
+      "city": "Stadt",
+      "cityPlaceholder": "z.B. Berlin",
+      "country": "Land",
+      "linkedin": "LinkedIn",
+      "linkedinPlaceholder": "linkedin.com/in/…",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "phonePlaceholder": "+49…",
+      "targetRoles": "Zielrollen",
+      "targetRolesPlaceholder": "z.B. Product Marketing Manager",
+      "targetLocations": "Orte",
+      "targetLocationsPlaceholder": "z.B. Berlin, Remote",
+      "workModel": "Arbeitsmodell",
+      "salary": "Gehaltsvorstellung (€)",
+      "salaryMin": "Min",
+      "salaryMax": "Max"
+    },
+    "workModels": {
+      "empty": "Nicht angegeben",
+      "remote": "Remote",
+      "hybrid": "Hybrid",
+      "onsite": "Vor Ort"
+    },
+    "chooseCountry": "Land wählen",
+    "countries": {
+      "Deutschland": "Deutschland",
+      "Österreich": "Österreich",
+      "Schweiz": "Schweiz",
+      "Polen": "Polen",
+      "Niederlande": "Niederlande",
+      "Belgien": "Belgien",
+      "Frankreich": "Frankreich",
+      "Spanien": "Spanien",
+      "Italien": "Italien",
+      "Vereinigtes Königreich": "Vereinigtes Königreich",
+      "Irland": "Irland",
+      "Schweden": "Schweden",
+      "Dänemark": "Dänemark",
+      "Norwegen": "Norwegen",
+      "Tschechien": "Tschechien",
+      "Portugal": "Portugal",
+      "USA": "USA",
+      "Andere": "Andere"
+    },
+    "experience": {
+      "empty": "Noch keine Berufserfahrung hinzugefügt.",
+      "delete": "Löschen",
+      "toDate": "heute",
+      "addButton": "+ Erfahrung hinzufügen",
+      "form": {
+        "jobTitle": "Jobtitel",
+        "company": "Unternehmen",
+        "location": "Ort",
+        "start": "Start",
+        "end": "Ende",
+        "toToday": "Bis heute",
+        "bulletsPlaceholder": "Ein Punkt pro Zeile…",
+        "add": "Hinzufügen",
+        "cancel": "Abbrechen"
+      }
+    },
+    "skillsBlock": {
+      "empty": "Noch keine Skills hinzugefügt.",
+      "addPlaceholder": "Skill hinzufügen…",
+      "removeAria": "{name} entfernen",
+      "suggestionsLabel": "Vorschläge"
+    },
+    "suggestions": {
+      "skills": ["Projektmanagement", "Kommunikation", "Teamführung", "Datenanalyse", "Marketing", "Vertrieb", "Kundenservice", "Product Management", "Agile / Scrum", "Excel", "Content Strategy", "SaaS"],
+      "roles": ["Product Marketing Manager", "Marketing Manager", "Growth Manager", "Product Manager", "Projektmanager", "Sales Manager", "Business Analyst", "UX Designer", "Software Engineer", "Data Analyst"],
+      "locations": ["Berlin", "München", "Hamburg", "Köln", "Frankfurt", "Remote (DE)", "Remote (EU)", "Wien", "Zürich"]
+    }
+  },
+  "documents": {
+    "title": "Deine Nachweise",
+    "subtitle": "Dokumente und Erfolge, die deine Erfahrung belegen.",
+    "uploadButton": "+ Dokument hochladen",
+    "categories": {
+      "certificate": "Zertifikat",
+      "review": "Review",
+      "education": "Ausbildungsnachweis",
+      "other": "Sonstiges"
+    },
+    "form": {
+      "titlePlaceholder": "Titel (optional, sonst Dateiname)",
+      "descriptionPlaceholder": "Beschreibung (optional)",
+      "uploading": "Wird hochgeladen…",
+      "upload": "Hochladen",
+      "cancel": "Abbrechen"
+    },
+    "empty": "Noch keine Dokumente hochgeladen.",
+    "useAsEvidence": "Als Nachweis nutzen →",
+    "usedAsEvidence": "✓ Zum CV Builder hinzugefügt",
+    "usedToast": "Nachweis verknüpft — im CV Builder sichtbar.",
+    "download": "Herunterladen",
+    "delete": "Löschen",
+    "limitToast": "Free speichert {limit} Dokumente.",
+    "limitNote": "Free speichert bis zu {limit} Dokumente.",
+    "limitNoteLink": "Upgrade auf Pro",
+    "limitNoteSuffix": "für unlimited Nachweis-Dokumente.",
+    "privacyNote": "Deine Dokumente sind privat und werden nur für deine Bewerbungen genutzt."
   }
 }

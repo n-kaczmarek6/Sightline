@@ -106,5 +106,283 @@
       "pricing": "Upgrade to Pro",
       "appDetailFallback": "Detail"
     }
+  },
+  "common": {
+    "status": {
+      "saved": "Saved",
+      "applied": "Applied",
+      "screening": "Screening",
+      "interview": "Interview",
+      "offer": "Offer",
+      "rejected": "Rejected"
+    }
+  },
+  "dashboard": {
+    "greeting": "Good morning",
+    "subtitle": "Your job search at a glance.",
+    "usage": "{used} of {limit} job analyses used this month",
+    "unlockUnlimited": "Unlock unlimited",
+    "kpi": {
+      "applicationsSent": "Applications Sent",
+      "total": "Total",
+      "interviews": "Interviews",
+      "conversion": "{pct}% conversion",
+      "offers": "Offers",
+      "decisionPending": "Decision pending",
+      "noneYet": "None yet",
+      "avgMatch": "Avg. Match Score",
+      "overallFit": "Overall fit",
+      "noData": "No data yet"
+    },
+    "recentApplications": "Recent Applications",
+    "viewAll": "View all →",
+    "noApplicationsYet": "No applications tracked yet.",
+    "analyzeNewJob": "Analyze new job",
+    "daysAgo": {
+      "today": "Today",
+      "oneDay": "1 day ago",
+      "other": "{days} days ago"
+    }
+  },
+  "analyze": {
+    "title": "Analyze Job",
+    "subtitle": "See how well your experience matches the role before you apply.",
+    "tabs": {
+      "pasteText": "Paste text",
+      "pdf": "PDF",
+      "docx": "DOCX",
+      "importUrl": "Import URL",
+      "myProfile": "My Profile"
+    },
+    "toasts": {
+      "pdfUpload": "Upload a PDF job description.",
+      "docxUpload": "Upload a DOCX job description.",
+      "urlImport": "Import a job URL.",
+      "openProfile": "Open My Profile from the menu."
+    },
+    "jobDescriptionLabel": "Job Description",
+    "jobDescriptionPlaceholder": "Paste the full job description here…",
+    "yourProfileLabel": "Your Profile",
+    "profileReady": "Profile will be used for the analysis",
+    "profileEmpty": "Your profile is still empty",
+    "experienceCount": "{count, plural, one {# work experience} other {# work experiences}}",
+    "skillCount": "{count, plural, one {# skill} other {# skills}}",
+    "privacyNote": "Your data is private and only used for your applications.",
+    "emptyProfileWarningPre": "Your profile is still empty — the analysis will be much less useful. Fill in your",
+    "profileLinkText": "profile",
+    "emptyProfileWarningPost": "first.",
+    "analyzing": "Analyzing…",
+    "submit": "Analyze match"
+  },
+  "matchAnalysis": {
+    "title": "Your Match",
+    "noAnalysis": "No analysis yet.",
+    "analyzeNow": "Analyze a job now →",
+    "badges": {
+      "strong": "Strong Match",
+      "good": "Good Match",
+      "weak": "Needs Improvement"
+    },
+    "scores": {
+      "skills_match": "Skills Match",
+      "experience_match": "Experience Match",
+      "keyword_coverage": "Keyword Coverage",
+      "education_match": "Education Match",
+      "ats_readiness": "ATS Readiness"
+    },
+    "whatWorks": "What works",
+    "whatsMissing": "What's missing",
+    "gapsNote": "You might already have this experience — we just couldn't find it in your profile. We never suggest adding a qualification you don't have.",
+    "keywordAnalysis": "Keyword Analysis →",
+    "cvRecommendations": "CV Recommendations →"
+  },
+  "keywords": {
+    "title": "What the job description is looking for",
+    "subtitle": "Click a keyword to see how well it's demonstrated in your profile.",
+    "noAnalysis": "No analysis yet.",
+    "analyzeNow": "Analyze a job now →",
+    "categories": {
+      "skills": "Core Skills",
+      "tools": "Tools",
+      "soft_skills": "Soft Skills"
+    },
+    "status": {
+      "demonstrated": "Demonstrated",
+      "weak": "Mentioned, but weakly demonstrated",
+      "missing": "Not found"
+    },
+    "noneDetected": "None detected.",
+    "lockNote": "Tools and Soft Skills — get the full keyword breakdown with Pro.",
+    "upgrade": "Upgrade to Pro",
+    "suggestionLabel": "Suggestion"
+  },
+  "recommendations": {
+    "title": "Your CV Improvement Plan",
+    "subtitle": "Prioritized by impact on your match score for this role.",
+    "noAnalysis": "No analysis yet.",
+    "analyzeNow": "Analyze a job now →",
+    "noRecommendations": "No recommendations — your profile is already a great fit.",
+    "priority": "Priority {n}",
+    "impact": {
+      "high": "High Impact",
+      "medium": "Medium Impact",
+      "low": "Low Impact"
+    },
+    "current": "Current",
+    "suggested": "Suggested",
+    "applySuggestion": "Apply suggestion",
+    "editInBuilder": "Edit in CV Builder",
+    "ignore": "Ignore",
+    "appliedToast": "Suggestion applied — edit it in the CV Builder.",
+    "ignoredToast": "Suggestion ignored.",
+    "appliedBadge": "✓ Applied",
+    "lockNote": "{count, plural, one {# more prioritized recommendation is} other {# more prioritized recommendations are}} ready — unlock with Pro.",
+    "upgrade": "Upgrade to Pro",
+    "footerNote": "AI suggestions are based on your profile. Sightline never recommends adding experience you don't have.",
+    "continueToBuilder": "Continue to CV Builder →"
+  },
+  "builder": {
+    "title": "CV Builder",
+    "subtitle": "Tailored to the target role — every section is directly editable.",
+    "noVersionsYet": "No CV version created yet.",
+    "createFirst": "Create first version",
+    "noVersionSelected": "No version selected.",
+    "versionLabel": "Version",
+    "newVersion": "+ New",
+    "generalCv": "General CV",
+    "docx": "DOCX",
+    "pdf": "CV as PDF",
+    "newVersionNamePlaceholder": "Name for the new version",
+    "createCopyOf": "Create as a copy of \"{label}\"",
+    "cancel": "Cancel",
+    "sections": {
+      "title": "Title of this version",
+      "summary": "Summary",
+      "experience": "Experience",
+      "education": "Education",
+      "skills": "Skills",
+      "achievements": "Certifications & Achievements"
+    },
+    "aiSuggestions": "AI Suggestions",
+    "aiSuggestionsPlaceholder": "AI-powered improvement suggestions will appear here once you link a job match analysis to this version.",
+    "saveChanges": "Save changes",
+    "deleteVersion": "Delete version",
+    "defaultVersionName": "Version {n}"
+  },
+  "profile": {
+    "title": "Your Profile",
+    "subtitle": "All your career info in one place — the basis for every future application.",
+    "saveChanges": "Save changes",
+    "notLoaded": "Profile could not be loaded.",
+    "sections": {
+      "personalInfo": "Personal Information",
+      "workExperience": "Work Experience",
+      "skills": "Skills",
+      "careerPreferences": "Career Preferences"
+    },
+    "fields": {
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "city": "City",
+      "cityPlaceholder": "e.g. Berlin",
+      "country": "Country",
+      "linkedin": "LinkedIn",
+      "linkedinPlaceholder": "linkedin.com/in/…",
+      "email": "Email",
+      "phone": "Phone",
+      "phonePlaceholder": "+1…",
+      "targetRoles": "Target roles",
+      "targetRolesPlaceholder": "e.g. Product Marketing Manager",
+      "targetLocations": "Locations",
+      "targetLocationsPlaceholder": "e.g. Berlin, Remote",
+      "workModel": "Work model",
+      "salary": "Salary expectation (€)",
+      "salaryMin": "Min",
+      "salaryMax": "Max"
+    },
+    "workModels": {
+      "empty": "Not specified",
+      "remote": "Remote",
+      "hybrid": "Hybrid",
+      "onsite": "On-site"
+    },
+    "chooseCountry": "Choose country",
+    "countries": {
+      "Deutschland": "Germany",
+      "Österreich": "Austria",
+      "Schweiz": "Switzerland",
+      "Polen": "Poland",
+      "Niederlande": "Netherlands",
+      "Belgien": "Belgium",
+      "Frankreich": "France",
+      "Spanien": "Spain",
+      "Italien": "Italy",
+      "Vereinigtes Königreich": "United Kingdom",
+      "Irland": "Ireland",
+      "Schweden": "Sweden",
+      "Dänemark": "Denmark",
+      "Norwegen": "Norway",
+      "Tschechien": "Czechia",
+      "Portugal": "Portugal",
+      "USA": "USA",
+      "Andere": "Other"
+    },
+    "experience": {
+      "empty": "No work experience added yet.",
+      "delete": "Delete",
+      "toDate": "present",
+      "addButton": "+ Add experience",
+      "form": {
+        "jobTitle": "Job title",
+        "company": "Company",
+        "location": "Location",
+        "start": "Start",
+        "end": "End",
+        "toToday": "Present",
+        "bulletsPlaceholder": "One bullet point per line…",
+        "add": "Add",
+        "cancel": "Cancel"
+      }
+    },
+    "skillsBlock": {
+      "empty": "No skills added yet.",
+      "addPlaceholder": "Add a skill…",
+      "removeAria": "Remove {name}",
+      "suggestionsLabel": "Suggestions"
+    },
+    "suggestions": {
+      "skills": ["Project Management", "Communication", "Team Leadership", "Data Analysis", "Marketing", "Sales", "Customer Service", "Product Management", "Agile / Scrum", "Excel", "Content Strategy", "SaaS"],
+      "roles": ["Product Marketing Manager", "Marketing Manager", "Growth Manager", "Product Manager", "Project Manager", "Sales Manager", "Business Analyst", "UX Designer", "Software Engineer", "Data Analyst"],
+      "locations": ["Berlin", "Munich", "Hamburg", "Cologne", "Frankfurt", "Remote (DE)", "Remote (EU)", "Vienna", "Zurich"]
+    }
+  },
+  "documents": {
+    "title": "Your Evidence",
+    "subtitle": "Documents and achievements that back up your experience.",
+    "uploadButton": "+ Upload document",
+    "categories": {
+      "certificate": "Certificate",
+      "review": "Review",
+      "education": "Education record",
+      "other": "Other"
+    },
+    "form": {
+      "titlePlaceholder": "Title (optional, defaults to file name)",
+      "descriptionPlaceholder": "Description (optional)",
+      "uploading": "Uploading…",
+      "upload": "Upload",
+      "cancel": "Cancel"
+    },
+    "empty": "No documents uploaded yet.",
+    "useAsEvidence": "Use as evidence →",
+    "usedAsEvidence": "✓ Added to CV Builder",
+    "usedToast": "Evidence linked — visible in the CV Builder.",
+    "download": "Download",
+    "delete": "Delete",
+    "limitToast": "Free stores {limit} documents.",
+    "limitNote": "Free stores up to {limit} documents.",
+    "limitNoteLink": "Upgrade to Pro",
+    "limitNoteSuffix": "for unlimited evidence documents.",
+    "privacyNote": "Your documents are private and only used for your applications."
   }
 }
