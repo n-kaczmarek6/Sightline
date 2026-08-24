@@ -151,6 +151,7 @@ export function AppProvider({
       work_model,
       salary_min,
       salary_max,
+      languages,
     } = profile;
     const { error } = await supabase
       .from("profiles")
@@ -165,6 +166,7 @@ export function AppProvider({
         work_model,
         salary_min,
         salary_max,
+        languages,
       })
       .eq("id", id);
     toast(error ? t("saveErrorWithMessage", { message: error.message }) : t("profileSaved"));

@@ -261,7 +261,8 @@
       "experience": "Experience",
       "education": "Education",
       "skills": "Skills",
-      "achievements": "Certifications & Achievements"
+      "achievements": "Certifications & Achievements",
+      "languages": "Languages"
     },
     "aiSuggestions": "AI Suggestions",
     "aiSuggestionsPlaceholder": "AI-powered improvement suggestions will appear here once you link a job match analysis to this version.",
@@ -278,6 +279,7 @@
       "personalInfo": "Personal Information",
       "workExperience": "Work Experience",
       "skills": "Skills",
+      "languages": "Languages",
       "careerPreferences": "Career Preferences"
     },
     "fields": {
@@ -350,6 +352,11 @@
       "removeAria": "Remove {name}",
       "suggestionsLabel": "Suggestions"
     },
+    "languagesBlock": {
+      "empty": "No languages added yet.",
+      "addPlaceholder": "Add a language…",
+      "removeAria": "Remove {name}"
+    },
     "suggestions": {
       "skills": ["Project Management", "Communication", "Team Leadership", "Data Analysis", "Marketing", "Sales", "Customer Service", "Product Management", "Agile / Scrum", "Excel", "Content Strategy", "SaaS"],
       "roles": ["Product Marketing Manager", "Marketing Manager", "Growth Manager", "Product Manager", "Project Manager", "Sales Manager", "Business Analyst", "UX Designer", "Software Engineer", "Data Analyst"],
@@ -365,7 +372,16 @@
         "Recruiting", "Talent Development", "Onboarding", "Employer Branding", "Workday", "Performance Management",
         "AI Literacy", "Prompt Engineering", "Data Annotation", "Responsible AI", "AI Strategy", "LLM Tools", "Automation",
         "Communication", "Conflict Mitigation", "Public Speaking", "Critical Thinking", "Time Management", "Adaptability", "Team Leadership", "Cross-functional Collaboration", "Negotiation Skills", "Problem Solving", "Accountability", "Resilience",
-        "PowerPoint", "Word", "Google Workspace", "Slack", "Microsoft Teams", "Outlook"
+        "PowerPoint", "Word", "Google Workspace", "Slack", "Microsoft Teams", "Outlook",
+        "Welding", "MIG/MAG Welding", "TIG Welding", "CNC Milling", "CNC Turning", "Electrical Installation", "Plumbing Installation", "Heating Technology", "HVAC Technology", "Pipeline Construction", "Machine Operation", "Quality Control", "Technical Drawing", "Reading Blueprints", "Maintenance and Repair", "Fault Diagnosis", "Tool Maintenance", "Materials Science", "CAD", "Painting Technique", "Masonry", "Plastering", "Tile Laying", "Roofing Work", "Carpentry", "Furniture Making", "Woodworking", "Metalworking", "Soldering",
+        "Driver's License Class B", "Driver's License Class BE", "Driver's License Class C", "Driver's License Class CE", "Driver's License Class D", "Forklift License", "Crane License", "Welding Certificate", "First Aid Certificate",
+        "Patient Care", "Wound Care", "Medication Management", "Nursing Documentation", "Diagnostics", "Patient History Taking", "First Aid", "CPR / Resuscitation", "Hygiene Management", "Emergency Medicine", "Injection Techniques", "Vital Signs Monitoring", "Palliative Care", "Wound Management", "Patient Education",
+        "Contract Law", "Procedural Law", "Labor Law", "Corporate Law", "Legal Research", "Client Advisory", "Contract Negotiation", "Legal Drafting", "Compliance Management",
+        "Lesson Planning", "Classroom Management", "Curriculum Development", "Differentiated Instruction", "Parent Conferences", "Learning Assessment", "Inclusive Education", "Media Didactics",
+        "Case Management", "Crisis Intervention", "Counseling", "Social Welfare Advisory", "Group Work", "Conflict Mediation",
+        "Food Preparation", "Menu Planning", "HACCP", "Kitchen Management", "Cost Calculation", "Service Quality", "Wine Knowledge", "Banquet Planning",
+        "Botany", "Soil Science", "Agricultural Machinery Operation", "Animal Husbandry", "Harvest Planning", "Forestry",
+        "De-escalation Training", "Security Analysis", "Site Security", "Fire Safety"
       ],
       "allRoles": [
         "Software Engineer", "Senior Software Engineer", "Frontend Developer", "Backend Developer", "Full-Stack Developer", "DevOps Engineer", "Site Reliability Engineer", "Cloud Engineer", "Data Engineer", "Machine Learning Engineer", "AI Engineer", "QA Engineer", "Mobile Developer", "Security Engineer", "IT Administrator", "Solutions Architect", "Engineering Manager", "CTO",
@@ -379,7 +395,20 @@
         "Project Manager", "Program Manager", "Operations Manager", "Business Analyst", "Scrum Master", "Agile Coach", "Supply Chain Manager", "Logistics Manager",
         "Customer Success Manager", "Customer Support Specialist", "Customer Advisor",
         "CEO", "COO", "Managing Director", "Management Consultant", "Freelancer",
-        "Prompt Engineer", "Data Annotator", "AI Strategist"
+        "Prompt Engineer", "Data Annotator", "AI Strategist",
+        "Electrician", "Electronics Technician", "Electrical Installer", "Mechatronics Technician", "Automotive Mechatronics Technician", "Master Automotive Technician", "Carpenter", "Joiner", "Framing Carpenter", "Bricklayer", "Painter and Decorator", "Plumber", "Installer", "HVAC Systems Mechanic", "Roofer", "Tiler", "Metalworker", "Locksmith", "Welder", "Industrial Mechanic", "Tool Mechanic", "Precision Mechanic", "Baker", "Pastry Chef", "Butcher", "Hairdresser", "Beautician", "Watchmaker", "Goldsmith", "Saddler", "Upholsterer", "Glazier", "Stonemason", "Agricultural Machinery Mechanic", "Road Construction Worker", "Scaffolder", "Insulation Installer", "Screed Layer", "Flooring Installer",
+        "Physician", "General Practitioner", "Specialist Physician", "Surgeon", "Internist", "Pediatrician", "Gynecologist", "Dermatologist", "Ophthalmologist", "Dentist", "Orthodontist", "Veterinarian", "Nurse", "Geriatric Nurse", "Registered Nurse", "Midwife", "Physiotherapist", "Occupational Therapist", "Speech Therapist", "Podiatrist", "Paramedic", "Emergency Paramedic", "Pharmacist", "Pharmacy Technician", "Medical Technical Assistant", "Dental Assistant", "Medical Assistant", "Psychotherapist", "Psychiatrist", "Alternative Practitioner", "Dietetic Assistant", "Nutrition Consultant", "Radiology Technologist", "Anesthesia Technician", "Surgical Technologist",
+        "Lawyer", "Specialist Lawyer", "Judge", "Public Prosecutor", "Notary", "Patent Attorney", "Legal Assistant", "In-house Counsel", "Compliance Officer", "Auditor", "Paralegal", "Mediator", "Bailiff",
+        "Teacher", "Primary School Teacher", "Secondary School Teacher", "Vocational School Teacher", "Special Education Teacher", "Childcare Educator", "Kindergarten Teacher", "Curative Education Carer", "Social Worker", "Social Pedagogue", "Outreach Worker", "Family Counselor", "Addiction Counselor", "School Social Worker", "Lecturer", "Professor", "Trainer", "Tutor", "School Principal", "Education Officer",
+        "Architect", "Interior Architect", "Landscape Architect", "Civil Engineer", "Site Manager", "Structural Engineer", "Surveying Engineer", "Surveying Technician", "Construction Materials Tester", "Construction Draftsperson",
+        "Farmer", "Winemaker", "Forester", "Forestry Worker", "Gardener", "Landscape Gardener", "Animal Caretaker", "Fish Farmer", "Beekeeper", "Agricultural Engineer",
+        "Chef", "Head Chef", "Restaurant Specialist", "Hotel Specialist", "Hotel Manager", "Bartender", "Sommelier", "Service Staff", "Receptionist", "Housekeeping Manager",
+        "Truck Driver", "Bus Driver", "Taxi Driver", "Pilot", "Air Traffic Controller", "Train Driver", "Freight Forwarding Agent", "Logistics Specialist", "Warehouse Worker", "Warehouse Logistics Specialist", "Dispatcher", "Ship Captain",
+        "Police Officer", "Detective", "Firefighter", "Emergency Medical Technician", "Soldier", "Customs Officer", "Correctional Officer", "Security Specialist", "Private Investigator", "Administrative Assistant", "Senior Civil Servant",
+        "Journalist", "Editor", "Photographer", "Camera Operator", "Video Editor", "Director", "Actor", "Musician", "Sound Engineer", "Illustrator", "Copywriter", "Translator", "Interpreter", "Author", "Publishing Editor", "Librarian", "Curator", "Event Manager",
+        "Chemist", "Physicist", "Biologist", "Biotechnologist", "Environmental Engineer", "Mechanical Engineer", "Electrical Engineer", "Process Engineer", "Materials Scientist", "Food Technologist", "Geologist", "Meteorologist", "Chemical Lab Technician", "Biology Lab Technician",
+        "Retail Sales Associate", "Salesperson", "Wholesale and Foreign Trade Merchant", "Branch Manager", "Visual Merchandiser", "Buyer",
+        "Building Cleaner", "Caretaker", "Facility Manager"
       ],
       "allLocations": [
         "Berlin", "Munich", "Hamburg", "Cologne", "Frankfurt", "Stuttgart", "Düsseldorf", "Leipzig", "Dortmund", "Essen", "Bremen", "Dresden", "Hanover", "Nuremberg",
@@ -387,6 +416,11 @@
         "Zurich", "Geneva", "Basel", "Bern", "Lausanne",
         "London", "Paris", "Amsterdam", "Madrid", "Barcelona", "Milan", "Rome", "Warsaw", "Prague", "Copenhagen", "Stockholm", "Dublin", "Brussels", "Lisbon",
         "Remote (DE)", "Remote (EU)", "Remote (Worldwide)", "Hybrid"
+      ],
+      "languages": [
+        "German", "English", "French", "Spanish", "Italian", "Polish", "Russian",
+        "Chinese (Mandarin)", "Arabic", "Turkish", "Dutch", "Portuguese",
+        "Japanese", "Korean", "Swedish", "Greek", "Ukrainian", "Hindi"
       ]
     }
   },

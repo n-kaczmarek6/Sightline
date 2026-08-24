@@ -48,12 +48,14 @@ export async function GET(request) {
     education: version.education_text,
     skills: version.skills_text,
     achievements: version.achievements_text,
+    languages: (profile?.languages || []).join(", "),
     labels: {
       summary: t("sections.summary"),
       experience: t("sections.experience"),
       education: t("sections.education"),
       skills: t("sections.skills"),
       achievements: t("sections.achievements"),
+      languages: t("sections.languages"),
     },
   };
 

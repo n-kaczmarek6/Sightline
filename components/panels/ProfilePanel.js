@@ -178,6 +178,7 @@ function completeness(profile, workExperience, skills) {
     !!profile.salary_min,
     workExperience.length > 0,
     skills.length > 0,
+    (profile.languages || []).length > 0,
   ];
   const done = checks.filter(Boolean).length;
   return Math.round((done / checks.length) * 100);
@@ -259,6 +260,7 @@ export default function ProfilePanel() {
   const allSkills = t.raw("suggestions.allSkills");
   const allRoles = t.raw("suggestions.allRoles");
   const allLocations = t.raw("suggestions.allLocations");
+  const allLanguages = t.raw("suggestions.languages");
 
   return (
     <div className="panel">
@@ -374,6 +376,23 @@ export default function ProfilePanel() {
           </div>
           <div className="suggestion-lbl-sm">{t("skillsBlock.suggestionsLabel")}</div>
           <SuggestionChips options={skillSuggestions} current={skills.map((s) => s.name)} onPick={addSkill} />
+        </div>
+
+        <div className="glass profile-section">
+          <h4>{t("sections.languages")}</h4>
+          {(profile.languages || []).length === 0 && (
+            <p style={{ fontSize: 13.5, color: "var(--text-muted)", marginBottom: 10 }}>{t("languagesBlock.empty")}</p>
+          )}
+          <div style={{ maxWidth: 420 }}>
+            <TagMultiSelect
+              values={profile.languages || []}
+              options={allLanguages}
+              placeholder={t("languagesBlock.addPlaceholder")}
+              onAdd={(lang) => updateProfileField("languages", [...(profile.languages || []), lang])}
+              onRemove={(lang) => updateProfileField("languages", (profile.languages || []).filter((l) => l !== lang))}
+              removeAriaLabel={(name) => t("languagesBlock.removeAria", { name })}
+            />
+          </div>
         </div>
 
         <div className="glass profile-section">

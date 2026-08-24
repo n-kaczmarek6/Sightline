@@ -261,7 +261,8 @@
       "experience": "Experience",
       "education": "Education",
       "skills": "Skills",
-      "achievements": "Certifications & Achievements"
+      "achievements": "Certifications & Achievements",
+      "languages": "Sprachen"
     },
     "aiSuggestions": "KI-Vorschläge",
     "aiSuggestionsPlaceholder": "KI-gestützte Verbesserungsvorschläge erscheinen hier, sobald du eine Job-Match-Analyse mit dieser Version verknüpfst.",
@@ -278,6 +279,7 @@
       "personalInfo": "Personal Information",
       "workExperience": "Work Experience",
       "skills": "Skills",
+      "languages": "Sprachen",
       "careerPreferences": "Career Preferences"
     },
     "fields": {
@@ -350,6 +352,11 @@
       "removeAria": "{name} entfernen",
       "suggestionsLabel": "Vorschläge"
     },
+    "languagesBlock": {
+      "empty": "Noch keine Sprachen hinzugefügt.",
+      "addPlaceholder": "Sprache hinzufügen…",
+      "removeAria": "{name} entfernen"
+    },
     "suggestions": {
       "skills": ["Projektmanagement", "Kommunikation", "Teamführung", "Datenanalyse", "Marketing", "Vertrieb", "Kundenservice", "Product Management", "Agile / Scrum", "Excel", "Content Strategy", "SaaS"],
       "roles": ["Product Marketing Manager", "Marketing Manager", "Growth Manager", "Product Manager", "Projektmanager", "Sales Manager", "Business Analyst", "UX Designer", "Software Engineer", "Data Analyst"],
@@ -365,7 +372,16 @@
         "Recruiting", "Personalentwicklung", "Onboarding", "Employer Branding", "Workday", "Performance Management",
         "KI-Grundkenntnisse", "Prompt Engineering", "Data Annotation", "Responsible AI", "KI-Strategie", "LLM-Tools", "Automatisierung",
         "Kommunikation", "Konfliktmanagement", "Präsentationsfähigkeiten", "Kritisches Denken", "Zeitmanagement", "Anpassungsfähigkeit", "Teamführung", "Cross-funktionale Zusammenarbeit", "Verhandlungsgeschick", "Problemlösung", "Eigenverantwortung", "Belastbarkeit",
-        "PowerPoint", "Word", "Google Workspace", "Slack", "Microsoft Teams", "Outlook"
+        "PowerPoint", "Word", "Google Workspace", "Slack", "Microsoft Teams", "Outlook",
+        "Schweißen", "MIG/MAG-Schweißen", "WIG-Schweißen", "CNC-Fräsen", "CNC-Drehen", "Elektroinstallation", "Sanitärinstallation", "Heizungstechnik", "Klimatechnik", "Rohrleitungsbau", "Maschinenbedienung", "Qualitätskontrolle", "Technisches Zeichnen", "Blaupausen lesen", "Wartung und Instandhaltung", "Fehlerdiagnose", "Werkzeugpflege", "Materialkunde", "CAD", "Lackiertechnik", "Mauerwerksbau", "Verputzarbeiten", "Fliesenverlegung", "Dachdeckerarbeiten", "Tischlerei", "Möbelbau", "Holzverarbeitung", "Metallverarbeitung", "Löten",
+        "Führerschein Klasse B", "Führerschein Klasse BE", "Führerschein Klasse C", "Führerschein Klasse CE", "Führerschein Klasse D", "Staplerschein", "Kranschein", "Schweißerschein", "Erste-Hilfe-Schein",
+        "Patientenversorgung", "Wundversorgung", "Medikamentenmanagement", "Pflegedokumentation", "Diagnostik", "Anamnese", "Erste Hilfe", "Reanimation", "Hygienemanagement", "Notfallmedizin", "Injektionstechniken", "Vitalzeichenkontrolle", "Palliativpflege", "Wundmanagement", "Patientenaufklärung",
+        "Vertragsrecht", "Prozessrecht", "Arbeitsrecht", "Gesellschaftsrecht", "Rechtsrecherche", "Mandantenberatung", "Vertragsverhandlung", "Schriftsatzerstellung", "Compliance-Management",
+        "Unterrichtsgestaltung", "Klassenmanagement", "Curriculum-Entwicklung", "Differenzierter Unterricht", "Elterngespräche", "Lernstandsdiagnostik", "Inklusionspädagogik", "Mediendidaktik",
+        "Case Management", "Krisenintervention", "Beratungsgespräche", "Sozialrechtliche Beratung", "Gruppenarbeit", "Konfliktvermittlung",
+        "Speisenzubereitung", "Menüplanung", "HACCP", "Küchenmanagement", "Warenkalkulation", "Servicequalität", "Weinkunde", "Bankettplanung",
+        "Pflanzenkunde", "Bodenkunde", "Landmaschinenbedienung", "Tierhaltung", "Ernteplanung", "Forstwirtschaft",
+        "Deeskalationstraining", "Sicherheitsanalyse", "Objektschutz", "Brandschutz"
       ],
       "allRoles": [
         "Software Engineer", "Senior Software Engineer", "Frontend Developer", "Backend Developer", "Full-Stack Developer", "DevOps Engineer", "Site Reliability Engineer", "Cloud Engineer", "Data Engineer", "Machine Learning Engineer", "AI Engineer", "QA Engineer", "Mobile Developer", "Security Engineer", "IT-Administrator", "Solutions Architect", "Engineering Manager", "CTO",
@@ -379,7 +395,20 @@
         "Projektmanager", "Program Manager", "Operations Manager", "Business Analyst", "Scrum Master", "Agile Coach", "Supply Chain Manager", "Logistikmanager",
         "Customer Success Manager", "Customer Support Specialist", "Kundenberater",
         "CEO", "COO", "Geschäftsführer", "Unternehmensberater", "Freelancer",
-        "Prompt Engineer", "Data Annotator", "KI-Stratege"
+        "Prompt Engineer", "Data Annotator", "KI-Stratege",
+        "Elektriker", "Elektroniker", "Elektroinstallateur", "Mechatroniker", "Kfz-Mechatroniker", "Kfz-Meister", "Tischler", "Schreiner", "Zimmerer", "Maurer", "Maler und Lackierer", "Klempner", "Installateur", "Anlagenmechaniker SHK", "Dachdecker", "Fliesenleger", "Metallbauer", "Schlosser", "Schweißer", "Industriemechaniker", "Werkzeugmechaniker", "Feinmechaniker", "Bäcker", "Konditor", "Fleischer", "Friseur", "Kosmetiker", "Uhrmacher", "Goldschmied", "Sattler", "Polsterer", "Glaser", "Steinmetz", "Landmaschinenmechaniker", "Straßenbauer", "Gerüstbauer", "Isolierer", "Estrichleger", "Bodenleger",
+        "Arzt", "Allgemeinmediziner", "Facharzt", "Chirurg", "Internist", "Kinderarzt", "Frauenarzt", "Hautarzt", "Augenarzt", "Zahnarzt", "Kieferorthopäde", "Tierarzt", "Krankenpfleger", "Altenpfleger", "Gesundheits- und Krankenpfleger", "Hebamme", "Physiotherapeut", "Ergotherapeut", "Logopäde", "Podologe", "Rettungssanitäter", "Notfallsanitäter", "Apotheker", "Pharmazeutisch-technischer Assistent", "Medizinisch-technischer Assistent", "Zahnmedizinische Fachangestellte", "Arzthelfer", "Psychotherapeut", "Psychiater", "Heilpraktiker", "Diätassistent", "Ernährungsberater", "Radiologietechnologe", "Anästhesietechnischer Assistent", "Operationstechnischer Assistent",
+        "Rechtsanwalt", "Fachanwalt", "Richter", "Staatsanwalt", "Notar", "Patentanwalt", "Rechtsanwaltsfachangestellte", "Justiziar", "Compliance Officer", "Wirtschaftsprüfer", "Paralegal", "Mediator", "Gerichtsvollzieher",
+        "Lehrer", "Grundschullehrer", "Gymnasiallehrer", "Berufsschullehrer", "Sonderpädagoge", "Erzieher", "Kindergärtner", "Heilerziehungspfleger", "Sozialarbeiter", "Sozialpädagoge", "Streetworker", "Familienberater", "Suchtberater", "Schulsozialarbeiter", "Dozent", "Professor", "Ausbilder", "Nachhilfelehrer", "Schulleiter", "Bildungsreferent",
+        "Architekt", "Innenarchitekt", "Landschaftsarchitekt", "Bauingenieur", "Bauleiter", "Statiker", "Vermessungsingenieur", "Vermessungstechniker", "Baustoffprüfer", "Bauzeichner",
+        "Landwirt", "Winzer", "Förster", "Forstwirt", "Gärtner", "Landschaftsgärtner", "Tierpfleger", "Fischwirt", "Imker", "Agraringenieur",
+        "Koch", "Küchenchef", "Restaurantfachmann", "Hotelfachmann", "Hotelmanager", "Barkeeper", "Sommelier", "Servicekraft", "Rezeptionist", "Housekeeping-Manager",
+        "LKW-Fahrer", "Busfahrer", "Taxifahrer", "Pilot", "Fluglotse", "Lokführer", "Speditionskaufmann", "Logistiker", "Lagerist", "Fachkraft für Lagerlogistik", "Disponent", "Schiffsführer",
+        "Polizist", "Kriminalkommissar", "Feuerwehrmann", "Rettungsassistent", "Soldat", "Zollbeamter", "Justizvollzugsbeamter", "Sicherheitsfachkraft", "Detektiv", "Verwaltungsfachangestellte", "Beamter im gehobenen Dienst",
+        "Journalist", "Redakteur", "Fotograf", "Kameramann", "Cutter", "Regisseur", "Schauspieler", "Musiker", "Tontechniker", "Illustrator", "Texter", "Übersetzer", "Dolmetscher", "Autor", "Lektor", "Bibliothekar", "Kurator", "Eventmanager",
+        "Chemiker", "Physiker", "Biologe", "Biotechnologe", "Umweltingenieur", "Maschinenbauingenieur", "Elektroingenieur", "Verfahrenstechniker", "Materialwissenschaftler", "Lebensmitteltechnologe", "Geologe", "Meteorologe", "Chemielaborant", "Biologielaborant",
+        "Einzelhandelskaufmann", "Verkäufer", "Kaufmann im Groß- und Außenhandel", "Filialleiter", "Visual Merchandiser", "Einkäufer",
+        "Gebäudereiniger", "Hausmeister", "Facility Manager"
       ],
       "allLocations": [
         "Berlin", "München", "Hamburg", "Köln", "Frankfurt", "Stuttgart", "Düsseldorf", "Leipzig", "Dortmund", "Essen", "Bremen", "Dresden", "Hannover", "Nürnberg",
@@ -387,6 +416,11 @@
         "Zürich", "Genf", "Basel", "Bern", "Lausanne",
         "London", "Paris", "Amsterdam", "Madrid", "Barcelona", "Mailand", "Rom", "Warschau", "Prag", "Kopenhagen", "Stockholm", "Dublin", "Brüssel", "Lissabon",
         "Remote (DE)", "Remote (EU)", "Remote (Weltweit)", "Hybrid"
+      ],
+      "languages": [
+        "Deutsch", "Englisch", "Französisch", "Spanisch", "Italienisch", "Polnisch", "Russisch",
+        "Chinesisch (Mandarin)", "Arabisch", "Türkisch", "Niederländisch", "Portugiesisch",
+        "Japanisch", "Koreanisch", "Schwedisch", "Griechisch", "Ukrainisch", "Hindi"
       ]
     }
   },
