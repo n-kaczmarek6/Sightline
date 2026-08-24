@@ -171,6 +171,13 @@
     "emptyProfileWarningPre": "Dein Profil ist noch leer — die Analyse wird dadurch wenig aussagekräftig. Füll erst dein",
     "profileLinkText": "Profil",
     "emptyProfileWarningPost": "aus.",
+    "cvUpload": {
+      "label": "Bestehenden Lebenslauf hochladen (optional)",
+      "hint": "PDF oder DOCX — wird zusätzlich zu deinem Profil für die Analyse und die CV-Generierung genutzt.",
+      "chooseFile": "Datei auswählen",
+      "remove": "Entfernen",
+      "selected": "{name} ausgewählt"
+    },
     "analyzing": "Analysiere…",
     "submit": "Match analysieren"
   },
@@ -603,6 +610,7 @@
     "analysisLimitReached": "Du hast alle {limit} freien Analysen diesen Monat genutzt.",
     "jobDescriptionRequired": "Bitte füge eine vollständige Job Description ein.",
     "analysisFailed": "Analyse fehlgeschlagen. Bitte versuch es erneut.",
+    "cvFileUnreadable": "Die Lebenslauf-Datei konnte nicht gelesen werden. Bitte nutze ein PDF oder DOCX.",
     "saveErrorWithMessage": "Fehler beim Speichern: {message}",
     "profileSaved": "Profil gespeichert.",
     "passwordError": "Fehler: {message}",

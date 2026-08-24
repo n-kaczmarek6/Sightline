@@ -85,7 +85,7 @@ export function AppProvider({
   );
 
   const runAnalysis = useCallback(
-    async (jobDescription) => {
+    async (jobDescription, cvFile) => {
       if (!isPro && analysesUsed >= FREE_ANALYSIS_LIMIT) {
         toast(t("analysisLimitReached", { limit: FREE_ANALYSIS_LIMIT }));
         setPanel("pricing");
@@ -104,14 +104,16 @@ export function AppProvider({
         setLoadingStep((s) => Math.min(s + 1, 3));
       }, 1800);
       try {
+        const formData = new FormData();
+        formData.append("jobDescription", jobDescription);
+        if (cvFile) formData.append("cvFile", cvFile);
         const res = await fetch("/api/analyze", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ jobDescription }),
+          body: formData,
         });
         const data = await res.json();
         if (!res.ok) {
-          toast(data?.message || t("analysisFailed"));
+          toast(data?.error === "cv_file_unreadable" ? t("cvFileUnreadable") : data?.message || t("analysisFailed"));
           return;
         }
         setLoadingStep(4);

@@ -7,6 +7,7 @@ export default function AnalyzePanel() {
   const { runAnalysis, analyzing, toast, workExperience, skills } = useApp();
   const t = useTranslations("analyze");
   const [jobDescription, setJobDescription] = useState("");
+  const [cvFile, setCvFile] = useState(null);
 
   const hasProfileData = workExperience.length > 0 || skills.length > 0;
 
@@ -59,10 +60,31 @@ export default function AnalyzePanel() {
               {t("emptyProfileWarningPost")}
             </div>
           )}
+          <div className="profile-section" style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid rgba(18,51,45,.08)" }}>
+            <div className="mock-label" style={{ marginBottom: 4 }}>{t("cvUpload.label")}</div>
+            <p style={{ fontSize: 12.5, color: "var(--text-muted)", marginBottom: 10 }}>{t("cvUpload.hint")}</p>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <label className="btn btn-secondary btn-sm" style={{ cursor: "pointer", margin: 0 }}>
+                {t("cvUpload.chooseFile")}
+                <input
+                  type="file"
+                  accept=".pdf,.docx"
+                  style={{ display: "none" }}
+                  onChange={(e) => setCvFile(e.target.files?.[0] || null)}
+                />
+              </label>
+              {cvFile && (
+                <>
+                  <span style={{ fontSize: 12.5, color: "var(--text-muted)" }}>{t("cvUpload.selected", { name: cvFile.name })}</span>
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={() => setCvFile(null)}>{t("cvUpload.remove")}</button>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       </div>
       <div style={{ marginTop: 22 }}>
-        <button className="btn btn-primary" disabled={analyzing} onClick={() => runAnalysis(jobDescription)}>
+        <button className="btn btn-primary" disabled={analyzing} onClick={() => runAnalysis(jobDescription, cvFile)}>
           {analyzing ? t("analyzing") : t("submit")}
         </button>
       </div>

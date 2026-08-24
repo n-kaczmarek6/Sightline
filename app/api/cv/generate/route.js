@@ -15,9 +15,9 @@ const CvDraftSchema = z.object({
 
 function systemPrompt(outputLocale) {
   const language = outputLocale === "en" ? "Englisch" : "Deutsch";
-  return `Du bist der CV-Generator von Sightline, einem AI Job Application Copilot. Erstelle aus dem echten Profil einer Person einen ATS-konformen, auf die gegebene Stellenausschreibung zugeschnittenen Lebenslauf-Entwurf.
+  return `Du bist der CV-Generator von Sightline, einem AI Job Application Copilot. Erstelle aus dem echten Profil einer Person (ggf. ergänzt um einen hochgeladenen, bestehenden Lebenslauf als zweite, gleichwertig vertrauenswürdige Quelle) einen ATS-konformen, auf die gegebene Stellenausschreibung zugeschnittenen Lebenslauf-Entwurf.
 
-WICHTIGSTE REGEL: Erfinde niemals Skills, Erfahrungen, Firmen, Titel oder Kennzahlen, die nicht im gegebenen Profil stehen. Nutze ausschließlich echte Angaben aus dem Profil — formuliere sie klarer, ordne sie nach Relevanz für die Stelle und hebe hervor, was zur Stellenausschreibung passt. Was im Profil fehlt, wird einfach weggelassen, niemals erfunden.
+WICHTIGSTE REGEL: Erfinde niemals Skills, Erfahrungen, Firmen, Titel oder Kennzahlen, die nicht im Profil bzw. im hochgeladenen Lebenslauf stehen. Nutze ausschließlich echte Angaben aus diesen Quellen — formuliere sie klarer, ordne sie nach Relevanz für die Stelle und hebe hervor, was zur Stellenausschreibung passt. Was dort fehlt, wird einfach weggelassen, niemals erfunden.
 
 Schreibe ATS-freundlich: klare Formulierungen, ehrlich zutreffende Keywords aus der Stellenausschreibung, keine Tabellen oder Grafik-Beschreibungen, kurze prägnante Sätze bzw. Aufzählungspunkte.
 
@@ -65,6 +65,9 @@ export async function POST(request) {
 
   const anthropic = new Anthropic();
   const profileSummary = buildProfileSummary(profile, workExperience, skills);
+  const cvSection = analysis.source_cv_text
+    ? `\n\nHOCHGELADENER LEBENSLAUF (zweite Quelle, ebenso vertrauenswürdig wie das Profil):\n${analysis.source_cv_text}`
+    : "";
 
   let parsed;
   try {
@@ -76,7 +79,7 @@ export async function POST(request) {
       messages: [
         {
           role: "user",
-          content: `PROFIL:\n${profileSummary}\n\nSTELLENBESCHREIBUNG (${analysis.job_title || "?"} bei ${analysis.company || "?"}):\n${analysis.job_description}\n\nBEKANNTE LÜCKEN AUS DER MATCH-ANALYSE (nicht erfinden, nur zur Orientierung, was nicht betont werden sollte):\n${(analysis.gaps || []).join("; ") || "(keine)"}`,
+          content: `PROFIL:\n${profileSummary}${cvSection}\n\nSTELLENBESCHREIBUNG (${analysis.job_title || "?"} bei ${analysis.company || "?"}):\n${analysis.job_description}\n\nBEKANNTE LÜCKEN AUS DER MATCH-ANALYSE (nicht erfinden, nur zur Orientierung, was nicht betont werden sollte):\n${(analysis.gaps || []).join("; ") || "(keine)"}`,
         },
       ],
       output_config: { format: zodOutputFormat(CvDraftSchema) },

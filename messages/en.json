@@ -171,6 +171,13 @@
     "emptyProfileWarningPre": "Your profile is still empty — the analysis will be much less useful. Fill in your",
     "profileLinkText": "profile",
     "emptyProfileWarningPost": "first.",
+    "cvUpload": {
+      "label": "Upload an existing CV (optional)",
+      "hint": "PDF or DOCX — used alongside your profile for the analysis and CV generation.",
+      "chooseFile": "Choose file",
+      "remove": "Remove",
+      "selected": "{name} selected"
+    },
     "analyzing": "Analyzing…",
     "submit": "Analyze match"
   },
@@ -603,6 +610,7 @@
     "analysisLimitReached": "You've used all {limit} free analyses this month.",
     "jobDescriptionRequired": "Please paste a complete job description.",
     "analysisFailed": "Analysis failed. Please try again.",
+    "cvFileUnreadable": "Couldn't read the CV file. Please use a PDF or DOCX.",
     "saveErrorWithMessage": "Error saving: {message}",
     "profileSaved": "Profile saved.",
     "passwordError": "Error: {message}",
