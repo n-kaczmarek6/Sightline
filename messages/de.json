@@ -377,6 +377,12 @@
       "addPlaceholder": "Sprache hinzufügen…",
       "removeAria": "{name} entfernen"
     },
+    "avatar": {
+      "upload": "Foto hochladen",
+      "change": "Foto ändern",
+      "remove": "Entfernen",
+      "hint": "JPG oder PNG — wird im CV-Export angezeigt."
+    },
     "suggestions": {
       "skills": ["Projektmanagement", "Kommunikation", "Teamführung", "Datenanalyse", "Marketing", "Vertrieb", "Kundenservice", "Product Management", "Agile / Scrum", "Excel", "Content Strategy", "SaaS"],
       "roles": ["Product Marketing Manager", "Marketing Manager", "Growth Manager", "Product Manager", "Projektmanager", "Sales Manager", "Business Analyst", "UX Designer", "Software Engineer", "Data Analyst"],
@@ -619,6 +625,10 @@
     "cvFileUnreadable": "Die Lebenslauf-Datei konnte nicht gelesen werden. Bitte nutze ein PDF oder DOCX.",
     "saveErrorWithMessage": "Fehler beim Speichern: {message}",
     "profileSaved": "Profil gespeichert.",
+    "avatarUploaded": "Profilbild gespeichert.",
+    "avatarUploadError": "Foto konnte nicht hochgeladen werden: {message}",
+    "avatarRemoved": "Profilbild entfernt.",
+    "avatarRemoveError": "Profilbild konnte nicht entfernt werden.",
     "passwordError": "Fehler: {message}",
     "passwordChanged": "Passwort geändert.",
     "localeSaveError": "Sprache konnte nicht gespeichert werden.",

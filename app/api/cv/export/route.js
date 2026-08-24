@@ -37,6 +37,24 @@ export async function GET(request) {
   const locale = profile?.locale || "de";
   const t = await getTranslations({ locale, namespace: "builder" });
 
+  let avatarBase64 = null;
+  let avatarBuffer = null;
+  let avatarDocxType = null;
+  if (profile?.avatar_url) {
+    try {
+      const avatarRes = await fetch(profile.avatar_url);
+      if (avatarRes.ok) {
+        const contentType = avatarRes.headers.get("content-type") || "image/png";
+        const bytes = Buffer.from(await avatarRes.arrayBuffer());
+        avatarBuffer = bytes;
+        avatarBase64 = `data:${contentType};base64,${bytes.toString("base64")}`;
+        avatarDocxType = contentType.includes("jpeg") || contentType.includes("jpg") ? "jpg" : "png";
+      }
+    } catch {
+      // Foto konnte nicht geladen werden — Export läuft trotzdem ohne Foto weiter.
+    }
+  }
+
   const cvData = {
     name: profile?.full_name || user.email,
     contact: [profile?.location, profile?.country, profile?.phone, profile?.linkedin_url, user.email]
@@ -49,6 +67,9 @@ export async function GET(request) {
     skills: version.skills_text,
     achievements: version.achievements_text,
     languages: (profile?.languages || []).join(", "),
+    avatarBase64,
+    avatarBuffer,
+    avatarDocxType,
     labels: {
       summary: t("sections.summary"),
       experience: t("sections.experience"),

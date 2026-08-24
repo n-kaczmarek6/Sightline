@@ -293,7 +293,7 @@ function ExperienceForm({ onAdd, onCancel, t, roleOptions, locationOptions }) {
 
 export default function ProfilePanel() {
   const {
-    userEmail, profile, updateProfileField, saveProfile,
+    userEmail, profile, updateProfileField, saveProfile, uploadAvatar, removeAvatar,
     workExperience, addWorkExperience, removeWorkExperience,
     skills, addSkill, removeSkill,
   } = useApp();
@@ -333,6 +333,46 @@ export default function ProfilePanel() {
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         <div className="glass profile-section">
           <h4>{t("sections.personalInfo")}</h4>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 18 }}>
+            {profile.avatar_url ? (
+              <img
+                src={profile.avatar_url}
+                alt=""
+                style={{ width: 72, height: 72, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: 72, height: 72, borderRadius: "50%", flexShrink: 0,
+                  background: "rgba(18,51,45,.06)", display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 26,
+                }}
+              >
+                👤
+              </div>
+            )}
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <label className="btn btn-secondary btn-sm" style={{ cursor: "pointer", margin: 0 }}>
+                  {profile.avatar_url ? t("avatar.change") : t("avatar.upload")}
+                  <input
+                    type="file"
+                    accept=".jpg,.jpeg,.png"
+                    style={{ display: "none" }}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) uploadAvatar(file);
+                      e.target.value = "";
+                    }}
+                  />
+                </label>
+                {profile.avatar_url && (
+                  <button type="button" className="btn btn-ghost btn-sm" onClick={removeAvatar}>{t("avatar.remove")}</button>
+                )}
+              </div>
+              <p style={{ fontSize: 12, color: "var(--text-muted)", margin: 0 }}>{t("avatar.hint")}</p>
+            </div>
+          </div>
           <div className="field-grid">
             <div>
               <div className="field-lbl">{t("fields.name")}</div>

@@ -175,6 +175,42 @@ export function AppProvider({
     toast(error ? t("saveErrorWithMessage", { message: error.message }) : t("profileSaved"));
   }, [profile, toast, t]);
 
+  const uploadAvatar = useCallback(
+    async (file) => {
+      if (!profile) return;
+      const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+      const path = `${profile.id}/avatar.${ext}`;
+      const supabase = createClient();
+      const { error: uploadError } = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
+      if (uploadError) {
+        toast(t("avatarUploadError", { message: uploadError.message }));
+        return;
+      }
+      const { data: publicUrlData } = supabase.storage.from("avatars").getPublicUrl(path);
+      const avatarUrl = `${publicUrlData.publicUrl}?v=${Date.now()}`;
+      const { error } = await supabase.from("profiles").update({ avatar_url: avatarUrl }).eq("id", profile.id);
+      if (error) {
+        toast(t("avatarUploadError", { message: error.message }));
+        return;
+      }
+      setProfile((p) => ({ ...p, avatar_url: avatarUrl }));
+      toast(t("avatarUploaded"));
+    },
+    [profile, toast, t]
+  );
+
+  const removeAvatar = useCallback(async () => {
+    if (!profile) return;
+    const supabase = createClient();
+    const { error } = await supabase.from("profiles").update({ avatar_url: null }).eq("id", profile.id);
+    if (error) {
+      toast(t("avatarRemoveError"));
+      return;
+    }
+    setProfile((p) => ({ ...p, avatar_url: null }));
+    toast(t("avatarRemoved"));
+  }, [profile, toast, t]);
+
   const changePassword = useCallback(
     async (newPassword) => {
       const supabase = createClient();
@@ -541,7 +577,7 @@ export function AppProvider({
   const value = {
     panel, setPanel,
     userEmail,
-    profile, updateProfileField, saveProfile,
+    profile, updateProfileField, saveProfile, uploadAvatar, removeAvatar,
     changePassword, updateLocale, deleteAccount,
     workExperience, addWorkExperience, removeWorkExperience,
     skills, addSkill, removeSkill,
