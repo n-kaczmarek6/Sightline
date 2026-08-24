@@ -384,5 +384,179 @@
     "limitNoteLink": "Upgrade to Pro",
     "limitNoteSuffix": "for unlimited evidence documents.",
     "privacyNote": "Your documents are private and only used for your applications."
+  },
+  "applications": {
+    "title": "My Applications",
+    "subtitle": "Drag a card to change its status.",
+    "addButton": "+ Add application",
+    "form": {
+      "company": "Company",
+      "role": "Role",
+      "matchPlaceholder": "Match % (optional)",
+      "add": "Add",
+      "cancel": "Cancel"
+    },
+    "limitToast": "Free tracks up to {limit} applications.",
+    "usageBannerTitle": "Free Plan: up to {limit} active applications",
+    "usageBannerSub": "You're currently tracking {count} — Pro removes the limit.",
+    "unlockUnlimited": "Unlock unlimited",
+    "matchScore": "Match {score}%",
+    "noMatchScore": "No match score"
+  },
+  "appDetail": {
+    "back": "← Back to Applications",
+    "noneSelected": "No application selected.",
+    "createdOn": "Created on {date}",
+    "appliedOn": " · Applied on {date}",
+    "match": "Match {score}%",
+    "statusTitle": "Status",
+    "statusPrefix": "Current status:",
+    "statusSuffix": ". Drag the card to a different column on the Kanban board to change its status.",
+    "deleteButton": "Delete application",
+    "interviewPrepTitle": "Interview Prep",
+    "interviewPrepSubtitle": "AI-generated from the job description and your profile.",
+    "startPrep": "Start prep",
+    "likelyTopics": "Likely topics",
+    "topics": ["Product Launches", "SaaS Marketing", "Go-to-Market", "Cross-functional Leadership"]
+  },
+  "assistant": {
+    "title": "AI Career Copilot",
+    "subtitle": "Knows your profile, CVs, job descriptions, documents, and applications.",
+    "askExample": "Try asking",
+    "inputPlaceholder": "Ask about a job, your CV, or an interview…",
+    "send": "Send",
+    "remainingMessages": "{remaining} of {limit} free messages left this month",
+    "limitReached": "You've used all {limit} free messages this month. Upgrade to Pro for unlimited career coaching and interview prep.",
+    "defaultReply": "Good question — based on your profile and saved jobs, I'd start by making your go-to-market experience more explicit. Want me to show you where?",
+    "greeting": "Hi {name} — I know your profile, CVs, saved jobs, and applications. How can I help?",
+    "prompts": {
+      "improveChances": "How can I improve my chances for this role?",
+      "mostRelevant": "Which of my experiences are most relevant?",
+      "findGaps": "Find gaps in my CV.",
+      "highlightAchievements": "Which achievements should I highlight?",
+      "createCv": "Create a CV for this job.",
+      "interviewPrep": "Help me prepare for the interview.",
+      "bestMatches": "Which saved jobs are the best fit?"
+    },
+    "replies": {
+      "improveChances": "Based on your match analysis, the biggest lever is making your go-to-market and pricing experience more explicit — that could push your score from 87 into the low 90s. Want me to open the CV recommendations for this job?",
+      "mostRelevant": "Your go-to-market campaigns at Nova Cloud Systems are your strongest match — especially the 28% pipeline growth. Your competitive analysis experience at Brightpath is also directly relevant.",
+      "findGaps": "I found 4 gaps for this role: go-to-market strategy isn't explicit, pricing strategy experience is missing, Tableau isn't mentioned, and your Google Analytics certification isn't in your CV yet even though it's in your document vault.",
+      "highlightAchievements": "Your performance review shows an 18% increase in team productivity, and your launches drove 28% pipeline growth. Both are strong, measurable achievements — I'd lead with the pipeline number since it's most relevant to this role.",
+      "createCv": "I've created a tailored version in your CV Builder, based on your existing profile — nothing invented, just reordered and phrased for HubSpot. Take a look and adjust anything that doesn't sound like you.",
+      "interviewPrep": "For the HubSpot Product Marketing Manager interview, expect questions on product launches, SaaS marketing, go-to-market strategy, and cross-functional leadership. Want a practice question?",
+      "bestMatches": "Among your saved jobs, HubSpot (91%) and Adobe (88%) are your strongest matches. Zalando is lower at 76% — mainly due to a gap in growth experimentation experience."
+    }
+  },
+  "pricing": {
+    "eyebrow": "Pricing",
+    "title": "The right plan for every kind of job search.",
+    "subtitle": "Start for free. When you're in the middle of an active search, switch to Pro — monthly or as a short, focused sprint.",
+    "toggle": {
+      "monthly": "Monthly",
+      "sprint": "Sprint · 14 days"
+    },
+    "free": {
+      "name": "Free",
+      "price": "€0",
+      "tagline": "Your first match score, no card required.",
+      "included": ["3 job analyses per month", "Match score + top strengths & gaps", "1 CV profile", "Up to 5 tracked applications"],
+      "notIncluded": ["Full keyword & recommendation analysis", "CV downloads (PDF / DOCX)", "Unlimited AI Career Copilot"],
+      "currentPlan": "Current plan",
+      "downgrade": "Downgrade to Free"
+    },
+    "pro": {
+      "name": "Pro",
+      "popular": "Popular",
+      "priceMonthly": "€14",
+      "unitMonthly": "/ month",
+      "priceSprint": "€19",
+      "unitSprint": "/ 14 days",
+      "taglineMonthly": "Cancel anytime. For an ongoing search.",
+      "taglineSprint": "A one-time pass for an intense application phase. No auto-renewal.",
+      "features": [
+        "Unlimited job analyses",
+        "Full keyword & recommendation analysis",
+        "Unlimited CV downloads & versions",
+        "Unlimited evidence documents",
+        "Unlimited tracked applications",
+        "Unlimited AI Copilot & interview prep"
+      ],
+      "currentPlan": "Current plan",
+      "upgrade": "Upgrade to Pro"
+    },
+    "sprintNote": "Sprint is a one-time 14-day pass — ideal if you're applying intensively for a few weeks. No auto-renewal."
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your account and preferences.",
+    "account": {
+      "heading": "Account",
+      "name": "Name",
+      "notSet": "Not set yet",
+      "email": "Email",
+      "plan": "Plan"
+    },
+    "language": {
+      "heading": "Language",
+      "description": "Determines the app's interface language."
+    },
+    "password": {
+      "heading": "Change Password",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "tooShort": "At least 6 characters.",
+      "mismatch": "Passwords don't match.",
+      "saving": "Saving…",
+      "update": "Update password"
+    },
+    "notifications": {
+      "heading": "Notifications",
+      "description": "Email when a recruiter views your application, plus weekly match digests."
+    },
+    "deleteAccount": {
+      "heading": "Delete Account",
+      "descriptionPre": "Permanently deletes your account and all data (profile, documents, applications, CVs). Type your email address (",
+      "descriptionPost": ") to confirm.",
+      "deleting": "Deleting…",
+      "confirmButton": "Delete permanently"
+    }
+  },
+  "toasts": {
+    "planUpgraded": "You're now on Sightline Pro{sprint, select, yes { Sprint (14 days).} other {.}}",
+    "planDowngraded": "You're back on the Free plan.",
+    "analysisLimitReached": "You've used all {limit} free analyses this month.",
+    "jobDescriptionRequired": "Please paste a complete job description.",
+    "analysisFailed": "Analysis failed. Please try again.",
+    "saveErrorWithMessage": "Error saving: {message}",
+    "profileSaved": "Profile saved.",
+    "passwordError": "Error: {message}",
+    "passwordChanged": "Password changed.",
+    "localeSaveError": "Language could not be saved.",
+    "accountDeleteError": "Account could not be deleted.",
+    "skillAddError": "Skill could not be added.",
+    "skillRemoveError": "Skill could not be removed.",
+    "experienceSaveError": "Entry could not be saved.",
+    "experienceAdded": "Work experience added.",
+    "experienceDeleteError": "Entry could not be deleted.",
+    "documentLimitReached": "Free stores {limit} documents.",
+    "uploadFailed": "Upload failed: {message}",
+    "documentSaveError": "Document could not be saved.",
+    "documentUploaded": "Document uploaded.",
+    "documentDeleteError": "Document could not be deleted.",
+    "downloadLinkError": "Download link could not be created.",
+    "applicationLimitReached": "Free tracks up to {limit} applications.",
+    "applicationSaveError": "Application could not be saved.",
+    "applicationAdded": "Application added.",
+    "statusUpdateError": "Status could not be updated.",
+    "applicationDeleteError": "Application could not be deleted.",
+    "versionCreateError": "Version could not be created.",
+    "versionCreated": "New CV version created.",
+    "versionSaved": "CV version saved.",
+    "versionDeleteError": "Version could not be deleted.",
+    "downloadsProOnly": "CV downloads are a Pro feature.",
+    "noVersionSelected": "No CV version selected.",
+    "preparingDownload": "Preparing {type}…",
+    "cvDownloaded": "CV downloaded (prototype export)."
   }
 }

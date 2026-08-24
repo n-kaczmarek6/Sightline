@@ -1,5 +1,6 @@
 "use client";
 import { createContext, useContext, useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 
 const AppContext = createContext(null);
@@ -47,9 +48,13 @@ export function AppProvider({
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
 
+  const t = useTranslations("toasts");
+
   // ---- chat ----
+  const tAssistant = useTranslations("assistant");
+  const greetingName = (initialProfile?.full_name || userEmail || "").split(/\s+/)[0] || "";
   const [chatMessages, setChatMessages] = useState([
-    { who: "bot", text: "Hi Alex — ich kenne dein Profil, deine CVs, gespeicherte Jobs und Bewerbungen. Womit kann ich helfen?" },
+    { who: "bot", text: tAssistant("greeting", { name: greetingName }) },
   ]);
   const [chatLocked, setChatLocked] = useState(false);
 
@@ -71,22 +76,22 @@ export function AppProvider({
       setIsPro(pro);
       toast(
         pro
-          ? `Du bist jetzt auf Sightline Pro${priceMode === "sprint" ? " Sprint (14 Tage)." : "."}`
-          : "Du bist zurück auf dem Free Plan."
+          ? t("planUpgraded", { sprint: priceMode === "sprint" ? "yes" : "no" })
+          : t("planDowngraded")
       );
     },
-    [priceMode, toast]
+    [priceMode, toast, t]
   );
 
   const runAnalysis = useCallback(
     async (jobDescription) => {
       if (!isPro && analysesUsed >= FREE_ANALYSIS_LIMIT) {
-        toast(`Du hast alle ${FREE_ANALYSIS_LIMIT} freien Analysen diesen Monat genutzt.`);
+        toast(t("analysisLimitReached", { limit: FREE_ANALYSIS_LIMIT }));
         setPanel("pricing");
         return;
       }
       if (!jobDescription || jobDescription.trim().length < 20) {
-        toast("Bitte füge eine vollständige Job Description ein.");
+        toast(t("jobDescriptionRequired"));
         return;
       }
       setLoading(true);
@@ -105,7 +110,7 @@ export function AppProvider({
         });
         const data = await res.json();
         if (!res.ok) {
-          toast(data?.message || "Analyse fehlgeschlagen. Bitte versuch es erneut.");
+          toast(data?.message || t("analysisFailed"));
           return;
         }
         setLoadingStep(4);
@@ -114,14 +119,14 @@ export function AppProvider({
         if (!isPro) setAnalysesUsed((n) => n + 1);
         setPanel("analysis");
       } catch (err) {
-        toast("Analyse fehlgeschlagen. Bitte versuch es erneut.");
+        toast(t("analysisFailed"));
       } finally {
         clearInterval(stepInterval);
         setLoading(false);
         setAnalyzing(false);
       }
     },
-    [isPro, analysesUsed, toast, setPanel]
+    [isPro, analysesUsed, toast, setPanel, t]
   );
 
   const updateProfileField = useCallback((field, value) => {
@@ -162,17 +167,17 @@ export function AppProvider({
         salary_max,
       })
       .eq("id", id);
-    toast(error ? `Fehler beim Speichern: ${error.message}` : "Profil gespeichert.");
-  }, [profile, toast]);
+    toast(error ? t("saveErrorWithMessage", { message: error.message }) : t("profileSaved"));
+  }, [profile, toast, t]);
 
   const changePassword = useCallback(
     async (newPassword) => {
       const supabase = createClient();
       const { error } = await supabase.auth.updateUser({ password: newPassword });
-      toast(error ? `Fehler: ${error.message}` : "Passwort geändert.");
+      toast(error ? t("passwordError", { message: error.message }) : t("passwordChanged"));
       return !error;
     },
-    [toast]
+    [toast, t]
   );
 
   const updateLocale = useCallback(
@@ -181,19 +186,19 @@ export function AppProvider({
       setProfile((p) => ({ ...p, locale: newLocale }));
       const supabase = createClient();
       const { error } = await supabase.from("profiles").update({ locale: newLocale }).eq("id", profile.id);
-      if (error) toast("Sprache konnte nicht gespeichert werden.");
+      if (error) toast(t("localeSaveError"));
     },
-    [profile, toast]
+    [profile, toast, t]
   );
 
   const deleteAccount = useCallback(async () => {
     const res = await fetch("/api/account", { method: "DELETE" });
     if (!res.ok) {
-      toast("Konto konnte nicht gelöscht werden.");
+      toast(t("accountDeleteError"));
       return false;
     }
     return true;
-  }, [toast]);
+  }, [toast, t]);
 
   const addSkill = useCallback(
     async (name) => {
@@ -207,12 +212,12 @@ export function AppProvider({
         .select()
         .single();
       if (error) {
-        toast("Skill konnte nicht hinzugefügt werden.");
+        toast(t("skillAddError"));
         return;
       }
       setSkills((s) => [...s, data]);
     },
-    [profile, skills, toast]
+    [profile, skills, toast, t]
   );
 
   const removeSkill = useCallback(
@@ -220,9 +225,9 @@ export function AppProvider({
       const supabase = createClient();
       setSkills((s) => s.filter((x) => x.id !== id));
       const { error } = await supabase.from("skills").delete().eq("id", id);
-      if (error) toast("Skill konnte nicht entfernt werden.");
+      if (error) toast(t("skillRemoveError"));
     },
-    [toast]
+    [toast, t]
   );
 
   const addWorkExperience = useCallback(
@@ -244,13 +249,13 @@ export function AppProvider({
         .select()
         .single();
       if (error) {
-        toast("Eintrag konnte nicht gespeichert werden.");
+        toast(t("experienceSaveError"));
         return;
       }
       setWorkExperience((w) => [...w, data]);
-      toast("Berufserfahrung hinzugefügt.");
+      toast(t("experienceAdded"));
     },
-    [profile, workExperience.length, toast]
+    [profile, workExperience.length, toast, t]
   );
 
   const removeWorkExperience = useCallback(
@@ -258,16 +263,16 @@ export function AppProvider({
       const supabase = createClient();
       setWorkExperience((w) => w.filter((x) => x.id !== id));
       const { error } = await supabase.from("work_experience").delete().eq("id", id);
-      if (error) toast("Eintrag konnte nicht gelöscht werden.");
+      if (error) toast(t("experienceDeleteError"));
     },
-    [toast]
+    [toast, t]
   );
 
   const uploadDocument = useCallback(
     async ({ file, title, category, description }) => {
       if (!profile) return;
       if (!isPro && documents.length >= FREE_DOCUMENT_LIMIT) {
-        toast(`Free speichert ${FREE_DOCUMENT_LIMIT} Dokumente.`);
+        toast(t("documentLimitReached", { limit: FREE_DOCUMENT_LIMIT }));
         setPanel("pricing");
         return;
       }
@@ -275,7 +280,7 @@ export function AppProvider({
       const path = `${profile.id}/${Date.now()}-${file.name}`;
       const { error: uploadError } = await supabase.storage.from("documents").upload(path, file);
       if (uploadError) {
-        toast(`Upload fehlgeschlagen: ${uploadError.message}`);
+        toast(t("uploadFailed", { message: uploadError.message }));
         return;
       }
       const { data, error } = await supabase
@@ -290,14 +295,14 @@ export function AppProvider({
         .select()
         .single();
       if (error) {
-        toast("Dokument konnte nicht gespeichert werden.");
+        toast(t("documentSaveError"));
         await supabase.storage.from("documents").remove([path]);
         return;
       }
       setDocuments((d) => [data, ...d]);
-      toast("Dokument hochgeladen.");
+      toast(t("documentUploaded"));
     },
-    [profile, documents.length, isPro, toast, setPanel]
+    [profile, documents.length, isPro, toast, setPanel, t]
   );
 
   const deleteDocument = useCallback(
@@ -306,9 +311,9 @@ export function AppProvider({
       setDocuments((d) => d.filter((x) => x.id !== doc.id));
       await supabase.storage.from("documents").remove([doc.file_path]);
       const { error } = await supabase.from("documents").delete().eq("id", doc.id);
-      if (error) toast("Dokument konnte nicht gelöscht werden.");
+      if (error) toast(t("documentDeleteError"));
     },
-    [toast]
+    [toast, t]
   );
 
   const downloadDocument = useCallback(
@@ -316,19 +321,19 @@ export function AppProvider({
       const supabase = createClient();
       const { data, error } = await supabase.storage.from("documents").createSignedUrl(doc.file_path, 60);
       if (error || !data) {
-        toast("Download-Link konnte nicht erstellt werden.");
+        toast(t("downloadLinkError"));
         return;
       }
       window.open(data.signedUrl, "_blank");
     },
-    [toast]
+    [toast, t]
   );
 
   const addApplication = useCallback(
     async ({ company, role_title, match_score }) => {
       if (!profile) return;
       if (!isPro && applications.length >= FREE_APPLICATION_LIMIT) {
-        toast(`Free trackt bis zu ${FREE_APPLICATION_LIMIT} Bewerbungen.`);
+        toast(t("applicationLimitReached", { limit: FREE_APPLICATION_LIMIT }));
         setPanel("pricing");
         return;
       }
@@ -339,13 +344,13 @@ export function AppProvider({
         .select()
         .single();
       if (error) {
-        toast("Bewerbung konnte nicht gespeichert werden.");
+        toast(t("applicationSaveError"));
         return;
       }
       setApplications((a) => [data, ...a]);
-      toast("Bewerbung hinzugefügt.");
+      toast(t("applicationAdded"));
     },
-    [profile, applications.length, isPro, toast, setPanel]
+    [profile, applications.length, isPro, toast, setPanel, t]
   );
 
   const updateApplicationStatus = useCallback(
@@ -359,9 +364,9 @@ export function AppProvider({
       setApplications((a) => a.map((app) => (app.id === id ? { ...app, ...patch } : app)));
       const supabase = createClient();
       const { error } = await supabase.from("applications").update(patch).eq("id", id);
-      if (error) toast("Status konnte nicht aktualisiert werden.");
+      if (error) toast(t("statusUpdateError"));
     },
-    [applications, toast]
+    [applications, toast, t]
   );
 
   const deleteApplication = useCallback(
@@ -369,9 +374,9 @@ export function AppProvider({
       const supabase = createClient();
       setApplications((a) => a.filter((app) => app.id !== id));
       const { error } = await supabase.from("applications").delete().eq("id", id);
-      if (error) toast("Bewerbung konnte nicht gelöscht werden.");
+      if (error) toast(t("applicationDeleteError"));
     },
-    [toast]
+    [toast, t]
   );
 
   const createCvVersion = useCallback(
@@ -393,14 +398,14 @@ export function AppProvider({
         .select()
         .single();
       if (error) {
-        toast("Version konnte nicht erstellt werden.");
+        toast(t("versionCreateError"));
         return;
       }
       setCvVersions((v) => [data, ...v]);
       setSelectedVersionId(data.id);
-      toast("Neue CV-Version erstellt.");
+      toast(t("versionCreated"));
     },
-    [profile, cvVersions, skills, toast]
+    [profile, cvVersions, skills, toast, t]
   );
 
   const updateVersionField = useCallback(
@@ -419,8 +424,8 @@ export function AppProvider({
       .from("cv_versions")
       .update({ label, summary, experience_text, education_text, skills_text, achievements_text, application_id })
       .eq("id", id);
-    toast(error ? `Fehler beim Speichern: ${error.message}` : "CV-Version gespeichert.");
-  }, [cvVersions, selectedVersionId, toast]);
+    toast(error ? t("saveErrorWithMessage", { message: error.message }) : t("versionSaved"));
+  }, [cvVersions, selectedVersionId, toast, t]);
 
   const deleteCvVersion = useCallback(
     async (id) => {
@@ -432,24 +437,24 @@ export function AppProvider({
         return remaining[0]?.id ?? null;
       });
       const { error } = await supabase.from("cv_versions").delete().eq("id", id);
-      if (error) toast("Version konnte nicht gelöscht werden.");
+      if (error) toast(t("versionDeleteError"));
     },
-    [cvVersions, toast]
+    [cvVersions, toast, t]
   );
 
   const downloadCv = useCallback(
     (type) => {
       if (!isPro) {
-        toast("CV-Downloads sind ein Pro-Feature.");
+        toast(t("downloadsProOnly"));
         setPanel("pricing");
         return;
       }
       const version = cvVersions.find((v) => v.id === selectedVersionId);
       if (!version) {
-        toast("Keine CV-Version ausgewählt.");
+        toast(t("noVersionSelected"));
         return;
       }
-      toast(`${type} wird vorbereitet…`);
+      toast(t("preparingDownload", { type }));
       setTimeout(() => {
         const name = profile?.full_name || userEmail || "Lebenslauf";
         const content = `${name.toUpperCase()}\n${version.label}\n\nSUMMARY\n${version.summary || ""}\n\nEXPERIENCE\n${version.experience_text || ""}\n\nEDUCATION\n${version.education_text || ""}\n\nSKILLS\n${version.skills_text || ""}\n\nCERTIFICATIONS & ACHIEVEMENTS\n${version.achievements_text || ""}`;
@@ -462,10 +467,10 @@ export function AppProvider({
         a.click();
         a.remove();
         URL.revokeObjectURL(url);
-        toast("CV heruntergeladen (Prototyp-Export).");
+        toast(t("cvDownloaded"));
       }, 700);
     },
-    [isPro, cvVersions, selectedVersionId, profile, userEmail, toast, setPanel]
+    [isPro, cvVersions, selectedVersionId, profile, userEmail, toast, setPanel, t]
   );
 
   const sendChatMessage = useCallback(
@@ -473,10 +478,7 @@ export function AppProvider({
       if (!isPro && aiMessagesUsed >= FREE_AI_LIMIT) {
         setChatMessages((m) => [
           ...m,
-          {
-            who: "bot",
-            text: `Du hast alle ${FREE_AI_LIMIT} freien Nachrichten diesen Monat genutzt. Upgrade auf Pro für unlimited Career Coaching und Interview-Prep.`,
-          },
+          { who: "bot", text: tAssistant("limitReached", { limit: FREE_AI_LIMIT }) },
         ]);
         setChatLocked(true);
         return;
@@ -484,13 +486,11 @@ export function AppProvider({
       setChatMessages((m) => [...m, { who: "user", text }]);
       if (!isPro) setAiMessagesUsed((n) => n + 1);
       setTimeout(() => {
-        const reply =
-          (replyMap && replyMap[text]) ||
-          "Gute Frage — basierend auf deinem Profil und den gespeicherten Jobs würde ich zuerst deine Go-to-Market-Erfahrung expliziter machen. Soll ich dir zeigen, wo?";
+        const reply = (replyMap && replyMap[text]) || tAssistant("defaultReply");
         setChatMessages((m) => [...m, { who: "bot", text: reply }]);
       }, 650);
     },
-    [isPro, aiMessagesUsed]
+    [isPro, aiMessagesUsed, tAssistant]
   );
 
   const value = {

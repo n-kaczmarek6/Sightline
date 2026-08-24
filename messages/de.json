@@ -384,5 +384,179 @@
     "limitNoteLink": "Upgrade auf Pro",
     "limitNoteSuffix": "für unlimited Nachweis-Dokumente.",
     "privacyNote": "Deine Dokumente sind privat und werden nur für deine Bewerbungen genutzt."
+  },
+  "applications": {
+    "title": "Meine Bewerbungen",
+    "subtitle": "Karte ziehen, um den Status zu ändern.",
+    "addButton": "+ Bewerbung hinzufügen",
+    "form": {
+      "company": "Unternehmen",
+      "role": "Rolle",
+      "matchPlaceholder": "Match % (optional)",
+      "add": "Hinzufügen",
+      "cancel": "Abbrechen"
+    },
+    "limitToast": "Free trackt bis zu {limit} Bewerbungen.",
+    "usageBannerTitle": "Free Plan: bis zu {limit} aktive Bewerbungen",
+    "usageBannerSub": "Du trackst gerade {count} — Pro hebt das Limit auf.",
+    "unlockUnlimited": "Unlimited freischalten",
+    "matchScore": "Match {score}%",
+    "noMatchScore": "Kein Match-Score"
+  },
+  "appDetail": {
+    "back": "← Zurück zu Bewerbungen",
+    "noneSelected": "Keine Bewerbung ausgewählt.",
+    "createdOn": "Erstellt am {date}",
+    "appliedOn": " · Beworben am {date}",
+    "match": "Match {score}%",
+    "statusTitle": "Status",
+    "statusPrefix": "Aktueller Status:",
+    "statusSuffix": ". Zieh die Karte im Kanban-Board auf eine andere Spalte, um den Status zu ändern.",
+    "deleteButton": "Bewerbung löschen",
+    "interviewPrepTitle": "Interview-Vorbereitung",
+    "interviewPrepSubtitle": "AI-generiert aus Job Description und deinem Profil.",
+    "startPrep": "Vorbereitung starten",
+    "likelyTopics": "Wahrscheinliche Themen",
+    "topics": ["Product Launches", "SaaS Marketing", "Go-to-Market", "Cross-functional Leadership"]
+  },
+  "assistant": {
+    "title": "AI Career Copilot",
+    "subtitle": "Kennt dein Profil, deine CVs, Job Descriptions, Dokumente und Bewerbungen.",
+    "askExample": "Frag zum Beispiel",
+    "inputPlaceholder": "Frag zu einem Job, deinem CV oder einem Interview…",
+    "send": "Senden",
+    "remainingMessages": "{remaining} von {limit} freien Nachrichten diesen Monat übrig",
+    "limitReached": "Du hast alle {limit} freien Nachrichten diesen Monat genutzt. Upgrade auf Pro für unlimited Career Coaching und Interview-Prep.",
+    "defaultReply": "Gute Frage — basierend auf deinem Profil und den gespeicherten Jobs würde ich zuerst deine Go-to-Market-Erfahrung expliziter machen. Soll ich dir zeigen, wo?",
+    "greeting": "Hi {name} — ich kenne dein Profil, deine CVs, gespeicherte Jobs und Bewerbungen. Womit kann ich helfen?",
+    "prompts": {
+      "improveChances": "Wie kann ich meine Chancen für diese Rolle verbessern?",
+      "mostRelevant": "Welche meiner Erfahrungen sind am relevantesten?",
+      "findGaps": "Finde Lücken in meinem CV.",
+      "highlightAchievements": "Welche Erfolge sollte ich hervorheben?",
+      "createCv": "Erstelle ein CV für diesen Job.",
+      "interviewPrep": "Hilf mir bei der Interview-Vorbereitung.",
+      "bestMatches": "Welche gespeicherten Jobs passen am besten?"
+    },
+    "replies": {
+      "improveChances": "Laut deiner Match-Analyse ist der größte Hebel, deine Go-to-Market- und Pricing-Erfahrung expliziter zu machen — das könnte deinen Score von 87 in die niedrigen 90er heben. Soll ich die CV-Empfehlungen für diesen Job öffnen?",
+      "mostRelevant": "Deine Go-to-Market-Kampagnen bei Nova Cloud Systems sind dein stärkster Match — besonders die 28% Pipeline-Wachstum. Auch deine Competitive-Analysis-Erfahrung bei Brightpath ist direkt relevant.",
+      "findGaps": "Ich habe 4 Lücken für diese Rolle gefunden: Go-to-Market-Strategie ist nicht explizit, Pricing-Strategie-Erfahrung fehlt, Tableau wird nicht erwähnt, und deine Google-Analytics-Zertifizierung steht noch nicht im CV, obwohl sie im Dokumenten-Vault liegt.",
+      "highlightAchievements": "Dein Performance Review zeigt eine 18%ige Steigerung der Teamproduktivität, und deine Launches brachten 28% Pipeline-Wachstum. Beides sind starke, messbare Erfolge — ich würde mit der Pipeline-Zahl beginnen, da sie am relevantesten für diese Rolle ist.",
+      "createCv": "Ich habe eine angepasste Version in deinem CV Builder erstellt, basierend auf deinem bestehenden Profil — nichts erfunden, nur neu geordnet und formuliert für HubSpot. Schau's dir an und passe an, was nicht nach dir klingt.",
+      "interviewPrep": "Für das HubSpot-Interview als Product Marketing Manager erwarte Fragen zu Produkt-Launches, SaaS-Marketing, Go-to-Market-Strategie und cross-funktionalem Leadership. Willst du eine Übungsfrage?",
+      "bestMatches": "Von deinen gespeicherten Jobs sind HubSpot (91%) und Adobe (88%) deine stärksten Matches. Zalando liegt niedriger bei 76% — vor allem wegen einer Lücke bei Growth-Experimentation-Erfahrung."
+    }
+  },
+  "pricing": {
+    "eyebrow": "Preise",
+    "title": "Für jede Art der Jobsuche der passende Plan.",
+    "subtitle": "Starte kostenlos. Wenn du mitten in einer aktiven Suche bist, wechsle zu Pro — monatlich oder als kurzer, fokussierter Sprint.",
+    "toggle": {
+      "monthly": "Monatlich",
+      "sprint": "Sprint · 14 Tage"
+    },
+    "free": {
+      "name": "Free",
+      "price": "€0",
+      "tagline": "Erster Match Score, ohne Karte.",
+      "included": ["3 Job-Analysen pro Monat", "Match Score + Top-Stärken & Lücken", "1 CV-Profil", "Bis zu 5 getrackte Bewerbungen"],
+      "notIncluded": ["Volle Keyword- & Empfehlungs-Analyse", "CV-Downloads (PDF / DOCX)", "Unlimited AI Career Copilot"],
+      "currentPlan": "Aktueller Plan",
+      "downgrade": "Downgrade zu Free"
+    },
+    "pro": {
+      "name": "Pro",
+      "popular": "Beliebt",
+      "priceMonthly": "€14",
+      "unitMonthly": "/ Monat",
+      "priceSprint": "€19",
+      "unitSprint": "/ 14 Tage",
+      "taglineMonthly": "Jederzeit kündbar. Für die laufende Suche.",
+      "taglineSprint": "Einmaliger Pass für eine intensive Bewerbungsphase. Keine automatische Verlängerung.",
+      "features": [
+        "Unlimited Job-Analysen",
+        "Volle Keyword- & Empfehlungs-Analyse",
+        "Unlimited CV-Downloads & Versionen",
+        "Unlimited Nachweis-Dokumente",
+        "Unlimited getrackte Bewerbungen",
+        "Unlimited AI Copilot & Interview-Prep"
+      ],
+      "currentPlan": "Aktueller Plan",
+      "upgrade": "Upgrade auf Pro"
+    },
+    "sprintNote": "Sprint ist ein einmaliger 14-Tage-Pass — ideal, wenn du ein paar Wochen intensiv bewirbst. Keine automatische Verlängerung."
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "subtitle": "Account und Präferenzen verwalten.",
+    "account": {
+      "heading": "Account",
+      "name": "Name",
+      "notSet": "Noch nicht angegeben",
+      "email": "E-Mail",
+      "plan": "Plan"
+    },
+    "language": {
+      "heading": "Sprache",
+      "description": "Bestimmt die Oberflächensprache der App."
+    },
+    "password": {
+      "heading": "Passwort ändern",
+      "newPassword": "Neues Passwort",
+      "confirmPassword": "Passwort bestätigen",
+      "tooShort": "Mindestens 6 Zeichen.",
+      "mismatch": "Passwörter stimmen nicht überein.",
+      "saving": "Wird gespeichert…",
+      "update": "Passwort aktualisieren"
+    },
+    "notifications": {
+      "heading": "Benachrichtigungen",
+      "description": "E-Mail, wenn ein Recruiter deine Bewerbung ansieht, plus wöchentliche Match-Digests."
+    },
+    "deleteAccount": {
+      "heading": "Konto löschen",
+      "descriptionPre": "Löscht deinen Account und alle Daten (Profil, Dokumente, Bewerbungen, CVs) unwiderruflich. Tippe deine E-Mail-Adresse (",
+      "descriptionPost": ") ein, um zu bestätigen.",
+      "deleting": "Wird gelöscht…",
+      "confirmButton": "Endgültig löschen"
+    }
+  },
+  "toasts": {
+    "planUpgraded": "Du bist jetzt auf Sightline Pro{sprint, select, yes { Sprint (14 Tage).} other {.}}",
+    "planDowngraded": "Du bist zurück auf dem Free Plan.",
+    "analysisLimitReached": "Du hast alle {limit} freien Analysen diesen Monat genutzt.",
+    "jobDescriptionRequired": "Bitte füge eine vollständige Job Description ein.",
+    "analysisFailed": "Analyse fehlgeschlagen. Bitte versuch es erneut.",
+    "saveErrorWithMessage": "Fehler beim Speichern: {message}",
+    "profileSaved": "Profil gespeichert.",
+    "passwordError": "Fehler: {message}",
+    "passwordChanged": "Passwort geändert.",
+    "localeSaveError": "Sprache konnte nicht gespeichert werden.",
+    "accountDeleteError": "Konto konnte nicht gelöscht werden.",
+    "skillAddError": "Skill konnte nicht hinzugefügt werden.",
+    "skillRemoveError": "Skill konnte nicht entfernt werden.",
+    "experienceSaveError": "Eintrag konnte nicht gespeichert werden.",
+    "experienceAdded": "Berufserfahrung hinzugefügt.",
+    "experienceDeleteError": "Eintrag konnte nicht gelöscht werden.",
+    "documentLimitReached": "Free speichert {limit} Dokumente.",
+    "uploadFailed": "Upload fehlgeschlagen: {message}",
+    "documentSaveError": "Dokument konnte nicht gespeichert werden.",
+    "documentUploaded": "Dokument hochgeladen.",
+    "documentDeleteError": "Dokument konnte nicht gelöscht werden.",
+    "downloadLinkError": "Download-Link konnte nicht erstellt werden.",
+    "applicationLimitReached": "Free trackt bis zu {limit} Bewerbungen.",
+    "applicationSaveError": "Bewerbung konnte nicht gespeichert werden.",
+    "applicationAdded": "Bewerbung hinzugefügt.",
+    "statusUpdateError": "Status konnte nicht aktualisiert werden.",
+    "applicationDeleteError": "Bewerbung konnte nicht gelöscht werden.",
+    "versionCreateError": "Version konnte nicht erstellt werden.",
+    "versionCreated": "Neue CV-Version erstellt.",
+    "versionSaved": "CV-Version gespeichert.",
+    "versionDeleteError": "Version konnte nicht gelöscht werden.",
+    "downloadsProOnly": "CV-Downloads sind ein Pro-Feature.",
+    "noVersionSelected": "Keine CV-Version ausgewählt.",
+    "preparingDownload": "{type} wird vorbereitet…",
+    "cvDownloaded": "CV heruntergeladen (Prototyp-Export)."
   }
 }

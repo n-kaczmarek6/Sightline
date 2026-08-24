@@ -1,13 +1,11 @@
 "use client";
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { useApp } from "@/context/AppContext";
 
-const COLUMNS = [
-  ["saved", "Saved"], ["applied", "Applied"], ["screening", "Screening"],
-  ["interview", "Interview"], ["offer", "Offer"], ["rejected", "Rejected"],
-];
+const COLUMN_KEYS = ["saved", "applied", "screening", "interview", "offer", "rejected"];
 
-function AddForm({ onAdd, onCancel }) {
+function AddForm({ onAdd, onCancel, t }) {
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [match, setMatch] = useState("");
@@ -21,13 +19,13 @@ function AddForm({ onAdd, onCancel }) {
   return (
     <form className="glass profile-section" style={{ padding: 18, display: "flex", flexDirection: "column", gap: 10, marginBottom: 18 }} onSubmit={handleSubmit}>
       <div className="field-grid">
-        <input className="profile-input" placeholder="Unternehmen" value={company} onChange={(e) => setCompany(e.target.value)} required />
-        <input className="profile-input" placeholder="Rolle" value={role} onChange={(e) => setRole(e.target.value)} required />
-        <input className="profile-input" type="number" min="0" max="100" placeholder="Match % (optional)" value={match} onChange={(e) => setMatch(e.target.value)} />
+        <input className="profile-input" placeholder={t("form.company")} value={company} onChange={(e) => setCompany(e.target.value)} required />
+        <input className="profile-input" placeholder={t("form.role")} value={role} onChange={(e) => setRole(e.target.value)} required />
+        <input className="profile-input" type="number" min="0" max="100" placeholder={t("form.matchPlaceholder")} value={match} onChange={(e) => setMatch(e.target.value)} />
       </div>
       <div style={{ display: "flex", gap: 8 }}>
-        <button className="btn btn-primary btn-sm" type="submit">Hinzufügen</button>
-        <button className="btn btn-ghost btn-sm" type="button" onClick={onCancel}>Abbrechen</button>
+        <button className="btn btn-primary btn-sm" type="submit">{t("form.add")}</button>
+        <button className="btn btn-ghost btn-sm" type="button" onClick={onCancel}>{t("form.cancel")}</button>
       </div>
     </form>
   );
@@ -39,12 +37,14 @@ export default function ApplicationsPanel() {
     applications, addApplication, updateApplicationStatus, FREE_APPLICATION_LIMIT,
     setSelectedApplicationId,
   } = useApp();
+  const t = useTranslations("applications");
+  const tStatus = useTranslations("common");
   const [dragInfo, setDragInfo] = useState(null); // { cardId, fromCol }
   const [dragOverCol, setDragOverCol] = useState(null);
   const [showAdd, setShowAdd] = useState(false);
 
   const columns = useMemo(() => {
-    const grouped = Object.fromEntries(COLUMNS.map(([key]) => [key, []]));
+    const grouped = Object.fromEntries(COLUMN_KEYS.map((key) => [key, []]));
     for (const app of applications) {
       (grouped[app.status] || grouped.saved).push(app);
     }
@@ -55,7 +55,7 @@ export default function ApplicationsPanel() {
 
   const handleAddClick = () => {
     if (atLimit) {
-      toast(`Free trackt bis zu ${FREE_APPLICATION_LIMIT} Bewerbungen.`);
+      toast(t("limitToast", { limit: FREE_APPLICATION_LIMIT }));
       setPanel("pricing");
       return;
     }
@@ -70,12 +70,13 @@ export default function ApplicationsPanel() {
   return (
     <div className="panel">
       <div className="panel-head panel-head-row">
-        <div><h1>Meine Bewerbungen</h1><p>Karte ziehen, um den Status zu ändern.</p></div>
-        <button className="btn btn-primary btn-sm" onClick={handleAddClick}>+ Bewerbung hinzufügen</button>
+        <div><h1>{t("title")}</h1><p>{t("subtitle")}</p></div>
+        <button className="btn btn-primary btn-sm" onClick={handleAddClick}>{t("addButton")}</button>
       </div>
 
       {showAdd && (
         <AddForm
+          t={t}
           onAdd={async (payload) => { await addApplication(payload); setShowAdd(false); }}
           onCancel={() => setShowAdd(false)}
         />
@@ -84,15 +85,15 @@ export default function ApplicationsPanel() {
       {!isPro && (
         <div className="glass usage-banner coral">
           <div className="usage-track">
-            <div style={{ fontSize: 13.5, fontWeight: 700, color: "var(--ink)" }}>Free Plan: bis zu {FREE_APPLICATION_LIMIT} aktive Bewerbungen</div>
-            <div style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 3 }}>Du trackst gerade {applications.length} — Pro hebt das Limit auf.</div>
+            <div style={{ fontSize: 13.5, fontWeight: 700, color: "var(--ink)" }}>{t("usageBannerTitle", { limit: FREE_APPLICATION_LIMIT })}</div>
+            <div style={{ fontSize: 12.5, color: "var(--text-muted)", marginTop: 3 }}>{t("usageBannerSub", { count: applications.length })}</div>
           </div>
-          <button className="btn btn-primary btn-sm" onClick={() => setPanel("pricing")}>Unlimited freischalten</button>
+          <button className="btn btn-primary btn-sm" onClick={() => setPanel("pricing")}>{t("unlockUnlimited")}</button>
         </div>
       )}
 
       <div className="kanban">
-        {COLUMNS.map(([key, label]) => (
+        {COLUMN_KEYS.map((key) => (
           <div
             key={key}
             className={`kanban-col${dragOverCol === key ? " dragover" : ""}`}
@@ -108,7 +109,7 @@ export default function ApplicationsPanel() {
             }}
           >
             <div className="kanban-col-head">
-              {label} <span className="kanban-count">{columns[key].length}</span>
+              {tStatus(`status.${key}`)} <span className="kanban-count">{columns[key].length}</span>
             </div>
             {columns[key].map((app) => (
               <div
@@ -120,7 +121,7 @@ export default function ApplicationsPanel() {
               >
                 <div className="co">{app.company}</div>
                 <div className="role">{app.role_title}</div>
-                <div className="match">{app.match_score != null ? `Match ${app.match_score}%` : "Kein Match-Score"}</div>
+                <div className="match">{app.match_score != null ? t("matchScore", { score: app.match_score }) : t("noMatchScore")}</div>
               </div>
             ))}
           </div>

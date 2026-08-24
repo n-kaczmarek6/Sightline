@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/navigation";
 import { useApp } from "@/context/AppContext";
 
@@ -10,9 +11,12 @@ const LOCALES = [
 
 export default function SettingsPanel() {
   const { isPro, priceMode, profile, userEmail, changePassword, updateLocale, deleteAccount } = useApp();
+  const t = useTranslations("settings");
+  const tShell = useTranslations("shell");
+  const currentLocale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-  const planLabel = isPro ? (priceMode === "sprint" ? "Pro · Sprint" : "Pro Plan") : "Free Plan";
+  const planLabel = isPro ? (priceMode === "sprint" ? tShell("plan.proSprint") : tShell("plan.pro")) : tShell("plan.free");
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -26,11 +30,11 @@ export default function SettingsPanel() {
     e.preventDefault();
     setPwError("");
     if (newPassword.length < 6) {
-      setPwError("Mindestens 6 Zeichen.");
+      setPwError(t("password.tooShort"));
       return;
     }
     if (newPassword !== confirmPassword) {
-      setPwError("Passwörter stimmen nicht überein.");
+      setPwError(t("password.mismatch"));
       return;
     }
     setSavingPw(true);
@@ -43,8 +47,8 @@ export default function SettingsPanel() {
   };
 
   const handleLocaleSwitch = (locale) => {
-    if (locale === profile?.locale) return;
     updateLocale(locale);
+    if (locale === currentLocale) return;
     router.replace(pathname, { locale });
   };
 
@@ -62,27 +66,27 @@ export default function SettingsPanel() {
 
   return (
     <div className="panel">
-      <div className="panel-head"><h1>Einstellungen</h1><p>Account und Präferenzen verwalten.</p></div>
+      <div className="panel-head"><h1>{t("title")}</h1><p>{t("subtitle")}</p></div>
       <div className="settings-list">
         <div className="glass profile-section">
-          <h4>Account</h4>
+          <h4>{t("account.heading")}</h4>
           <div className="field-grid">
-            <div><div className="field-lbl">Name</div><div className="field-val">{profile?.full_name || "Noch nicht angegeben"}</div></div>
-            <div><div className="field-lbl">E-Mail</div><div className="field-val">{userEmail}</div></div>
-            <div><div className="field-lbl">Plan</div><div className="field-val">{planLabel}</div></div>
+            <div><div className="field-lbl">{t("account.name")}</div><div className="field-val">{profile?.full_name || t("account.notSet")}</div></div>
+            <div><div className="field-lbl">{t("account.email")}</div><div className="field-val">{userEmail}</div></div>
+            <div><div className="field-lbl">{t("account.plan")}</div><div className="field-val">{planLabel}</div></div>
           </div>
         </div>
 
         <div className="glass profile-section">
-          <h4>Sprache</h4>
+          <h4>{t("language.heading")}</h4>
           <p style={{ fontSize: 13.5, color: "var(--text-muted)", marginBottom: 12 }}>
-            Bestimmt die Oberflächensprache der App.
+            {t("language.description")}
           </p>
           <div style={{ display: "flex", gap: 8 }}>
             {LOCALES.map((l) => (
               <button
                 key={l.value}
-                className={`btn btn-sm ${profile?.locale === l.value ? "btn-primary" : "btn-secondary"}`}
+                className={`btn btn-sm ${currentLocale === l.value ? "btn-primary" : "btn-secondary"}`}
                 onClick={() => handleLocaleSwitch(l.value)}
               >
                 {l.label}
@@ -92,29 +96,28 @@ export default function SettingsPanel() {
         </div>
 
         <div className="glass profile-section">
-          <h4>Passwort ändern</h4>
+          <h4>{t("password.heading")}</h4>
           <form onSubmit={handlePasswordSubmit} style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 340 }}>
-            <input className="profile-input" type="password" placeholder="Neues Passwort" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-            <input className="profile-input" type="password" placeholder="Passwort bestätigen" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+            <input className="profile-input" type="password" placeholder={t("password.newPassword")} value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+            <input className="profile-input" type="password" placeholder={t("password.confirmPassword")} value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
             {pwError && <div className="auth-error">{pwError}</div>}
             <button className="btn btn-primary btn-sm" type="submit" disabled={savingPw} style={{ alignSelf: "flex-start" }}>
-              {savingPw ? "Wird gespeichert…" : "Passwort aktualisieren"}
+              {savingPw ? t("password.saving") : t("password.update")}
             </button>
           </form>
         </div>
 
         <div className="glass profile-section">
-          <h4>Benachrichtigungen</h4>
+          <h4>{t("notifications.heading")}</h4>
           <p style={{ fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.6 }}>
-            E-Mail, wenn ein Recruiter deine Bewerbung ansieht, plus wöchentliche Match-Digests.
+            {t("notifications.description")}
           </p>
         </div>
 
         <div className="glass profile-section" style={{ borderColor: "rgba(226,76,58,.3)" }}>
-          <h4 style={{ color: "var(--error)" }}>Konto löschen</h4>
+          <h4 style={{ color: "var(--error)" }}>{t("deleteAccount.heading")}</h4>
           <p style={{ fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.6, marginBottom: 12 }}>
-            Löscht deinen Account und alle Daten (Profil, Dokumente, Bewerbungen, CVs) unwiderruflich. Tippe deine
-            E-Mail-Adresse (<strong>{userEmail}</strong>) ein, um zu bestätigen.
+            {t("deleteAccount.descriptionPre")}<strong>{userEmail}</strong>{t("deleteAccount.descriptionPost")}
           </p>
           <div style={{ display: "flex", gap: 8, maxWidth: 420, flexWrap: "wrap" }}>
             <input
@@ -130,7 +133,7 @@ export default function SettingsPanel() {
               disabled={!canDelete || deleting}
               onClick={handleDelete}
             >
-              {deleting ? "Wird gelöscht…" : "Endgültig löschen"}
+              {deleting ? t("deleteAccount.deleting") : t("deleteAccount.confirmButton")}
             </button>
           </div>
         </div>
