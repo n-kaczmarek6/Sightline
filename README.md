@@ -64,3 +64,4 @@ Als Nächstes:
   Datenbank-Abfragen ersetzen
 - **Schritt 6**: `runAnalysis()` in `AppContext.js` ruft aktuell nur eine
   Zeitverzögerung auf — hier kommt später der echte Call an die Claude API rein
+

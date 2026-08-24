@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useState, useRef, useEffect } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { useApp } from "@/context/AppContext";
 
 const WORK_MODEL_KEYS = ["", "remote", "hybrid", "onsite"];
@@ -9,6 +9,146 @@ const COUNTRY_KEYS = [
   "Frankreich", "Spanien", "Italien", "Vereinigtes Königreich", "Irland", "Schweden",
   "Dänemark", "Norwegen", "Tschechien", "Portugal", "USA", "Andere",
 ];
+
+// <input type="month"> yields "YYYY-MM", but the DB column is a full date.
+function monthInputToDate(value) {
+  return value ? `${value}-01` : null;
+}
+
+function formatMonthYear(isoDate, locale) {
+  if (!isoDate) return null;
+  return new Date(`${isoDate}T00:00:00`).toLocaleDateString(locale, { year: "numeric", month: "short" });
+}
+
+function useOutsideClose(onClose) {
+  const ref = useRef(null);
+  useEffect(() => {
+    function handle(e) {
+      if (ref.current && !ref.current.contains(e.target)) onClose();
+    }
+    document.addEventListener("mousedown", handle);
+    return () => document.removeEventListener("mousedown", handle);
+  }, [onClose]);
+  return ref;
+}
+
+// Single-value input with a searchable dropdown (e.g. job title, city).
+// Free text stays allowed — the dropdown is a shortcut, not a closed list.
+function ComboboxInput({ value, onChange, options, placeholder, required }) {
+  const [open, setOpen] = useState(false);
+  const [highlighted, setHighlighted] = useState(0);
+  const ref = useOutsideClose(() => setOpen(false));
+
+  const filtered = (value.trim()
+    ? options.filter((o) => o.toLowerCase().includes(value.trim().toLowerCase()))
+    : options
+  ).slice(0, 8);
+
+  const pick = (val) => {
+    onChange(val);
+    setOpen(false);
+  };
+
+  return (
+    <div className="combobox" ref={ref}>
+      <input
+        className="profile-input"
+        placeholder={placeholder}
+        value={value}
+        required={required}
+        onChange={(e) => { onChange(e.target.value); setOpen(true); setHighlighted(0); }}
+        onFocus={() => setOpen(true)}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowDown") { e.preventDefault(); setOpen(true); setHighlighted((h) => Math.min(h + 1, filtered.length - 1)); }
+          else if (e.key === "ArrowUp") { e.preventDefault(); setHighlighted((h) => Math.max(h - 1, 0)); }
+          else if (e.key === "Enter" && open && filtered[highlighted]) { e.preventDefault(); pick(filtered[highlighted]); }
+          else if (e.key === "Escape") setOpen(false);
+        }}
+      />
+      {open && filtered.length > 0 && (
+        <div className="combobox-dropdown">
+          {filtered.map((opt, i) => (
+            <button type="button" key={opt} className={`combobox-option${i === highlighted ? " active" : ""}`}
+              onClick={() => pick(opt)} onMouseEnter={() => setHighlighted(i)}>
+              {opt}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Multi-value field: existing picks show as removable pills, plus a search
+// input with a dropdown for adding more (from the list or free text).
+function TagMultiSelect({ values, options, placeholder, onAdd, onRemove, removeAriaLabel }) {
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
+  const [highlighted, setHighlighted] = useState(0);
+  const ref = useOutsideClose(() => setOpen(false));
+
+  const filtered = (query.trim()
+    ? options.filter((o) => o.toLowerCase().includes(query.trim().toLowerCase()))
+    : options
+  ).filter((o) => !values.includes(o)).slice(0, 8);
+
+  const pick = (val) => {
+    const trimmed = val.trim();
+    if (!trimmed) return;
+    onAdd(trimmed);
+    setQuery("");
+    setOpen(false);
+    setHighlighted(0);
+  };
+
+  return (
+    <div>
+      {values.length > 0 && (
+        <div className="tag-row" style={{ marginBottom: 8 }}>
+          {values.map((v) => (
+            <span className="tag" key={v} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+              {v}
+              <button
+                type="button"
+                onClick={() => onRemove(v)}
+                aria-label={removeAriaLabel ? removeAriaLabel(v) : v}
+                style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-faint)", fontSize: 13, lineHeight: 1, padding: 0 }}
+              >
+                ×
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+      <div className="combobox" ref={ref}>
+        <input
+          className="profile-input"
+          style={{ marginTop: 0 }}
+          placeholder={placeholder}
+          value={query}
+          onChange={(e) => { setQuery(e.target.value); setOpen(true); setHighlighted(0); }}
+          onFocus={() => setOpen(true)}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowDown") { e.preventDefault(); setOpen(true); setHighlighted((h) => Math.min(h + 1, filtered.length - 1)); }
+            else if (e.key === "ArrowUp") { e.preventDefault(); setHighlighted((h) => Math.max(h - 1, 0)); }
+            else if (e.key === "Enter") { e.preventDefault(); if (open && filtered[highlighted]) pick(filtered[highlighted]); else pick(query); }
+            else if (e.key === "Escape") setOpen(false);
+          }}
+        />
+        {open && filtered.length > 0 && (
+          <div className="combobox-dropdown">
+            {filtered.map((opt, i) => (
+              <button type="button" key={opt} className={`combobox-option${i === highlighted ? " active" : ""}`}
+                onClick={() => pick(opt)} onMouseEnter={() => setHighlighted(i)}>
+                {opt}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 function SuggestionChips({ options, current, onPick }) {
   const remaining = options.filter((o) => !current.includes(o));
@@ -43,7 +183,7 @@ function completeness(profile, workExperience, skills) {
   return Math.round((done / checks.length) * 100);
 }
 
-function ExperienceForm({ onAdd, onCancel, t }) {
+function ExperienceForm({ onAdd, onCancel, t, roleOptions, locationOptions }) {
   const [title, setTitle] = useState("");
   const [company, setCompany] = useState("");
   const [location, setLocation] = useState("");
@@ -59,8 +199,8 @@ function ExperienceForm({ onAdd, onCancel, t }) {
       title: title.trim(),
       company: company.trim(),
       location: location.trim(),
-      start_date: startDate || null,
-      end_date: current ? null : endDate || null,
+      start_date: monthInputToDate(startDate),
+      end_date: current ? null : monthInputToDate(endDate),
       bullets: bulletsText.split("\n").map((b) => b.trim()).filter(Boolean),
     });
   };
@@ -68,9 +208,9 @@ function ExperienceForm({ onAdd, onCancel, t }) {
   return (
     <form className="glass profile-section" style={{ padding: 18, display: "flex", flexDirection: "column", gap: 10 }} onSubmit={handleSubmit}>
       <div className="field-grid">
-        <input className="profile-input" placeholder={t("experience.form.jobTitle")} value={title} onChange={(e) => setTitle(e.target.value)} required />
+        <ComboboxInput value={title} onChange={setTitle} options={roleOptions} placeholder={t("experience.form.jobTitle")} required />
         <input className="profile-input" placeholder={t("experience.form.company")} value={company} onChange={(e) => setCompany(e.target.value)} required />
-        <input className="profile-input" placeholder={t("experience.form.location")} value={location} onChange={(e) => setLocation(e.target.value)} />
+        <ComboboxInput value={location} onChange={setLocation} options={locationOptions} placeholder={t("experience.form.location")} />
         <input className="profile-input" type="month" placeholder={t("experience.form.start")} value={startDate} onChange={(e) => setStartDate(e.target.value)} />
         <input className="profile-input" type="month" placeholder={t("experience.form.end")} value={endDate} disabled={current} onChange={(e) => setEndDate(e.target.value)} />
         <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--text-muted)" }}>
@@ -100,8 +240,8 @@ export default function ProfilePanel() {
     skills, addSkill, removeSkill,
   } = useApp();
   const t = useTranslations("profile");
+  const locale = useLocale();
   const [showExpForm, setShowExpForm] = useState(false);
-  const [skillInput, setSkillInput] = useState("");
 
   if (!profile) {
     return (
@@ -116,14 +256,9 @@ export default function ProfilePanel() {
   const skillSuggestions = t.raw("suggestions.skills");
   const roleSuggestions = t.raw("suggestions.roles");
   const locationSuggestions = t.raw("suggestions.locations");
-
-  const handleSkillSubmit = (e) => {
-    e.preventDefault();
-    if (skillInput.trim()) {
-      addSkill(skillInput);
-      setSkillInput("");
-    }
-  };
+  const allSkills = t.raw("suggestions.allSkills");
+  const allRoles = t.raw("suggestions.allRoles");
+  const allLocations = t.raw("suggestions.allLocations");
 
   return (
     <div className="panel">
@@ -147,8 +282,12 @@ export default function ProfilePanel() {
             </div>
             <div>
               <div className="field-lbl">{t("fields.city")}</div>
-              <input className="profile-input" value={profile.location || ""}
-                onChange={(e) => updateProfileField("location", e.target.value)} placeholder={t("fields.cityPlaceholder")} />
+              <ComboboxInput
+                value={profile.location || ""}
+                onChange={(v) => updateProfileField("location", v)}
+                options={allLocations}
+                placeholder={t("fields.cityPlaceholder")}
+              />
             </div>
             <div>
               <div className="field-lbl">{t("fields.country")}</div>
@@ -188,7 +327,7 @@ export default function ProfilePanel() {
                   <div>
                     <div className="exp-title">{exp.title} — {exp.company}</div>
                     <div className="exp-meta">
-                      {exp.start_date || "?"} — {exp.end_date || t("experience.toDate")}{exp.location ? ` · ${exp.location}` : ""}
+                      {formatMonthYear(exp.start_date, locale) || "?"} — {formatMonthYear(exp.end_date, locale) || t("experience.toDate")}{exp.location ? ` · ${exp.location}` : ""}
                     </div>
                   </div>
                   <button className="btn btn-ghost btn-sm" onClick={() => removeWorkExperience(exp.id)}>{t("experience.delete")}</button>
@@ -205,6 +344,8 @@ export default function ProfilePanel() {
             <div style={{ marginTop: 14 }}>
               <ExperienceForm
                 t={t}
+                roleOptions={allRoles}
+                locationOptions={allLocations}
                 onAdd={(entry) => { addWorkExperience(entry); setShowExpForm(false); }}
                 onCancel={() => setShowExpForm(false)}
               />
@@ -221,31 +362,16 @@ export default function ProfilePanel() {
           {skills.length === 0 && (
             <p style={{ fontSize: 13.5, color: "var(--text-muted)", marginBottom: 10 }}>{t("skillsBlock.empty")}</p>
           )}
-          <div className="tag-row" style={{ marginBottom: 10 }}>
-            {skills.map((s) => (
-              <span className="tag" key={s.id} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-                {s.name}
-                <button
-                  type="button"
-                  onClick={() => removeSkill(s.id)}
-                  aria-label={t("skillsBlock.removeAria", { name: s.name })}
-                  style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-faint)", fontSize: 13, lineHeight: 1, padding: 0 }}
-                >
-                  ×
-                </button>
-              </span>
-            ))}
-          </div>
-          <form onSubmit={handleSkillSubmit} style={{ display: "flex", gap: 8, maxWidth: 320 }}>
-            <input
-              className="profile-input"
-              style={{ flex: 1, marginTop: 0 }}
+          <div style={{ maxWidth: 420 }}>
+            <TagMultiSelect
+              values={skills.map((s) => s.name)}
+              options={allSkills}
               placeholder={t("skillsBlock.addPlaceholder")}
-              value={skillInput}
-              onChange={(e) => setSkillInput(e.target.value)}
+              onAdd={addSkill}
+              onRemove={(name) => removeSkill(skills.find((s) => s.name === name)?.id)}
+              removeAriaLabel={(name) => t("skillsBlock.removeAria", { name })}
             />
-            <button className="btn btn-secondary btn-sm" type="submit">+</button>
-          </form>
+          </div>
           <div className="suggestion-lbl-sm">{t("skillsBlock.suggestionsLabel")}</div>
           <SuggestionChips options={skillSuggestions} current={skills.map((s) => s.name)} onPick={addSkill} />
         </div>
@@ -255,10 +381,13 @@ export default function ProfilePanel() {
           <div className="field-grid">
             <div>
               <div className="field-lbl">{t("fields.targetRoles")}</div>
-              <input className="profile-input"
-                value={(profile.target_roles || []).join(", ")}
-                onChange={(e) => updateProfileField("target_roles", e.target.value.split(",").map((s) => s.trim()).filter(Boolean))}
-                placeholder={t("fields.targetRolesPlaceholder")} />
+              <TagMultiSelect
+                values={profile.target_roles || []}
+                options={allRoles}
+                placeholder={t("fields.targetRolesPlaceholder")}
+                onAdd={(role) => updateProfileField("target_roles", [...(profile.target_roles || []), role])}
+                onRemove={(role) => updateProfileField("target_roles", (profile.target_roles || []).filter((r) => r !== role))}
+              />
               <SuggestionChips
                 options={roleSuggestions}
                 current={profile.target_roles || []}
@@ -267,10 +396,13 @@ export default function ProfilePanel() {
             </div>
             <div>
               <div className="field-lbl">{t("fields.targetLocations")}</div>
-              <input className="profile-input"
-                value={(profile.target_locations || []).join(", ")}
-                onChange={(e) => updateProfileField("target_locations", e.target.value.split(",").map((s) => s.trim()).filter(Boolean))}
-                placeholder={t("fields.targetLocationsPlaceholder")} />
+              <TagMultiSelect
+                values={profile.target_locations || []}
+                options={allLocations}
+                placeholder={t("fields.targetLocationsPlaceholder")}
+                onAdd={(loc) => updateProfileField("target_locations", [...(profile.target_locations || []), loc])}
+                onRemove={(loc) => updateProfileField("target_locations", (profile.target_locations || []).filter((l) => l !== loc))}
+              />
               <SuggestionChips
                 options={locationSuggestions}
                 current={profile.target_locations || []}

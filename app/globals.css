@@ -312,6 +312,10 @@ textarea.input-area:focus{outline:none;border-color:var(--accent);box-shadow:0 0
 .profile-input{width:100%;margin-top:4px;font-family:inherit;font-size:14px;color:var(--text);padding:8px 10px;border-radius:10px;border:1px solid rgba(18,51,45,.1);background:rgba(255,255,255,.7);}
 .profile-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(14,169,139,.14);}
 .profile-input:disabled{color:var(--text-faint);background:rgba(18,51,45,.04);}
+.combobox{position:relative;}
+.combobox-dropdown{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:30;max-height:230px;overflow-y:auto;background:#fff;border:1px solid rgba(18,51,45,.1);border-radius:12px;box-shadow:0 16px 36px -18px rgba(18,51,45,.4);padding:6px;}
+.combobox-option{display:block;width:100%;text-align:left;padding:8px 10px;border-radius:8px;border:none;background:transparent;font-family:inherit;font-size:13.5px;color:var(--text);cursor:pointer;}
+.combobox-option:hover,.combobox-option.active{background:rgba(14,169,139,.1);color:var(--ink);}
 .field-lbl{font-size:11.5px;color:var(--text-faint);font-weight:600;}
 .field-val{font-size:14px;color:var(--text);margin-top:3px;}
 .exp-item{padding-left:16px;border-left:2px solid rgba(14,169,139,.3);}

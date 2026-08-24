@@ -353,7 +353,41 @@
     "suggestions": {
       "skills": ["Projektmanagement", "Kommunikation", "Teamführung", "Datenanalyse", "Marketing", "Vertrieb", "Kundenservice", "Product Management", "Agile / Scrum", "Excel", "Content Strategy", "SaaS"],
       "roles": ["Product Marketing Manager", "Marketing Manager", "Growth Manager", "Product Manager", "Projektmanager", "Sales Manager", "Business Analyst", "UX Designer", "Software Engineer", "Data Analyst"],
-      "locations": ["Berlin", "München", "Hamburg", "Köln", "Frankfurt", "Remote (DE)", "Remote (EU)", "Wien", "Zürich"]
+      "locations": ["Berlin", "München", "Hamburg", "Köln", "Frankfurt", "Remote (DE)", "Remote (EU)", "Wien", "Zürich"],
+      "allSkills": [
+        "Scrum", "Kanban", "Agile", "SAFe", "Projektmanagement", "Jira", "Confluence", "Trello", "Asana", "Monday.com", "Notion", "Risikomanagement", "Sprint-Planung", "Stakeholder-Management",
+        "Git", "GitHub", "GitLab", "Bitbucket", "CI/CD", "Docker", "Kubernetes", "AWS", "Microsoft Azure", "Google Cloud", "Terraform", "Linux", "Python", "JavaScript", "TypeScript", "Java", "C#", "SQL", "NoSQL", "REST-APIs", "GraphQL", "Microservices", "DevOps", "Testautomatisierung", "Unit Testing", "React", "Node.js",
+        "Datenanalyse", "Power BI", "Tableau", "Excel", "R", "Data Visualization", "Machine Learning", "Data Governance", "ETL", "Statistik", "A/B-Testing",
+        "Figma", "Adobe Creative Suite", "Sketch", "UX Design", "UI Design", "User Research", "Prototyping", "Wireframing", "Design Systems",
+        "SEO", "SEA", "Google Analytics", "Google Ads", "HubSpot", "Content-Strategie", "Social Media Marketing", "E-Mail-Marketing", "Marketing-Automation", "Brand Management", "Growth Marketing", "Performance Marketing", "CRM",
+        "Salesforce", "Account Management", "Lead-Generierung", "Verhandlungsführung", "Kaltakquise", "Pipeline-Management",
+        "Finanzanalyse", "Budgetplanung", "SAP", "Controlling", "Rechnungswesen", "Forecasting", "Financial Reporting",
+        "Recruiting", "Personalentwicklung", "Onboarding", "Employer Branding", "Workday", "Performance Management",
+        "KI-Grundkenntnisse", "Prompt Engineering", "Data Annotation", "Responsible AI", "KI-Strategie", "LLM-Tools", "Automatisierung",
+        "Kommunikation", "Konfliktmanagement", "Präsentationsfähigkeiten", "Kritisches Denken", "Zeitmanagement", "Anpassungsfähigkeit", "Teamführung", "Cross-funktionale Zusammenarbeit", "Verhandlungsgeschick", "Problemlösung", "Eigenverantwortung", "Belastbarkeit",
+        "PowerPoint", "Word", "Google Workspace", "Slack", "Microsoft Teams", "Outlook"
+      ],
+      "allRoles": [
+        "Software Engineer", "Senior Software Engineer", "Frontend Developer", "Backend Developer", "Full-Stack Developer", "DevOps Engineer", "Site Reliability Engineer", "Cloud Engineer", "Data Engineer", "Machine Learning Engineer", "AI Engineer", "QA Engineer", "Mobile Developer", "Security Engineer", "IT-Administrator", "Solutions Architect", "Engineering Manager", "CTO",
+        "Product Manager", "Senior Product Manager", "Product Owner", "Product Marketing Manager", "Head of Product", "Technical Product Manager",
+        "UX Designer", "UI Designer", "Product Designer", "UX Researcher", "Creative Director", "Grafikdesigner",
+        "Marketing Manager", "Senior Marketing Manager", "Growth Manager", "Content Marketing Manager", "Social Media Manager", "SEO Manager", "Performance Marketing Manager", "Brand Manager", "CMO", "Marketing Specialist", "Digital Marketing Manager",
+        "Sales Manager", "Account Executive", "Account Manager", "Business Development Manager", "Sales Representative", "Head of Sales", "Key Account Manager",
+        "Data Analyst", "Data Scientist", "Business Intelligence Analyst", "Data Governance Specialist", "AI Consultant",
+        "Financial Analyst", "Controller", "Buchhalter", "Finance Manager", "CFO", "Steuerberater",
+        "HR Manager", "Recruiter", "Talent Acquisition Specialist", "HR Business Partner", "Head of People",
+        "Projektmanager", "Program Manager", "Operations Manager", "Business Analyst", "Scrum Master", "Agile Coach", "Supply Chain Manager", "Logistikmanager",
+        "Customer Success Manager", "Customer Support Specialist", "Kundenberater",
+        "CEO", "COO", "Geschäftsführer", "Unternehmensberater", "Freelancer",
+        "Prompt Engineer", "Data Annotator", "KI-Stratege"
+      ],
+      "allLocations": [
+        "Berlin", "München", "Hamburg", "Köln", "Frankfurt", "Stuttgart", "Düsseldorf", "Leipzig", "Dortmund", "Essen", "Bremen", "Dresden", "Hannover", "Nürnberg",
+        "Wien", "Graz", "Linz", "Salzburg",
+        "Zürich", "Genf", "Basel", "Bern", "Lausanne",
+        "London", "Paris", "Amsterdam", "Madrid", "Barcelona", "Mailand", "Rom", "Warschau", "Prag", "Kopenhagen", "Stockholm", "Dublin", "Brüssel", "Lissabon",
+        "Remote (DE)", "Remote (EU)", "Remote (Weltweit)", "Hybrid"
+      ]
     }
   },
   "documents": {
