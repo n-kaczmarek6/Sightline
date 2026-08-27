@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useApp } from "@/context/AppContext";
+import { createClient } from "@/lib/supabase/client";
 
 const WORK_MODEL_KEYS = ["", "remote", "hybrid", "onsite"];
 const COUNTRY_KEYS = [
@@ -300,6 +301,25 @@ export default function ProfilePanel() {
   const t = useTranslations("profile");
   const locale = useLocale();
   const [showExpForm, setShowExpForm] = useState(false);
+  const [avatarSignedUrl, setAvatarSignedUrl] = useState(null);
+
+  useEffect(() => {
+    if (!profile?.avatar_url) {
+      setAvatarSignedUrl(null);
+      return;
+    }
+    let cancelled = false;
+    const supabase = createClient();
+    supabase.storage
+      .from("documents")
+      .createSignedUrl(profile.avatar_url, 3600)
+      .then(({ data }) => {
+        if (!cancelled) setAvatarSignedUrl(data?.signedUrl || null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [profile?.avatar_url]);
 
   if (!profile) {
     return (
@@ -334,9 +354,9 @@ export default function ProfilePanel() {
         <div className="glass profile-section">
           <h4>{t("sections.personalInfo")}</h4>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 18 }}>
-            {profile.avatar_url ? (
+            {avatarSignedUrl ? (
               <img
-                src={profile.avatar_url}
+                src={avatarSignedUrl}
                 alt=""
                 style={{ width: 72, height: 72, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
               />

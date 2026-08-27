@@ -37,15 +37,20 @@ export async function GET(request) {
   const locale = profile?.locale || "de";
   const t = await getTranslations({ locale, namespace: "builder" });
 
+  // avatar_url speichert einen Pfad im privaten "documents"-Bucket (nicht wirklich
+  // eine URL) — direkt über den authentifizierten Server-Client herunterladen statt
+  // über eine öffentliche URL, siehe uploadAvatar in AppContext.js für den Hintergrund.
   let avatarBase64 = null;
   let avatarBuffer = null;
   let avatarDocxType = null;
   if (profile?.avatar_url) {
     try {
-      const avatarRes = await fetch(profile.avatar_url);
-      if (avatarRes.ok) {
-        const contentType = avatarRes.headers.get("content-type") || "image/png";
-        const bytes = Buffer.from(await avatarRes.arrayBuffer());
+      const { data: avatarBlob, error: avatarError } = await supabase.storage
+        .from("documents")
+        .download(profile.avatar_url);
+      if (!avatarError && avatarBlob) {
+        const contentType = avatarBlob.type || "image/png";
+        const bytes = Buffer.from(await avatarBlob.arrayBuffer());
         avatarBuffer = bytes;
         avatarBase64 = `data:${contentType};base64,${bytes.toString("base64")}`;
         avatarDocxType = contentType.includes("jpeg") || contentType.includes("jpg") ? "jpg" : "png";

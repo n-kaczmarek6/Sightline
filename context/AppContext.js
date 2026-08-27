@@ -175,25 +175,29 @@ export function AppProvider({
     toast(error ? t("saveErrorWithMessage", { message: error.message }) : t("profileSaved"));
   }, [profile, toast, t]);
 
+  // Nutzt den "documents"-Bucket statt eines eigenen "avatars"-Buckets: Supabase Storage
+  // hat sich bei uns gegen frisch angelegte Buckets geweigert (RLS-Fehler trotz
+  // nachweislich identischer Policies — vermutlich ein Plattform-Bug), während
+  // "documents" zuverlässig funktioniert. avatar_url speichert hier bewusst den
+  // Storage-PFAD (nicht wirklich eine URL), da der Bucket privat ist — Anzeige läuft
+  // über kurzlebige Signed URLs, genau wie bei den Evidence-Vault-Dokumenten.
   const uploadAvatar = useCallback(
     async (file) => {
       if (!profile) return;
       const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
       const path = `${profile.id}/avatar.${ext}`;
       const supabase = createClient();
-      const { error: uploadError } = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
+      const { error: uploadError } = await supabase.storage.from("documents").upload(path, file, { upsert: true });
       if (uploadError) {
         toast(t("avatarUploadError", { message: uploadError.message }));
         return;
       }
-      const { data: publicUrlData } = supabase.storage.from("avatars").getPublicUrl(path);
-      const avatarUrl = `${publicUrlData.publicUrl}?v=${Date.now()}`;
-      const { error } = await supabase.from("profiles").update({ avatar_url: avatarUrl }).eq("id", profile.id);
+      const { error } = await supabase.from("profiles").update({ avatar_url: path }).eq("id", profile.id);
       if (error) {
         toast(t("avatarUploadError", { message: error.message }));
         return;
       }
-      setProfile((p) => ({ ...p, avatar_url: avatarUrl }));
+      setProfile((p) => ({ ...p, avatar_url: path }));
       toast(t("avatarUploaded"));
     },
     [profile, toast, t]
@@ -202,6 +206,9 @@ export function AppProvider({
   const removeAvatar = useCallback(async () => {
     if (!profile) return;
     const supabase = createClient();
+    if (profile.avatar_url) {
+      await supabase.storage.from("documents").remove([profile.avatar_url]);
+    }
     const { error } = await supabase.from("profiles").update({ avatar_url: null }).eq("id", profile.id);
     if (error) {
       toast(t("avatarRemoveError"));
