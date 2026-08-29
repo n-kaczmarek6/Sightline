@@ -677,16 +677,15 @@ export function AppProvider({
   const uploadBlogCoverImage = useCallback(
     async (file) => {
       if (!profile) return null;
-      const supabase = createClient();
-      const ext = (file.name?.split(".").pop() || "jpg").toLowerCase();
-      const path = `${profile.id}/blog-${Date.now()}.${ext}`;
-      const { error } = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
-      if (error) {
-        toast(t("blogCoverUploadError", { message: error.message }));
+      const formData = new FormData();
+      formData.append("file", file, file.name || "cover.jpg");
+      const res = await fetch("/api/blog/cover-image", { method: "POST", body: formData });
+      const data = await res.json();
+      if (!res.ok) {
+        toast(t("blogCoverUploadError", { message: data.message || res.statusText }));
         return null;
       }
-      const { data } = supabase.storage.from("avatars").getPublicUrl(path);
-      return data.publicUrl;
+      return data.url;
     },
     [profile, toast, t]
   );
