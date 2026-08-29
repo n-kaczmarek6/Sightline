@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useApp } from "@/context/AppContext";
 import { createClient } from "@/lib/supabase/client";
+import ProfileInterview from "@/components/panels/ProfileInterview";
 
 const WORK_MODEL_KEYS = ["", "remote", "hybrid", "onsite"];
 const COUNTRY_KEYS = [
@@ -414,6 +415,7 @@ export default function ProfilePanel() {
   const locale = useLocale();
   const [showExpForm, setShowExpForm] = useState(false);
   const [showEduForm, setShowEduForm] = useState(false);
+  const [showInterview, setShowInterview] = useState(false);
   const [avatarSignedUrl, setAvatarSignedUrl] = useState(null);
 
   useEffect(() => {
@@ -463,6 +465,16 @@ export default function ProfilePanel() {
         <span className="mono" style={{ fontSize: 13, fontWeight: 700, color: "var(--ink)" }}>{pct}%</span>
       </div>
 
+      {!showInterview && (
+        <div className="note-box" style={{ marginBottom: 14, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+          <span>💡 {t("interview.banner")}</span>
+          <button className="btn btn-secondary btn-sm" onClick={() => setShowInterview(true)}>{t("interview.start")}</button>
+        </div>
+      )}
+
+      {showInterview ? (
+        <ProfileInterview onClose={() => setShowInterview(false)} />
+      ) : (
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         <div className="glass profile-section">
           <h4>{t("sections.personalInfo")}</h4>
@@ -725,6 +737,7 @@ export default function ProfilePanel() {
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 }
