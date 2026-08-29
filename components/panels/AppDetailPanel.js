@@ -1,18 +1,24 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useApp } from "@/context/AppContext";
 
 export default function AppDetailPanel() {
   const {
-    setPanel, applications, selectedApplicationId, deleteApplication, prepShown, setPrepShown,
-    documents, downloadDocument, linkDocumentToApplication,
+    setPanel, applications, selectedApplicationId, deleteApplication,
+    documents, downloadDocument, linkDocumentToApplication, toast,
   } = useApp();
   const t = useTranslations("appDetail");
   const tStatus = useTranslations("common");
   const locale = useLocale();
   const app = applications.find((a) => a.id === selectedApplicationId);
   const [docToAttach, setDocToAttach] = useState("");
+  const [prep, setPrep] = useState(null);
+  const [prepLoading, setPrepLoading] = useState(false);
+
+  useEffect(() => {
+    setPrep(null);
+  }, [app?.id]);
 
   const formatDate = (iso) => {
     if (!iso) return null;
@@ -42,6 +48,27 @@ export default function AppDetailPanel() {
     if (!docToAttach) return;
     linkDocumentToApplication(docToAttach, app.id);
     setDocToAttach("");
+  };
+
+  const handleStartPrep = async () => {
+    setPrepLoading(true);
+    try {
+      const res = await fetch("/api/interview-prep", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ applicationId: app.id }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast(t("prepError"));
+        return;
+      }
+      setPrep(data);
+    } catch {
+      toast(t("prepError"));
+    } finally {
+      setPrepLoading(false);
+    }
   };
 
   return (
@@ -77,18 +104,35 @@ export default function AppDetailPanel() {
           <p style={{ fontSize: 13, color: "rgba(255,255,255,.6)", lineHeight: 1.6, marginBottom: 14 }}>
             {t("interviewPrepSubtitle")}
           </p>
-          {!prepShown ? (
-            <button className="btn btn-dark btn-sm" onClick={() => setPrepShown(true)}>{t("startPrep")}</button>
+          {!prep ? (
+            <button className="btn btn-dark btn-sm" disabled={prepLoading} onClick={handleStartPrep}>
+              {prepLoading ? t("preparing") : t("startPrep")}
+            </button>
           ) : (
             <div>
               <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(255,255,255,.45)", marginBottom: 10 }}>
                 {t("likelyTopics")}
               </div>
               <div className="tag-row">
-                {t.raw("topics").map((topic) => (
+                {prep.topics.map((topic) => (
                   <span className="tag" key={topic} style={{ background: "rgba(94,234,212,.14)", borderColor: "rgba(94,234,212,.22)", color: "var(--accent-2)" }}>{topic}</span>
                 ))}
               </div>
+              {prep.questions?.length > 0 && (
+                <>
+                  <div className="mono" style={{ fontSize: 10.5, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(255,255,255,.45)", marginTop: 18, marginBottom: 10 }}>
+                    {t("practiceQuestions")}
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                    {prep.questions.map((q, i) => (
+                      <div key={i}>
+                        <div style={{ fontSize: 13.5, color: "#fff", fontWeight: 600, lineHeight: 1.5 }}>{q.question}</div>
+                        <div style={{ fontSize: 12.5, color: "rgba(255,255,255,.6)", lineHeight: 1.5, marginTop: 4 }}>{q.tip}</div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>

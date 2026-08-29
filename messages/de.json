@@ -561,8 +561,10 @@
     "interviewPrepTitle": "Interview-Vorbereitung",
     "interviewPrepSubtitle": "AI-generiert aus Job Description und deinem Profil.",
     "startPrep": "Vorbereitung starten",
+    "preparing": "Generiere…",
+    "prepError": "Vorbereitung konnte nicht erstellt werden. Bitte versuch es erneut.",
     "likelyTopics": "Wahrscheinliche Themen",
-    "topics": ["Product Launches", "SaaS Marketing", "Go-to-Market", "Cross-functional Leadership"]
+    "practiceQuestions": "Übungsfragen"
   },
   "assistant": {
     "title": "AI Career Copilot",

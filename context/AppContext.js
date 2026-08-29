@@ -62,7 +62,6 @@ export function AppProvider({
   const [chatLocked, setChatLocked] = useState(false);
 
   // ---- interview prep ----
-  const [prepShown, setPrepShown] = useState(false);
 
   const toast = useCallback((msg) => {
     const id = Date.now() + Math.random();
@@ -658,7 +657,6 @@ export function AppProvider({
     createCvVersion, updateVersionField, saveCvVersion, deleteCvVersion, downloadCv,
     generateCv, generatingCv,
     chatMessages, sendChatMessage,
-    prepShown, setPrepShown,
     runAnalysis, currentAnalysis, analyzing,
   };
 
