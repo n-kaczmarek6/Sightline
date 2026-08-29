@@ -289,11 +289,11 @@
     "cancel": "Abbrechen",
     "sections": {
       "title": "Titel dieser Version",
-      "summary": "Summary",
-      "experience": "Experience",
-      "education": "Education",
-      "skills": "Skills",
-      "achievements": "Certifications & Achievements",
+      "summary": "Zusammenfassung",
+      "experience": "Berufserfahrung",
+      "education": "Ausbildung",
+      "skills": "Kenntnisse",
+      "achievements": "Zertifikate & Erfolge",
       "languages": "Sprachen"
     },
     "aiSuggestions": "KI-Vorschläge",
