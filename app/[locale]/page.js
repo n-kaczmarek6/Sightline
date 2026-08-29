@@ -99,7 +99,7 @@ export default async function LandingPage() {
           <div className="steps-row">
             <div className="glass step-card">
               <div className="step-icon" style={{ background: "var(--coral-bg)", color: "var(--coral)" }}>
-                <svg className="icon" style={{ width: 19, height: 19 }}><use href="#i-briefcase" /></svg>
+                <svg className="icon" style={{ width: 19, height: 19 }}><use href="#i-user" /></svg>
               </div>
               <div className="step-eyebrow">01</div>
               <h4>{t("how.step1Title")}</h4>
@@ -107,7 +107,7 @@ export default async function LandingPage() {
             </div>
             <div className="glass step-card">
               <div className="step-icon" style={{ background: "var(--violet-bg)", color: "var(--violet)" }}>
-                <svg className="icon" style={{ width: 19, height: 19 }}><use href="#i-user" /></svg>
+                <svg className="icon" style={{ width: 19, height: 19 }}><use href="#i-briefcase" /></svg>
               </div>
               <div className="step-eyebrow">02</div>
               <h4>{t("how.step2Title")}</h4>
@@ -137,6 +137,34 @@ export default async function LandingPage() {
               <h4>{t("how.step5Title")}</h4>
               <p>{t("how.step5Desc")}</p>
             </div>
+          </div>
+        </section>
+
+        <section className="section" id="features">
+          <div className="section-head">
+            <div className="eyebrow">{t("features.eyebrow")}</div>
+            <h2>{t("features.title")}</h2>
+            <p>{t("features.sub")}</p>
+          </div>
+          <div className="features-grid">
+            {[
+              { icon: "i-user", key: "f1" },
+              { icon: "i-search", key: "f2" },
+              { icon: "i-checklist", key: "f3" },
+              { icon: "i-edit", key: "f4" },
+              { icon: "i-docs", key: "f5" },
+              { icon: "i-folder", key: "f6" },
+              { icon: "i-cert", key: "f7" },
+              { icon: "i-briefcase", key: "f8" },
+            ].map(({ icon, key }) => (
+              <div className="glass feature-card" key={key}>
+                <div className="step-icon" style={{ background: "var(--success-bg)", color: "var(--success)" }}>
+                  <svg className="icon" style={{ width: 18, height: 18 }}><use href={`#${icon}`} /></svg>
+                </div>
+                <h4>{t(`features.${key}Title`)}</h4>
+                <p>{t(`features.${key}Desc`)}</p>
+              </div>
+            ))}
           </div>
         </section>
 
