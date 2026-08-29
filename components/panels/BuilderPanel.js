@@ -19,8 +19,10 @@ function blockHeading(block) {
   return (block.split("\n")[0] || "").trim();
 }
 
-function TextBlockCards({ version, field, updateVersionField, t, placeholder, addLabel }) {
+function TextBlockCards({ version, field, section, updateVersionField, t, placeholder, addLabel }) {
+  const { isPro, setPanel, toast, profile } = useApp();
   const [blocks, setBlocks] = useState(() => splitBlocks(version[field]));
+  const [polishingIndex, setPolishingIndex] = useState(null);
 
   useEffect(() => {
     setBlocks(splitBlocks(version[field]));
@@ -32,19 +34,60 @@ function TextBlockCards({ version, field, updateVersionField, t, placeholder, ad
     updateVersionField(field, next.join("\n\n"));
   };
 
+  const handlePolish = async (i) => {
+    if (!isPro) {
+      toast(t("polishProOnly"));
+      setPanel("pricing");
+      return;
+    }
+    const block = blocks[i];
+    if (!block.trim()) return;
+    setPolishingIndex(i);
+    try {
+      const res = await fetch("/api/cv/polish-block", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: block, section, language: version.language || profile?.locale || "de" }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast(data?.message || t("polishFailed"));
+        return;
+      }
+      const next = blocks.slice();
+      next[i] = data.text;
+      commit(next);
+      toast(t("polishSuccess"));
+    } catch {
+      toast(t("polishFailed"));
+    } finally {
+      setPolishingIndex(null);
+    }
+  };
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
       {blocks.map((block, i) => (
         <div key={i} className="glass cv-section">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
             <h4 style={{ margin: 0 }}>{blockHeading(block) || placeholder}</h4>
-            <button
-              type="button"
-              className="btn btn-ghost btn-sm"
-              onClick={() => commit(blocks.filter((_, idx) => idx !== i))}
-            >
-              {t("removeBlock")}
-            </button>
+            <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                disabled={polishingIndex === i}
+                onClick={() => handlePolish(i)}
+              >
+                {polishingIndex === i ? t("polishing") : t("polish")} {!isPro && <span className="pro-tag">PRO</span>}
+              </button>
+              <button
+                type="button"
+                className="btn btn-ghost btn-sm"
+                onClick={() => commit(blocks.filter((_, idx) => idx !== i))}
+              >
+                {t("removeBlock")}
+              </button>
+            </div>
           </div>
           <textarea
             className="cv-editable"
@@ -187,6 +230,7 @@ export default function BuilderPanel() {
             <TextBlockCards
               version={version}
               field="experience_text"
+              section="experience"
               updateVersionField={updateVersionField}
               t={t}
               placeholder={t("experienceBlockPlaceholder")}
@@ -198,6 +242,7 @@ export default function BuilderPanel() {
             <TextBlockCards
               version={version}
               field="education_text"
+              section="education"
               updateVersionField={updateVersionField}
               t={t}
               placeholder={t("educationBlockPlaceholder")}
