@@ -165,31 +165,27 @@ export function AppProvider({
     toast(error ? t("saveErrorWithMessage", { message: error.message }) : t("profileSaved"));
   }, [profile, toast, t]);
 
-  // Nutzt den "documents"-Bucket statt eines eigenen "avatars"-Buckets: Supabase Storage
-  // hat sich bei uns gegen frisch angelegte Buckets geweigert (RLS-Fehler trotz
-  // nachweislich identischer Policies — vermutlich ein Plattform-Bug), während
-  // "documents" zuverlässig funktioniert. avatar_url speichert hier bewusst den
-  // Storage-PFAD (nicht wirklich eine URL), da der Bucket privat ist — Anzeige läuft
-  // über kurzlebige Signed URLs, genau wie bei den Evidence-Vault-Dokumenten.
+  // Läuft über /api/profile/avatar (Service-Role-Client) statt direkt aus dem
+  // Browser: der "documents"-Bucket hat nur Policies für SELECT/INSERT/DELETE,
+  // keine für UPDATE — ein erneuter Upload auf denselben Pfad (z.B. immer
+  // "<user_id>/avatar.png", wie es der Foto-Zuschneiden-Dialog konsequent tut)
+  // ist storage-intern ein UPDATE und schlug direkt aus dem Browser mit RLS-
+  // Fehler fehl. avatar_url speichert bewusst den Storage-PFAD (nicht wirklich
+  // eine URL), da der Bucket privat ist — Anzeige läuft über kurzlebige Signed
+  // URLs, genau wie bei den Evidence-Vault-Dokumenten.
   const uploadAvatar = useCallback(
     async (file) => {
       if (!profile) return;
-      // Zugeschnittene Fotos aus dem Crop-Dialog kommen als benannter Blob ohne
-      // Dateiendung im "name" — Extension dann aus dem MIME-Type ableiten.
-      const ext = (file.name ? file.name.split(".").pop() : file.type?.split("/")[1]) || "jpg";
-      const path = `${profile.id}/avatar.${ext.toLowerCase()}`;
-      const supabase = createClient();
-      const { error: uploadError } = await supabase.storage.from("documents").upload(path, file, { upsert: true });
-      if (uploadError) {
-        toast(t("avatarUploadError", { message: uploadError.message }));
+      const formData = new FormData();
+      formData.append("file", file, file.name || "avatar.png");
+      const res = await fetch("/api/profile/avatar", { method: "POST", body: formData });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        toast(t("avatarUploadError", { message: data.message || res.statusText }));
         return;
       }
-      const { error } = await supabase.from("profiles").update({ avatar_url: path }).eq("id", profile.id);
-      if (error) {
-        toast(t("avatarUploadError", { message: error.message }));
-        return;
-      }
-      setProfile((p) => ({ ...p, avatar_url: path }));
+      const data = await res.json();
+      setProfile((p) => ({ ...p, avatar_url: data.avatar_url }));
       toast(t("avatarUploaded"));
     },
     [profile, toast, t]
@@ -197,12 +193,8 @@ export function AppProvider({
 
   const removeAvatar = useCallback(async () => {
     if (!profile) return;
-    const supabase = createClient();
-    if (profile.avatar_url) {
-      await supabase.storage.from("documents").remove([profile.avatar_url]);
-    }
-    const { error } = await supabase.from("profiles").update({ avatar_url: null }).eq("id", profile.id);
-    if (error) {
+    const res = await fetch("/api/profile/avatar", { method: "DELETE" });
+    if (!res.ok) {
       toast(t("avatarRemoveError"));
       return;
     }
