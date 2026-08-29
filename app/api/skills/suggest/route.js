@@ -41,7 +41,7 @@ export async function POST(request) {
   let parsed;
   try {
     const response = await anthropic.messages.parse({
-      model: "claude-opus-5",
+      model: "claude-sonnet-5",
       max_tokens: 1024,
       system: `Du bist ein Assistent, der aus einer Berufserfahrungs-Beschreibung passende Skills auswählt. Wähle NUR Skills aus der unten gegebenen Liste, die durch die Beschreibung wirklich belegt sind — erfinde keine neuen Skills und wähle nichts, das nicht klar erkennbar ist. Maximal 8 Skills, sortiert nach Relevanz.
 

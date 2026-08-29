@@ -102,7 +102,7 @@ export async function POST(request) {
   let parsed;
   try {
     const response = await anthropic.messages.parse({
-      model: "claude-opus-5",
+      model: "claude-sonnet-5",
       max_tokens: 8000,
       thinking: { type: "adaptive" },
       system: systemPrompt(profile?.locale),

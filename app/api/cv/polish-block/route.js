@@ -73,7 +73,7 @@ export async function POST(request) {
   let parsed;
   try {
     const response = await anthropic.messages.parse({
-      model: "claude-opus-5",
+      model: "claude-sonnet-5",
       max_tokens: 1500,
       system: systemPrompt(section, language),
       messages: [{ role: "user", content: `ROHTEXT:\n${rawText}` }],
