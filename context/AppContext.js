@@ -174,8 +174,10 @@ export function AppProvider({
   const uploadAvatar = useCallback(
     async (file) => {
       if (!profile) return;
-      const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
-      const path = `${profile.id}/avatar.${ext}`;
+      // Zugeschnittene Fotos aus dem Crop-Dialog kommen als benannter Blob ohne
+      // Dateiendung im "name" — Extension dann aus dem MIME-Type ableiten.
+      const ext = (file.name ? file.name.split(".").pop() : file.type?.split("/")[1]) || "jpg";
+      const path = `${profile.id}/avatar.${ext.toLowerCase()}`;
       const supabase = createClient();
       const { error: uploadError } = await supabase.storage.from("documents").upload(path, file, { upsert: true });
       if (uploadError) {

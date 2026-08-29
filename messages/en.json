@@ -428,7 +428,12 @@
       "upload": "Upload photo",
       "change": "Change photo",
       "remove": "Remove",
-      "hint": "JPG or PNG — shown in the CV export."
+      "hint": "JPG or PNG — shown in the CV export.",
+      "cropTitle": "Crop photo",
+      "zoom": "Zoom",
+      "dragHint": "Drag to reposition.",
+      "cropCancel": "Cancel",
+      "cropConfirm": "Apply"
     },
     "interview": {
       "banner": "Quick start: answer a few questions and the AI fills in the most important parts of your profile for you.",

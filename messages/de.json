@@ -428,7 +428,12 @@
       "upload": "Foto hochladen",
       "change": "Foto ändern",
       "remove": "Entfernen",
-      "hint": "JPG oder PNG — wird im CV-Export angezeigt."
+      "hint": "JPG oder PNG — wird im CV-Export angezeigt.",
+      "cropTitle": "Foto zuschneiden",
+      "zoom": "Zoom",
+      "dragHint": "Zum Verschieben ziehen.",
+      "cropCancel": "Abbrechen",
+      "cropConfirm": "Übernehmen"
     },
     "interview": {
       "banner": "Schnell starten: Beantworte ein paar Fragen, die KI trägt die wichtigsten Infos für dich ins Profil ein.",

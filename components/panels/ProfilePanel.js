@@ -4,6 +4,10 @@ import { useTranslations, useLocale } from "next-intl";
 import { useApp } from "@/context/AppContext";
 import { createClient } from "@/lib/supabase/client";
 import ProfileInterview from "@/components/panels/ProfileInterview";
+import AvatarCropModal, { AVATAR_OUTPUT_WIDTH, AVATAR_OUTPUT_HEIGHT } from "@/components/AvatarCropModal";
+
+const AVATAR_PREVIEW_W = 72;
+const AVATAR_PREVIEW_H = Math.round((AVATAR_PREVIEW_W / AVATAR_OUTPUT_WIDTH) * AVATAR_OUTPUT_HEIGHT);
 
 const WORK_MODEL_KEYS = ["", "remote", "hybrid", "onsite"];
 const COUNTRY_KEYS = [
@@ -417,6 +421,7 @@ export default function ProfilePanel() {
   const [showEduForm, setShowEduForm] = useState(false);
   const [showInterview, setShowInterview] = useState(false);
   const [avatarSignedUrl, setAvatarSignedUrl] = useState(null);
+  const [cropFile, setCropFile] = useState(null);
 
   useEffect(() => {
     if (!profile?.avatar_url) {
@@ -483,12 +488,12 @@ export default function ProfilePanel() {
               <img
                 src={avatarSignedUrl}
                 alt=""
-                style={{ width: 72, height: 72, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
+                style={{ width: AVATAR_PREVIEW_W, height: AVATAR_PREVIEW_H, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
               />
             ) : (
               <div
                 style={{
-                  width: 72, height: 72, borderRadius: "50%", flexShrink: 0,
+                  width: AVATAR_PREVIEW_W, height: AVATAR_PREVIEW_H, borderRadius: "50%", flexShrink: 0,
                   background: "rgba(18,51,45,.06)", display: "flex", alignItems: "center", justifyContent: "center",
                   fontSize: 26,
                 }}
@@ -506,7 +511,7 @@ export default function ProfilePanel() {
                     style={{ display: "none" }}
                     onChange={(e) => {
                       const file = e.target.files?.[0];
-                      if (file) uploadAvatar(file);
+                      if (file) setCropFile(file);
                       e.target.value = "";
                     }}
                   />
@@ -737,6 +742,16 @@ export default function ProfilePanel() {
           </div>
         </div>
       </div>
+      )}
+      {cropFile && (
+        <AvatarCropModal
+          file={cropFile}
+          onCancel={() => setCropFile(null)}
+          onConfirm={(blob) => {
+            uploadAvatar(blob);
+            setCropFile(null);
+          }}
+        />
       )}
     </div>
   );
