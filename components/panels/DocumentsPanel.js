@@ -11,18 +11,19 @@ const CATEGORY_META = {
   other: { icon: "i-docs", bg: "rgba(18,51,45,.06)", fg: "var(--text-muted)" },
 };
 
-function UploadForm({ onUpload, onCancel, t }) {
+function UploadForm({ onUpload, onCancel, t, applications }) {
   const [file, setFile] = useState(null);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("certificate");
   const [description, setDescription] = useState("");
+  const [applicationId, setApplicationId] = useState("");
   const [uploading, setUploading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!file) return;
     setUploading(true);
-    await onUpload({ file, title: title.trim(), category, description: description.trim() });
+    await onUpload({ file, title: title.trim(), category, description: description.trim(), application_id: applicationId || null });
     setUploading(false);
   };
 
@@ -36,6 +37,17 @@ function UploadForm({ onUpload, onCancel, t }) {
         </select>
       </div>
       <input className="profile-input" placeholder={t("form.descriptionPlaceholder")} value={description} onChange={(e) => setDescription(e.target.value)} />
+      {applications.length > 0 && (
+        <div>
+          <div className="field-lbl">{t("form.linkLabel")}</div>
+          <select className="profile-input" value={applicationId} onChange={(e) => setApplicationId(e.target.value)}>
+            <option value="">{t("form.linkNone")}</option>
+            {applications.map((a) => (
+              <option key={a.id} value={a.id}>{a.role_title} — {a.company}</option>
+            ))}
+          </select>
+        </div>
+      )}
       <div style={{ display: "flex", gap: 8 }}>
         <button className="btn btn-primary btn-sm" type="submit" disabled={uploading}>
           {uploading ? t("form.uploading") : t("form.upload")}
@@ -47,17 +59,14 @@ function UploadForm({ onUpload, onCancel, t }) {
 }
 
 export default function DocumentsPanel() {
-  const { isPro, documents, uploadDocument, deleteDocument, downloadDocument, FREE_DOCUMENT_LIMIT, setPanel, toast } = useApp();
+  const {
+    isPro, documents, uploadDocument, deleteDocument, downloadDocument, linkDocumentToApplication,
+    FREE_DOCUMENT_LIMIT, applications, setPanel, toast,
+  } = useApp();
   const t = useTranslations("documents");
   const [showForm, setShowForm] = useState(false);
-  const [used, setUsed] = useState({});
 
   const atLimit = !isPro && documents.length >= FREE_DOCUMENT_LIMIT;
-
-  const useEvidence = (id) => {
-    setUsed((u) => ({ ...u, [id]: true }));
-    toast(t("usedToast"));
-  };
 
   const handleAddClick = () => {
     if (atLimit) {
@@ -78,6 +87,7 @@ export default function DocumentsPanel() {
       {showForm && (
         <UploadForm
           t={t}
+          applications={applications}
           onUpload={async (payload) => { await uploadDocument(payload); setShowForm(false); }}
           onCancel={() => setShowForm(false)}
         />
@@ -97,10 +107,20 @@ export default function DocumentsPanel() {
                 </div>
                 <div className="doc-title">{doc.title}</div>
                 <div className="doc-desc">{doc.description || categoryLabel}</div>
+                {applications.length > 0 && (
+                  <select
+                    className="profile-input"
+                    style={{ marginTop: 10, fontSize: 12.5, padding: "5px 8px" }}
+                    value={doc.application_id || ""}
+                    onChange={(e) => linkDocumentToApplication(doc.id, e.target.value || null)}
+                  >
+                    <option value="">{t("form.linkNone")}</option>
+                    {applications.map((a) => (
+                      <option key={a.id} value={a.id}>{a.role_title} — {a.company}</option>
+                    ))}
+                  </select>
+                )}
                 <div style={{ display: "flex", gap: 6, marginTop: 12, flexWrap: "wrap", alignItems: "center" }}>
-                  <button className="btn btn-ghost btn-sm" style={{ paddingLeft: 0 }} disabled={used[doc.id]} onClick={() => useEvidence(doc.id)}>
-                    {used[doc.id] ? t("usedAsEvidence") : t("useAsEvidence")}
-                  </button>
                   <button className="btn btn-ghost btn-sm" onClick={() => downloadDocument(doc)}>{t("download")}</button>
                   <button className="btn btn-ghost btn-sm" onClick={() => deleteDocument(doc)}>{t("delete")}</button>
                 </div>

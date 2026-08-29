@@ -1,13 +1,18 @@
 "use client";
+import { useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useApp } from "@/context/AppContext";
 
 export default function AppDetailPanel() {
-  const { setPanel, applications, selectedApplicationId, deleteApplication, prepShown, setPrepShown } = useApp();
+  const {
+    setPanel, applications, selectedApplicationId, deleteApplication, prepShown, setPrepShown,
+    documents, downloadDocument, linkDocumentToApplication,
+  } = useApp();
   const t = useTranslations("appDetail");
   const tStatus = useTranslations("common");
   const locale = useLocale();
   const app = applications.find((a) => a.id === selectedApplicationId);
+  const [docToAttach, setDocToAttach] = useState("");
 
   const formatDate = (iso) => {
     if (!iso) return null;
@@ -28,6 +33,15 @@ export default function AppDetailPanel() {
   const handleDelete = () => {
     deleteApplication(app.id);
     setPanel("applications");
+  };
+
+  const linkedDocs = documents.filter((d) => d.application_id === app.id);
+  const unlinkedDocs = documents.filter((d) => d.application_id !== app.id);
+
+  const handleAttach = () => {
+    if (!docToAttach) return;
+    linkDocumentToApplication(docToAttach, app.id);
+    setDocToAttach("");
   };
 
   return (
@@ -78,6 +92,36 @@ export default function AppDetailPanel() {
             </div>
           )}
         </div>
+      </div>
+
+      <div className="glass" style={{ padding: 24, marginTop: 16 }}>
+        <h4 style={{ fontSize: 15, color: "var(--ink)", marginBottom: 14 }}>{t("documentsTitle")}</h4>
+        {linkedDocs.length === 0 ? (
+          <p style={{ fontSize: 13.5, color: "var(--text-muted)" }}>{t("documentsEmpty")}</p>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 }}>
+            {linkedDocs.map((doc) => (
+              <div key={doc.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: 13.5, color: "var(--text)" }}>{doc.title}</span>
+                <div style={{ display: "flex", gap: 6 }}>
+                  <button className="btn btn-ghost btn-sm" onClick={() => downloadDocument(doc)}>{t("documentsDownload")}</button>
+                  <button className="btn btn-ghost btn-sm" onClick={() => linkDocumentToApplication(doc.id, null)}>{t("documentsUnlink")}</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        {unlinkedDocs.length > 0 && (
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <select className="profile-input" style={{ marginTop: 0, flex: 1, minWidth: 200 }} value={docToAttach} onChange={(e) => setDocToAttach(e.target.value)}>
+              <option value="">{t("documentsAttachPlaceholder")}</option>
+              {unlinkedDocs.map((doc) => (
+                <option key={doc.id} value={doc.id}>{doc.title}</option>
+              ))}
+            </select>
+            <button className="btn btn-secondary btn-sm" disabled={!docToAttach} onClick={handleAttach}>{t("documentsAttach")}</button>
+          </div>
+        )}
       </div>
     </div>
   );

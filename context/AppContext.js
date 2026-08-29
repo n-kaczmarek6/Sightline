@@ -358,7 +358,7 @@ export function AppProvider({
   );
 
   const uploadDocument = useCallback(
-    async ({ file, title, category, description }) => {
+    async ({ file, title, category, description, application_id }) => {
       if (!profile) return;
       if (!isPro && documents.length >= FREE_DOCUMENT_LIMIT) {
         toast(t("documentLimitReached", { limit: FREE_DOCUMENT_LIMIT }));
@@ -380,6 +380,7 @@ export function AppProvider({
           description: description || null,
           category,
           file_path: path,
+          application_id: application_id || null,
         })
         .select()
         .single();
@@ -392,6 +393,16 @@ export function AppProvider({
       toast(t("documentUploaded"));
     },
     [profile, documents.length, isPro, toast, setPanel, t]
+  );
+
+  const linkDocumentToApplication = useCallback(
+    async (documentId, applicationId) => {
+      const supabase = createClient();
+      setDocuments((d) => d.map((doc) => (doc.id === documentId ? { ...doc, application_id: applicationId } : doc)));
+      const { error } = await supabase.from("documents").update({ application_id: applicationId }).eq("id", documentId);
+      if (error) toast(t("documentLinkError"));
+    },
+    [toast, t]
   );
 
   const deleteDocument = useCallback(
@@ -634,7 +645,7 @@ export function AppProvider({
     workExperience, addWorkExperience, removeWorkExperience,
     education, addEducation, removeEducation,
     skills, addSkill, removeSkill,
-    documents, uploadDocument, deleteDocument, downloadDocument, FREE_DOCUMENT_LIMIT,
+    documents, uploadDocument, deleteDocument, downloadDocument, linkDocumentToApplication, FREE_DOCUMENT_LIMIT,
     applications, addApplication, updateApplicationStatus, deleteApplication, FREE_APPLICATION_LIMIT,
     selectedApplicationId, setSelectedApplicationId,
     isPro, setPlan,
