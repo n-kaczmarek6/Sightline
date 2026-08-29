@@ -98,7 +98,6 @@
       "builder": "CV Builder",
       "applications": "Bewerbungen",
       "documents": "Dokumente",
-      "assistant": "AI Career Copilot",
       "settings": "Einstellungen"
     },
     "newApplication": "+ Neue Bewerbung",
@@ -122,7 +121,6 @@
       "profile": "Mein Profil",
       "documents": "Dokumente",
       "applications": "Bewerbungen",
-      "assistant": "AI Career Copilot",
       "settings": "Einstellungen",
       "pricing": "Upgrade auf Pro",
       "appDetailFallback": "Detail"
@@ -594,35 +592,6 @@
     "likelyTopics": "Wahrscheinliche Themen",
     "practiceQuestions": "Übungsfragen"
   },
-  "assistant": {
-    "title": "AI Career Copilot",
-    "subtitle": "Kennt dein Profil, deine CVs, Job Descriptions, Dokumente und Bewerbungen.",
-    "askExample": "Frag zum Beispiel",
-    "inputPlaceholder": "Frag zu einem Job, deinem CV oder einem Interview…",
-    "send": "Senden",
-    "remainingMessages": "{remaining} von {limit} freien Nachrichten diesen Monat übrig",
-    "limitReached": "Du hast alle {limit} freien Nachrichten diesen Monat genutzt. Upgrade auf Pro für unlimited Career Coaching und Interview-Prep.",
-    "defaultReply": "Gute Frage — basierend auf deinem Profil und den gespeicherten Jobs würde ich zuerst deine Go-to-Market-Erfahrung expliziter machen. Soll ich dir zeigen, wo?",
-    "greeting": "Hi {name} — ich kenne dein Profil, deine CVs, gespeicherte Jobs und Bewerbungen. Womit kann ich helfen?",
-    "prompts": {
-      "improveChances": "Wie kann ich meine Chancen für diese Rolle verbessern?",
-      "mostRelevant": "Welche meiner Erfahrungen sind am relevantesten?",
-      "findGaps": "Finde Lücken in meinem CV.",
-      "highlightAchievements": "Welche Erfolge sollte ich hervorheben?",
-      "createCv": "Erstelle ein CV für diesen Job.",
-      "interviewPrep": "Hilf mir bei der Interview-Vorbereitung.",
-      "bestMatches": "Welche gespeicherten Jobs passen am besten?"
-    },
-    "replies": {
-      "improveChances": "Laut deiner Match-Analyse ist der größte Hebel, deine Go-to-Market- und Pricing-Erfahrung expliziter zu machen — das könnte deinen Score von 87 in die niedrigen 90er heben. Soll ich die CV-Empfehlungen für diesen Job öffnen?",
-      "mostRelevant": "Deine Go-to-Market-Kampagnen bei Nova Cloud Systems sind dein stärkster Match — besonders die 28% Pipeline-Wachstum. Auch deine Competitive-Analysis-Erfahrung bei Brightpath ist direkt relevant.",
-      "findGaps": "Ich habe 4 Lücken für diese Rolle gefunden: Go-to-Market-Strategie ist nicht explizit, Pricing-Strategie-Erfahrung fehlt, Tableau wird nicht erwähnt, und deine Google-Analytics-Zertifizierung steht noch nicht im CV, obwohl sie im Dokumenten-Vault liegt.",
-      "highlightAchievements": "Dein Performance Review zeigt eine 18%ige Steigerung der Teamproduktivität, und deine Launches brachten 28% Pipeline-Wachstum. Beides sind starke, messbare Erfolge — ich würde mit der Pipeline-Zahl beginnen, da sie am relevantesten für diese Rolle ist.",
-      "createCv": "Ich habe eine angepasste Version in deinem CV Builder erstellt, basierend auf deinem bestehenden Profil — nichts erfunden, nur neu geordnet und formuliert für HubSpot. Schau's dir an und passe an, was nicht nach dir klingt.",
-      "interviewPrep": "Für das HubSpot-Interview als Product Marketing Manager erwarte Fragen zu Produkt-Launches, SaaS-Marketing, Go-to-Market-Strategie und cross-funktionalem Leadership. Willst du eine Übungsfrage?",
-      "bestMatches": "Von deinen gespeicherten Jobs sind HubSpot (91%) und Adobe (88%) deine stärksten Matches. Zalando liegt niedriger bei 76% — vor allem wegen einer Lücke bei Growth-Experimentation-Erfahrung."
-    }
-  },
   "pricing": {
     "eyebrow": "Preise",
     "title": "Für jede Art der Jobsuche der passende Plan.",
@@ -636,7 +605,7 @@
       "price": "€0",
       "tagline": "Erster Match Score, ohne Karte.",
       "included": ["3 Job-Analysen pro Monat", "Match Score + Top-Stärken & Lücken", "1 CV-Profil", "Bis zu 5 getrackte Bewerbungen"],
-      "notIncluded": ["Volle Keyword- & Empfehlungs-Analyse", "CV-Downloads (PDF / DOCX)", "Unlimited AI Career Copilot"],
+      "notIncluded": ["Volle Keyword- & Empfehlungs-Analyse", "CV-Downloads (PDF / DOCX)"],
       "currentPlan": "Aktueller Plan",
       "downgrade": "Downgrade zu Free"
     },
@@ -654,8 +623,7 @@
         "Volle Keyword- & Empfehlungs-Analyse",
         "Unlimited CV-Downloads & Versionen",
         "Unlimited Nachweis-Dokumente",
-        "Unlimited getrackte Bewerbungen",
-        "Unlimited AI Copilot & Interview-Prep"
+        "Unlimited getrackte Bewerbungen"
       ],
       "currentPlan": "Aktueller Plan",
       "upgrade": "Upgrade auf Pro"

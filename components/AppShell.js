@@ -18,7 +18,6 @@ import ProfilePanel from "@/components/panels/ProfilePanel";
 import DocumentsPanel from "@/components/panels/DocumentsPanel";
 import ApplicationsPanel from "@/components/panels/ApplicationsPanel";
 import AppDetailPanel from "@/components/panels/AppDetailPanel";
-import AssistantPanel from "@/components/panels/AssistantPanel";
 import PricingPanel from "@/components/panels/PricingPanel";
 import SettingsPanel from "@/components/panels/SettingsPanel";
 
@@ -33,7 +32,6 @@ const PANELS = {
   documents: DocumentsPanel,
   applications: ApplicationsPanel,
   appdetail: AppDetailPanel,
-  assistant: AssistantPanel,
   pricing: PricingPanel,
   settings: SettingsPanel,
 };

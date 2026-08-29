@@ -9,7 +9,6 @@ const NAV = [
   { key: "builder", icon: "i-edit" },
   { key: "applications", icon: "i-folder" },
   { key: "documents", icon: "i-docs" },
-  { key: "assistant", icon: "i-chat" },
   { key: "settings", icon: "i-settings" },
 ];
 

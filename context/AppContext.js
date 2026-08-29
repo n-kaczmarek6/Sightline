@@ -6,7 +6,6 @@ import { createClient } from "@/lib/supabase/client";
 const AppContext = createContext(null);
 
 const FREE_ANALYSIS_LIMIT = 3;
-const FREE_AI_LIMIT = 4;
 const FREE_DOCUMENT_LIMIT = 2;
 const FREE_APPLICATION_LIMIT = 5;
 
@@ -44,7 +43,6 @@ export function AppProvider({
   const [isPro, setIsPro] = useState(false);
   const [priceMode, setPriceMode] = useState("monthly");
   const [analysesUsed, setAnalysesUsed] = useState(initialAnalysesUsed || 0);
-  const [aiMessagesUsed, setAiMessagesUsed] = useState(0);
 
   // ---- ui ----
   const [toasts, setToasts] = useState([]);
@@ -52,16 +50,6 @@ export function AppProvider({
   const [loadingStep, setLoadingStep] = useState(0);
 
   const t = useTranslations("toasts");
-
-  // ---- chat ----
-  const tAssistant = useTranslations("assistant");
-  const greetingName = (initialProfile?.full_name || userEmail || "").split(/\s+/)[0] || "";
-  const [chatMessages, setChatMessages] = useState([
-    { who: "bot", text: tAssistant("greeting", { name: greetingName }) },
-  ]);
-  const [chatLocked, setChatLocked] = useState(false);
-
-  // ---- interview prep ----
 
   const toast = useCallback((msg) => {
     const id = Date.now() + Math.random();
@@ -653,26 +641,6 @@ export function AppProvider({
     [isPro, toast, setPanel, t]
   );
 
-  const sendChatMessage = useCallback(
-    (text, replyMap) => {
-      if (!isPro && aiMessagesUsed >= FREE_AI_LIMIT) {
-        setChatMessages((m) => [
-          ...m,
-          { who: "bot", text: tAssistant("limitReached", { limit: FREE_AI_LIMIT }) },
-        ]);
-        setChatLocked(true);
-        return;
-      }
-      setChatMessages((m) => [...m, { who: "user", text }]);
-      if (!isPro) setAiMessagesUsed((n) => n + 1);
-      setTimeout(() => {
-        const reply = (replyMap && replyMap[text]) || tAssistant("defaultReply");
-        setChatMessages((m) => [...m, { who: "bot", text: reply }]);
-      }, 650);
-    },
-    [isPro, aiMessagesUsed, tAssistant]
-  );
-
   const value = {
     panel, setPanel,
     userEmail,
@@ -687,13 +655,11 @@ export function AppProvider({
     isPro, setPlan,
     priceMode, setPriceMode,
     analysesUsed, FREE_ANALYSIS_LIMIT,
-    aiMessagesUsed, FREE_AI_LIMIT, chatLocked,
     toasts, toast,
     loading, loadingStep,
     cvVersions, selectedVersionId, setSelectedVersionId,
     createCvVersion, updateVersionField, saveCvVersion, deleteCvVersion, downloadCv, linkCvVersionToApplication,
     generateCv, generatingCv,
-    chatMessages, sendChatMessage,
     runAnalysis, currentAnalysis, analyzing,
   };
 
