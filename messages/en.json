@@ -303,6 +303,8 @@
     "experienceBlockPlaceholder": "New role",
     "removeBlock": "Remove",
     "addBlock": "+ Add role",
+    "educationBlockPlaceholder": "New degree",
+    "addEducationBlock": "+ Add degree",
     "aiSuggestions": "AI Suggestions",
     "aiSuggestionsPlaceholder": "AI-powered improvement suggestions will appear here once you link a job match analysis to this version.",
     "scoreTitle": "Match Score",

@@ -3,12 +3,13 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useApp } from "@/context/AppContext";
 
-// experience_text ist ein einzelner Freitext-String (siehe /api/cv/generate) —
-// je Station ein durch Leerzeile getrennter Block mit "Titel, Firma (Zeitraum)"
-// als erster Zeile. Wir splitten hier nur für die Anzeige/Bearbeitung in
-// eigene Karten und fügen beim Speichern wieder zu einem String zusammen,
-// ohne das Datenmodell zu ändern.
-function splitExperienceBlocks(text) {
+// experience_text und education_text sind je ein einzelner Freitext-String
+// (siehe /api/cv/generate) — je Station/Abschluss ein durch Leerzeile
+// getrennter Block, dessen erste Zeile Titel/Abschluss + Zeitraum enthält.
+// Wir splitten hier nur für die Anzeige/Bearbeitung in eigene Karten und
+// fügen beim Speichern wieder zu einem String zusammen, ohne das
+// Datenmodell zu ändern.
+function splitBlocks(text) {
   const trimmed = (text || "").trim();
   if (!trimmed) return [];
   return trimmed.split(/\n{2,}/).map((b) => b.trim()).filter(Boolean);
@@ -18,17 +19,17 @@ function blockHeading(block) {
   return (block.split("\n")[0] || "").trim();
 }
 
-function ExperienceBlocks({ version, updateVersionField, t }) {
-  const [blocks, setBlocks] = useState(() => splitExperienceBlocks(version.experience_text));
+function TextBlockCards({ version, field, updateVersionField, t, placeholder, addLabel }) {
+  const [blocks, setBlocks] = useState(() => splitBlocks(version[field]));
 
   useEffect(() => {
-    setBlocks(splitExperienceBlocks(version.experience_text));
+    setBlocks(splitBlocks(version[field]));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [version.id]);
+  }, [version.id, field]);
 
   const commit = (next) => {
     setBlocks(next);
-    updateVersionField("experience_text", next.join("\n\n"));
+    updateVersionField(field, next.join("\n\n"));
   };
 
   return (
@@ -36,7 +37,7 @@ function ExperienceBlocks({ version, updateVersionField, t }) {
       {blocks.map((block, i) => (
         <div key={i} className="glass cv-section">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
-            <h4 style={{ margin: 0 }}>{blockHeading(block) || t("experienceBlockPlaceholder")}</h4>
+            <h4 style={{ margin: 0 }}>{blockHeading(block) || placeholder}</h4>
             <button
               type="button"
               className="btn btn-ghost btn-sm"
@@ -59,7 +60,7 @@ function ExperienceBlocks({ version, updateVersionField, t }) {
         </div>
       ))}
       <button type="button" className="btn btn-secondary btn-sm" style={{ alignSelf: "flex-start" }} onClick={() => commit([...blocks, ""])}>
-        {t("addBlock")}
+        {addLabel}
       </button>
     </div>
   );
@@ -183,12 +184,25 @@ export default function BuilderPanel() {
           </div>
           <div>
             <h4 style={{ margin: "0 0 8px", fontSize: 13, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: ".04em" }}>{t("sections.experience")}</h4>
-            <ExperienceBlocks version={version} updateVersionField={updateVersionField} t={t} />
+            <TextBlockCards
+              version={version}
+              field="experience_text"
+              updateVersionField={updateVersionField}
+              t={t}
+              placeholder={t("experienceBlockPlaceholder")}
+              addLabel={t("addBlock")}
+            />
           </div>
-          <div className="glass cv-section">
-            <h4>{t("sections.education")}</h4>
-            <textarea className="cv-editable" style={{ width: "100%", border: "none", resize: "vertical", background: "transparent" }}
-              rows={2} value={version.education_text || ""} onChange={(e) => updateVersionField("education_text", e.target.value)} />
+          <div>
+            <h4 style={{ margin: "0 0 8px", fontSize: 13, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: ".04em" }}>{t("sections.education")}</h4>
+            <TextBlockCards
+              version={version}
+              field="education_text"
+              updateVersionField={updateVersionField}
+              t={t}
+              placeholder={t("educationBlockPlaceholder")}
+              addLabel={t("addEducationBlock")}
+            />
           </div>
           <div className="glass cv-section">
             <h4>{t("sections.skills")}</h4>
