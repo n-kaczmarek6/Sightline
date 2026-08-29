@@ -15,6 +15,7 @@ export function AppProvider({
   userEmail,
   initialProfile,
   initialWorkExperience,
+  initialEducation,
   initialSkills,
   initialDocuments,
   initialApplications,
@@ -28,6 +29,7 @@ export function AppProvider({
   // ---- profile (real Supabase data) ----
   const [profile, setProfile] = useState(initialProfile || null);
   const [workExperience, setWorkExperience] = useState(initialWorkExperience || []);
+  const [education, setEducation] = useState(initialEducation || []);
   const [skills, setSkills] = useState(initialSkills || []);
   const [documents, setDocuments] = useState(initialDocuments || []);
   const [applications, setApplications] = useState(initialApplications || []);
@@ -316,6 +318,45 @@ export function AppProvider({
     [toast, t]
   );
 
+  const addEducation = useCallback(
+    async (entry) => {
+      if (!profile) return;
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("education")
+        .insert({
+          profile_id: profile.id,
+          degree: entry.degree,
+          field_of_study: entry.field_of_study || null,
+          institution: entry.institution,
+          location: entry.location || null,
+          start_date: entry.start_date || null,
+          end_date: entry.end_date || null,
+          description: entry.description || null,
+          sort_order: education.length,
+        })
+        .select()
+        .single();
+      if (error) {
+        toast(t("educationSaveError"));
+        return;
+      }
+      setEducation((e) => [...e, data]);
+      toast(t("educationAdded"));
+    },
+    [profile, education.length, toast, t]
+  );
+
+  const removeEducation = useCallback(
+    async (id) => {
+      const supabase = createClient();
+      setEducation((e) => e.filter((x) => x.id !== id));
+      const { error } = await supabase.from("education").delete().eq("id", id);
+      if (error) toast(t("educationDeleteError"));
+    },
+    [toast, t]
+  );
+
   const uploadDocument = useCallback(
     async ({ file, title, category, description }) => {
       if (!profile) return;
@@ -439,7 +480,11 @@ export function AppProvider({
           label,
           summary: source?.summary || "",
           experience_text: source?.experience_text || "",
-          education_text: source?.education_text || "",
+          education_text:
+            source?.education_text ||
+            education
+              .map((e) => `${e.degree}${e.field_of_study ? `, ${e.field_of_study}` : ""} — ${e.institution}`)
+              .join("\n"),
           skills_text: source?.skills_text || skills.map((s) => s.name).join(" · "),
           achievements_text: source?.achievements_text || "",
         })
@@ -453,7 +498,7 @@ export function AppProvider({
       setSelectedVersionId(data.id);
       toast(t("versionCreated"));
     },
-    [profile, cvVersions, skills, toast, t]
+    [profile, cvVersions, education, skills, toast, t]
   );
 
   const updateVersionField = useCallback(
@@ -587,6 +632,7 @@ export function AppProvider({
     profile, updateProfileField, saveProfile, uploadAvatar, removeAvatar,
     changePassword, updateLocale, deleteAccount,
     workExperience, addWorkExperience, removeWorkExperience,
+    education, addEducation, removeEducation,
     skills, addSkill, removeSkill,
     documents, uploadDocument, deleteDocument, downloadDocument, FREE_DOCUMENT_LIMIT,
     applications, addApplication, updateApplicationStatus, deleteApplication, FREE_APPLICATION_LIMIT,

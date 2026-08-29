@@ -70,7 +70,7 @@ function ShellInner() {
 }
 
 export default function AppShell({
-  userEmail, initialProfile, initialWorkExperience, initialSkills, initialDocuments, initialApplications, initialCvVersions,
+  userEmail, initialProfile, initialWorkExperience, initialEducation, initialSkills, initialDocuments, initialApplications, initialCvVersions,
   initialAnalysis, initialAnalysesUsed,
 }) {
   return (
@@ -78,6 +78,7 @@ export default function AppShell({
       userEmail={userEmail}
       initialProfile={initialProfile}
       initialWorkExperience={initialWorkExperience}
+      initialEducation={initialEducation}
       initialSkills={initialSkills}
       initialDocuments={initialDocuments}
       initialApplications={initialApplications}

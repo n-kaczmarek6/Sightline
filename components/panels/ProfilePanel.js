@@ -165,7 +165,7 @@ function SuggestionChips({ options, current, onPick }) {
   );
 }
 
-function completeness(profile, workExperience, skills) {
+function completeness(profile, workExperience, education, skills) {
   if (!profile) return 0;
   const checks = [
     !!profile.full_name,
@@ -178,6 +178,7 @@ function completeness(profile, workExperience, skills) {
     !!profile.work_model,
     !!profile.salary_min,
     workExperience.length > 0,
+    education.length > 0,
     skills.length > 0,
     (profile.languages || []).length > 0,
   ];
@@ -292,15 +293,127 @@ function ExperienceForm({ onAdd, onCancel, t, roleOptions, locationOptions }) {
   );
 }
 
+function EducationForm({ onAdd, onCancel, t }) {
+  const { addSkill, skills, toast } = useApp();
+  const [degree, setDegree] = useState("");
+  const [fieldOfStudy, setFieldOfStudy] = useState("");
+  const [institution, setInstitution] = useState("");
+  const [location, setLocation] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [current, setCurrent] = useState(false);
+  const [description, setDescription] = useState("");
+  const [suggesting, setSuggesting] = useState(false);
+  const [suggestedSkills, setSuggestedSkills] = useState([]);
+
+  const handleSuggestSkills = async () => {
+    if (!description.trim()) return;
+    setSuggesting(true);
+    setSuggestedSkills([]);
+    try {
+      const res = await fetch("/api/skills/suggest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ description }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast(t("education.form.suggestSkillsError"));
+        return;
+      }
+      setSuggestedSkills(data.skills || []);
+    } catch {
+      toast(t("education.form.suggestSkillsError"));
+    } finally {
+      setSuggesting(false);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!degree.trim() || !institution.trim()) return;
+    onAdd({
+      degree: degree.trim(),
+      field_of_study: fieldOfStudy.trim(),
+      institution: institution.trim(),
+      location: location.trim(),
+      start_date: monthInputToDate(startDate),
+      end_date: current ? null : monthInputToDate(endDate),
+      description: description.trim(),
+    });
+  };
+
+  return (
+    <form className="glass profile-section" style={{ padding: 18, display: "flex", flexDirection: "column", gap: 10 }} onSubmit={handleSubmit}>
+      <div className="field-grid">
+        <input className="profile-input" placeholder={t("education.form.degree")} value={degree} onChange={(e) => setDegree(e.target.value)} required />
+        <input className="profile-input" placeholder={t("education.form.fieldOfStudy")} value={fieldOfStudy} onChange={(e) => setFieldOfStudy(e.target.value)} />
+        <input className="profile-input" placeholder={t("education.form.institution")} value={institution} onChange={(e) => setInstitution(e.target.value)} required />
+        <input className="profile-input" placeholder={t("education.form.location")} value={location} onChange={(e) => setLocation(e.target.value)} />
+        <input className="profile-input" type="month" placeholder={t("education.form.start")} value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+        <input className="profile-input" type="month" placeholder={t("education.form.end")} value={endDate} disabled={current} onChange={(e) => setEndDate(e.target.value)} />
+        <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--text-muted)" }}>
+          <input type="checkbox" checked={current} onChange={(e) => setCurrent(e.target.checked)} /> {t("education.form.toToday")}
+        </label>
+      </div>
+      <textarea
+        className="cv-editable"
+        style={{ width: "100%", resize: "vertical" }}
+        rows={3}
+        placeholder={t("education.form.descriptionPlaceholder")}
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
+      <div>
+        <button
+          type="button"
+          className="btn btn-secondary btn-sm"
+          disabled={!description.trim() || suggesting}
+          onClick={handleSuggestSkills}
+        >
+          {suggesting ? t("education.form.suggestingSkills") : t("education.form.suggestSkills")}
+        </button>
+        {suggestedSkills.length > 0 && (
+          <>
+            <div className="suggestion-lbl-sm">{t("education.form.suggestedSkillsLabel")}</div>
+            <div className="tag-row">
+              {suggestedSkills.map((s) => {
+                const alreadyAdded = skills.some((sk) => sk.name === s);
+                return (
+                  <button
+                    key={s}
+                    type="button"
+                    className="tag suggestion-chip"
+                    disabled={alreadyAdded}
+                    onClick={() => { addSkill(s); setSuggestedSkills((prev) => prev.filter((x) => x !== s)); }}
+                  >
+                    {alreadyAdded ? "✓ " : "+ "}{s}
+                  </button>
+                );
+              })}
+            </div>
+          </>
+        )}
+      </div>
+      <div style={{ display: "flex", gap: 8 }}>
+        <button className="btn btn-primary btn-sm" type="submit">{t("education.form.add")}</button>
+        <button className="btn btn-ghost btn-sm" type="button" onClick={onCancel}>{t("education.form.cancel")}</button>
+      </div>
+    </form>
+  );
+}
+
 export default function ProfilePanel() {
   const {
     userEmail, profile, updateProfileField, saveProfile, uploadAvatar, removeAvatar,
     workExperience, addWorkExperience, removeWorkExperience,
+    education, addEducation, removeEducation,
     skills, addSkill, removeSkill,
   } = useApp();
   const t = useTranslations("profile");
   const locale = useLocale();
   const [showExpForm, setShowExpForm] = useState(false);
+  const [showEduForm, setShowEduForm] = useState(false);
   const [avatarSignedUrl, setAvatarSignedUrl] = useState(null);
 
   useEffect(() => {
@@ -330,7 +443,7 @@ export default function ProfilePanel() {
     );
   }
 
-  const pct = completeness(profile, workExperience, skills);
+  const pct = completeness(profile, workExperience, education, skills);
   const skillSuggestions = t.raw("suggestions.skills");
   const roleSuggestions = t.raw("suggestions.roles");
   const locationSuggestions = t.raw("suggestions.locations");
@@ -472,6 +585,46 @@ export default function ProfilePanel() {
           ) : (
             <button className="btn btn-secondary btn-sm" style={{ marginTop: 14 }} onClick={() => setShowExpForm(true)}>
               {t("experience.addButton")}
+            </button>
+          )}
+        </div>
+
+        <div className="glass profile-section">
+          <h4>{t("sections.education")}</h4>
+          {education.length === 0 && !showEduForm && (
+            <p style={{ fontSize: 13.5, color: "var(--text-muted)" }}>{t("education.empty")}</p>
+          )}
+          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+            {education.map((edu, i) => (
+              <div className={`exp-item${i % 2 ? " alt" : ""}`} key={edu.id}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+                  <div>
+                    <div className="exp-title">{edu.degree}{edu.field_of_study ? `, ${edu.field_of_study}` : ""} — {edu.institution}</div>
+                    <div className="exp-meta">
+                      {formatMonthYear(edu.start_date, locale) || "?"} — {formatMonthYear(edu.end_date, locale) || t("education.toDate")}{edu.location ? ` · ${edu.location}` : ""}
+                    </div>
+                  </div>
+                  <button className="btn btn-ghost btn-sm" onClick={() => removeEducation(edu.id)}>{t("education.delete")}</button>
+                </div>
+                {edu.description && (
+                  <ul className="exp-bullets">
+                    <li>{edu.description}</li>
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+          {showEduForm ? (
+            <div style={{ marginTop: 14 }}>
+              <EducationForm
+                t={t}
+                onAdd={(entry) => { addEducation(entry); setShowEduForm(false); }}
+                onCancel={() => setShowEduForm(false)}
+              />
+            </div>
+          ) : (
+            <button className="btn btn-secondary btn-sm" style={{ marginTop: 14 }} onClick={() => setShowEduForm(true)}>
+              {t("education.addButton")}
             </button>
           )}
         </div>

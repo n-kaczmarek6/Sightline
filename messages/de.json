@@ -293,6 +293,7 @@
     "sections": {
       "personalInfo": "Personal Information",
       "workExperience": "Work Experience",
+      "education": "Ausbildung",
       "skills": "Skills",
       "languages": "Sprachen",
       "careerPreferences": "Career Preferences"
@@ -361,6 +362,28 @@
         "suggestingSkills": "Analysiere…",
         "suggestSkillsError": "Skills konnten nicht vorgeschlagen werden.",
         "suggestSkillsEmpty": "Keine passenden Skills gefunden.",
+        "suggestedSkillsLabel": "Vorgeschlagene Skills — anklicken zum Hinzufügen",
+        "add": "Hinzufügen",
+        "cancel": "Abbrechen"
+      }
+    },
+    "education": {
+      "empty": "Noch keine Ausbildung hinzugefügt.",
+      "delete": "Löschen",
+      "toDate": "heute",
+      "addButton": "+ Ausbildung hinzufügen",
+      "form": {
+        "degree": "Abschluss (z. B. B.Sc. Digital Business)",
+        "fieldOfStudy": "Studienfach / Schwerpunkt",
+        "institution": "Hochschule / Schule",
+        "location": "Ort",
+        "start": "Start",
+        "end": "Ende",
+        "toToday": "Bis heute",
+        "descriptionPlaceholder": "Was hast du gemacht? Schwerpunkte, Praxisprojekte, Abschlussarbeit…",
+        "suggestSkills": "Skills vorschlagen",
+        "suggestingSkills": "Analysiere…",
+        "suggestSkillsError": "Skills konnten nicht vorgeschlagen werden.",
         "suggestedSkillsLabel": "Vorgeschlagene Skills — anklicken zum Hinzufügen",
         "add": "Hinzufügen",
         "cancel": "Abbrechen"
@@ -638,6 +661,9 @@
     "experienceSaveError": "Eintrag konnte nicht gespeichert werden.",
     "experienceAdded": "Berufserfahrung hinzugefügt.",
     "experienceDeleteError": "Eintrag konnte nicht gelöscht werden.",
+    "educationSaveError": "Eintrag konnte nicht gespeichert werden.",
+    "educationAdded": "Ausbildung hinzugefügt.",
+    "educationDeleteError": "Eintrag konnte nicht gelöscht werden.",
     "documentLimitReached": "Free speichert {limit} Dokumente.",
     "uploadFailed": "Upload fehlgeschlagen: {message}",
     "documentSaveError": "Dokument konnte nicht gespeichert werden.",

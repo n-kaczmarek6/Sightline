@@ -57,14 +57,15 @@ export async function POST(request) {
     return NextResponse.json({ error: "analysis_not_found" }, { status: 404 });
   }
 
-  const [{ data: profile }, { data: workExperience }, { data: skills }] = await Promise.all([
+  const [{ data: profile }, { data: workExperience }, { data: education }, { data: skills }] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", user.id).single(),
     supabase.from("work_experience").select("*").eq("profile_id", user.id).order("sort_order"),
+    supabase.from("education").select("*").eq("profile_id", user.id).order("sort_order"),
     supabase.from("skills").select("*").eq("profile_id", user.id).order("created_at"),
   ]);
 
   const anthropic = new Anthropic();
-  const profileSummary = buildProfileSummary(profile, workExperience, skills);
+  const profileSummary = buildProfileSummary(profile, workExperience, skills, education);
   const cvSection = analysis.source_cv_text
     ? `\n\nHOCHGELADENER LEBENSLAUF (zweite Quelle, ebenso vertrauenswürdig wie das Profil):\n${analysis.source_cv_text}`
     : "";

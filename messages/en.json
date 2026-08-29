@@ -293,6 +293,7 @@
     "sections": {
       "personalInfo": "Personal Information",
       "workExperience": "Work Experience",
+      "education": "Education",
       "skills": "Skills",
       "languages": "Languages",
       "careerPreferences": "Career Preferences"
@@ -361,6 +362,28 @@
         "suggestingSkills": "Analyzing…",
         "suggestSkillsError": "Skills could not be suggested.",
         "suggestSkillsEmpty": "No matching skills found.",
+        "suggestedSkillsLabel": "Suggested skills — click to add",
+        "add": "Add",
+        "cancel": "Cancel"
+      }
+    },
+    "education": {
+      "empty": "No education added yet.",
+      "delete": "Delete",
+      "toDate": "present",
+      "addButton": "+ Add education",
+      "form": {
+        "degree": "Degree (e.g. B.Sc. Digital Business)",
+        "fieldOfStudy": "Field of study / focus",
+        "institution": "University / school",
+        "location": "Location",
+        "start": "Start",
+        "end": "End",
+        "toToday": "Present",
+        "descriptionPlaceholder": "What did you do? Focus areas, practical projects, thesis…",
+        "suggestSkills": "Suggest skills",
+        "suggestingSkills": "Analyzing…",
+        "suggestSkillsError": "Skills could not be suggested.",
         "suggestedSkillsLabel": "Suggested skills — click to add",
         "add": "Add",
         "cancel": "Cancel"
@@ -638,6 +661,9 @@
     "experienceSaveError": "Entry could not be saved.",
     "experienceAdded": "Work experience added.",
     "experienceDeleteError": "Entry could not be deleted.",
+    "educationSaveError": "Entry could not be saved.",
+    "educationAdded": "Education added.",
+    "educationDeleteError": "Entry could not be deleted.",
     "documentLimitReached": "Free stores {limit} documents.",
     "uploadFailed": "Upload failed: {message}",
     "documentSaveError": "Document could not be saved.",
