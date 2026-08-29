@@ -130,7 +130,7 @@
     "status": {
       "saved": "Gespeichert",
       "applied": "Beworben",
-      "screening": "Sichtung",
+      "screening": "In Prüfung",
       "interview": "Interview",
       "offer": "Angebot",
       "rejected": "Abgelehnt"
