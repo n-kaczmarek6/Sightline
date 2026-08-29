@@ -8,6 +8,7 @@
       "how": "How it works",
       "trust": "Trust & Privacy",
       "pricing": "Pricing",
+      "blog": "Blog",
       "login": "Log in",
       "cta": "Analyze my CV"
     },
@@ -98,6 +99,7 @@
       "builder": "CV Builder",
       "applications": "Applications",
       "documents": "Documents",
+      "blog": "Blog",
       "settings": "Settings"
     },
     "newApplication": "+ New Application",
@@ -121,6 +123,7 @@
       "profile": "My Profile",
       "documents": "Documents",
       "applications": "Applications",
+      "blog": "Blog",
       "settings": "Settings",
       "pricing": "Upgrade to Pro",
       "appDetailFallback": "Detail"
@@ -693,6 +696,43 @@
       "confirmButton": "Delete permanently"
     }
   },
+  "blogAdmin": {
+    "title": "Blog",
+    "subtitle": "Create and manage SEO content posts.",
+    "newPost": "+ New post",
+    "empty": "No posts yet.",
+    "published": "Published",
+    "draft": "Draft",
+    "edit": "Edit",
+    "delete": "Delete",
+    "back": "← Back to overview",
+    "form": {
+      "title": "Title",
+      "slug": "URL (slug)",
+      "slugHint": "Appears as sightline.app/blog/this-part",
+      "excerpt": "Excerpt",
+      "excerptHint": "Shown in the post list and as a Google search preview.",
+      "content": "Content (Markdown)",
+      "coverImage": "Cover image",
+      "coverImageUpload": "Upload image",
+      "coverImageChange": "Change image",
+      "metaTitle": "SEO title (optional)",
+      "metaTitleHint": "Falls back to the title if empty.",
+      "metaDescription": "SEO description (optional)",
+      "metaDescriptionHint": "Falls back to the excerpt if empty.",
+      "published": "Published",
+      "save": "Save",
+      "saving": "Saving…",
+      "cancel": "Cancel"
+    },
+    "deleteConfirm": "Delete this post permanently?"
+  },
+  "blog": {
+    "title": "Blog",
+    "empty": "No posts yet.",
+    "backToList": "← All posts",
+    "minuteRead": "{minutes} min read"
+  },
   "toasts": {
     "planUpgraded": "You're now on Sightline Pro{sprint, select, yes { Sprint (14 days).} other {.}}",
     "planDowngraded": "You're back on the Free plan.",
@@ -747,6 +787,10 @@
     "exportFailed": "Export failed. Please try again.",
     "cvGenerated": "CV generated.",
     "cvGenerateFailed": "CV generation failed. Please try again.",
-    "cvGenerateProOnly": "AI CV generation is a Pro feature."
+    "cvGenerateProOnly": "AI CV generation is a Pro feature.",
+    "blogSaved": "Post saved.",
+    "blogSaveError": "Post could not be saved: {message}",
+    "blogDeleteError": "Post could not be deleted.",
+    "blogCoverUploadError": "Cover image could not be uploaded: {message}"
   }
 }

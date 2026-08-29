@@ -20,6 +20,7 @@ import ApplicationsPanel from "@/components/panels/ApplicationsPanel";
 import AppDetailPanel from "@/components/panels/AppDetailPanel";
 import PricingPanel from "@/components/panels/PricingPanel";
 import SettingsPanel from "@/components/panels/SettingsPanel";
+import BlogAdminPanel from "@/components/panels/BlogAdminPanel";
 
 const PANELS = {
   dashboard: DashboardPanel,
@@ -34,6 +35,7 @@ const PANELS = {
   appdetail: AppDetailPanel,
   pricing: PricingPanel,
   settings: SettingsPanel,
+  blog: BlogAdminPanel,
 };
 
 function InitialPanelFromQuery() {
@@ -69,7 +71,7 @@ function ShellInner() {
 
 export default function AppShell({
   userEmail, initialProfile, initialWorkExperience, initialEducation, initialSkills, initialDocuments, initialApplications, initialCvVersions,
-  initialAnalysis, initialAnalysesUsed,
+  initialAnalysis, initialAnalysesUsed, initialBlogPosts,
 }) {
   return (
     <AppProvider
@@ -83,6 +85,7 @@ export default function AppShell({
       initialCvVersions={initialCvVersions}
       initialAnalysis={initialAnalysis}
       initialAnalysesUsed={initialAnalysesUsed}
+      initialBlogPosts={initialBlogPosts}
     >
       <ShellInner />
     </AppProvider>

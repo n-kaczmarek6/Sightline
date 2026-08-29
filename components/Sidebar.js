@@ -1,5 +1,6 @@
 "use client";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { useApp } from "@/context/AppContext";
 
 const NAV = [
@@ -9,6 +10,7 @@ const NAV = [
   { key: "builder", icon: "i-edit" },
   { key: "applications", icon: "i-folder" },
   { key: "documents", icon: "i-docs" },
+  { key: "blog", icon: "i-chat", adminOnly: true },
   { key: "settings", icon: "i-settings" },
 ];
 
@@ -28,10 +30,10 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar">
-      <div className="sidebar-logo"><div className="logo-mark" style={{ width: 24, height: 24 }}></div>Sightline</div>
+      <Link href="/" className="sidebar-logo"><div className="logo-mark" style={{ width: 24, height: 24 }}></div>Sightline</Link>
       <button className="sidebar-newbtn" onClick={() => setPanel("analyze")}>{t("newApplication")}</button>
       <div className="nav-group">
-        {NAV.map((n) => (
+        {NAV.filter((n) => !n.adminOnly || profile?.is_admin).map((n) => (
           <button
             key={n.key}
             className={`nav-item${panel === n.key ? " active" : ""}`}

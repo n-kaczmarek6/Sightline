@@ -16,6 +16,7 @@ export default async function LandingPage() {
               <a href="#how">{t("nav.how")}</a>
               <a href="#trust">{t("nav.trust")}</a>
               <Link href="/app?panel=pricing">{t("nav.pricing")}</Link>
+              <Link href="/blog">{t("nav.blog")}</Link>
             </div>
             <div className="landing-nav-cta">
               <Link className="btn btn-ghost btn-sm" href="/login">{t("nav.login")}</Link>

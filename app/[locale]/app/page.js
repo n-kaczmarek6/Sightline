@@ -28,6 +28,7 @@ export default async function AppPage() {
     { data: cvVersions },
     { data: latestAnalysisRows },
     { count: analysesUsed },
+    { data: blogPosts },
   ] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", user.id).single(),
     supabase.from("work_experience").select("*").eq("profile_id", user.id).order("sort_order"),
@@ -47,6 +48,7 @@ export default async function AppPage() {
       .select("id", { count: "exact", head: true })
       .eq("user_id", user.id)
       .gte("created_at", startOfMonth.toISOString()),
+    supabase.from("blog_posts").select("*").order("created_at", { ascending: false }),
   ]);
 
   return (
@@ -62,6 +64,7 @@ export default async function AppPage() {
         initialCvVersions={cvVersions ?? []}
         initialAnalysis={latestAnalysisRows?.[0] ?? null}
         initialAnalysesUsed={analysesUsed ?? 0}
+        initialBlogPosts={blogPosts ?? []}
       />
     </Suspense>
   );

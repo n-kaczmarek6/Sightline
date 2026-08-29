@@ -8,6 +8,7 @@
       "how": "So funktioniert's",
       "trust": "Trust & Privacy",
       "pricing": "Preise",
+      "blog": "Blog",
       "login": "Log in",
       "cta": "CV analysieren"
     },
@@ -98,6 +99,7 @@
       "builder": "CV Builder",
       "applications": "Bewerbungen",
       "documents": "Dokumente",
+      "blog": "Blog",
       "settings": "Einstellungen"
     },
     "newApplication": "+ Neue Bewerbung",
@@ -121,6 +123,7 @@
       "profile": "Mein Profil",
       "documents": "Dokumente",
       "applications": "Bewerbungen",
+      "blog": "Blog",
       "settings": "Einstellungen",
       "pricing": "Upgrade auf Pro",
       "appDetailFallback": "Detail"
@@ -693,6 +696,43 @@
       "confirmButton": "Endgültig löschen"
     }
   },
+  "blogAdmin": {
+    "title": "Blog",
+    "subtitle": "Beiträge für SEO-Content erstellen und verwalten.",
+    "newPost": "+ Neuer Beitrag",
+    "empty": "Noch keine Beiträge vorhanden.",
+    "published": "Veröffentlicht",
+    "draft": "Entwurf",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "back": "← Zurück zur Übersicht",
+    "form": {
+      "title": "Titel",
+      "slug": "URL (Slug)",
+      "slugHint": "Erscheint als sightline.app/blog/dieser-teil",
+      "excerpt": "Kurzbeschreibung",
+      "excerptHint": "Erscheint in der Beitragsübersicht und als Vorschau bei Google.",
+      "content": "Inhalt (Markdown)",
+      "coverImage": "Titelbild",
+      "coverImageUpload": "Bild hochladen",
+      "coverImageChange": "Bild ändern",
+      "metaTitle": "SEO-Titel (optional)",
+      "metaTitleHint": "Falls leer, wird der Titel verwendet.",
+      "metaDescription": "SEO-Beschreibung (optional)",
+      "metaDescriptionHint": "Falls leer, wird die Kurzbeschreibung verwendet.",
+      "published": "Veröffentlicht",
+      "save": "Speichern",
+      "saving": "Speichert…",
+      "cancel": "Abbrechen"
+    },
+    "deleteConfirm": "Diesen Beitrag wirklich löschen?"
+  },
+  "blog": {
+    "title": "Blog",
+    "empty": "Noch keine Beiträge vorhanden.",
+    "backToList": "← Alle Beiträge",
+    "minuteRead": "{minutes} Min. Lesezeit"
+  },
   "toasts": {
     "planUpgraded": "Du bist jetzt auf Sightline Pro{sprint, select, yes { Sprint (14 Tage).} other {.}}",
     "planDowngraded": "Du bist zurück auf dem Free Plan.",
@@ -747,6 +787,10 @@
     "exportFailed": "Export fehlgeschlagen. Bitte versuch es erneut.",
     "cvGenerated": "Lebenslauf generiert.",
     "cvGenerateFailed": "Lebenslauf-Generierung fehlgeschlagen. Bitte versuch es erneut.",
-    "cvGenerateProOnly": "Die KI-Lebenslauf-Generierung ist ein Pro-Feature."
+    "cvGenerateProOnly": "Die KI-Lebenslauf-Generierung ist ein Pro-Feature.",
+    "blogSaved": "Beitrag gespeichert.",
+    "blogSaveError": "Beitrag konnte nicht gespeichert werden: {message}",
+    "blogDeleteError": "Beitrag konnte nicht gelöscht werden.",
+    "blogCoverUploadError": "Titelbild konnte nicht hochgeladen werden: {message}"
   }
 }

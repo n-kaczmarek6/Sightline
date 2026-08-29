@@ -21,6 +21,7 @@ export function AppProvider({
   initialCvVersions,
   initialAnalysis,
   initialAnalysesUsed,
+  initialBlogPosts,
 }) {
   // ---- navigation ----
   const [panel, setPanelState] = useState("dashboard");
@@ -38,6 +39,8 @@ export function AppProvider({
   const [currentAnalysis, setCurrentAnalysis] = useState(initialAnalysis || null);
   const [analyzing, setAnalyzing] = useState(false);
   const [generatingCv, setGeneratingCv] = useState(false);
+  const [blogPosts, setBlogPosts] = useState(initialBlogPosts || []);
+  const [selectedBlogPostId, setSelectedBlogPostId] = useState(null);
   const [scoringCv, setScoringCv] = useState(false);
 
   // ---- plan / paywall ----
@@ -669,6 +672,76 @@ export function AppProvider({
     [isPro, toast, setPanel, t]
   );
 
+  const [savingBlogPost, setSavingBlogPost] = useState(false);
+
+  const uploadBlogCoverImage = useCallback(
+    async (file) => {
+      if (!profile) return null;
+      const supabase = createClient();
+      const ext = (file.name?.split(".").pop() || "jpg").toLowerCase();
+      const path = `${profile.id}/blog-${Date.now()}.${ext}`;
+      const { error } = await supabase.storage.from("avatars").upload(path, file, { upsert: true });
+      if (error) {
+        toast(t("blogCoverUploadError", { message: error.message }));
+        return null;
+      }
+      const { data } = supabase.storage.from("avatars").getPublicUrl(path);
+      return data.publicUrl;
+    },
+    [profile, toast, t]
+  );
+
+  const createBlogPost = useCallback(
+    async (fields) => {
+      if (!profile) return null;
+      setSavingBlogPost(true);
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from("blog_posts")
+        .insert({ ...fields, author_id: profile.id })
+        .select()
+        .single();
+      setSavingBlogPost(false);
+      if (error) {
+        toast(t("blogSaveError", { message: error.message }));
+        return null;
+      }
+      setBlogPosts((p) => [data, ...p]);
+      setSelectedBlogPostId(data.id);
+      toast(t("blogSaved"));
+      return data;
+    },
+    [profile, toast, t]
+  );
+
+  const updateBlogPost = useCallback(
+    async (id, fields) => {
+      setSavingBlogPost(true);
+      const supabase = createClient();
+      const { data, error } = await supabase.from("blog_posts").update(fields).eq("id", id).select().single();
+      setSavingBlogPost(false);
+      if (error) {
+        toast(t("blogSaveError", { message: error.message }));
+        return null;
+      }
+      setBlogPosts((p) => p.map((post) => (post.id === id ? data : post)));
+      toast(t("blogSaved"));
+      return data;
+    },
+    [toast, t]
+  );
+
+  const deleteBlogPost = useCallback(
+    async (id) => {
+      const supabase = createClient();
+      setBlogPosts((p) => p.filter((post) => post.id !== id));
+      setSelectedBlogPostId((cur) => (cur === id ? null : cur));
+      const { error } = await supabase.from("blog_posts").delete().eq("id", id);
+      if (error) toast(t("blogDeleteError"));
+    },
+    [toast, t]
+  );
+
   const value = {
     panel, setPanel,
     userEmail,
@@ -689,6 +762,8 @@ export function AppProvider({
     createCvVersion, updateVersionField, saveCvVersion, deleteCvVersion, downloadCv, linkCvVersionToApplication,
     generateCv, generatingCv, scoreCvVersion, scoringCv,
     runAnalysis, currentAnalysis, analyzing,
+    blogPosts, selectedBlogPostId, setSelectedBlogPostId, savingBlogPost,
+    createBlogPost, updateBlogPost, deleteBlogPost, uploadBlogCoverImage,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
