@@ -148,19 +148,9 @@
     "title": "Job analysieren",
     "subtitle": "Sieh vor dem Absenden, wie gut deine Erfahrung zur Position passt.",
     "tabs": {
-      "pasteText": "Text einfügen",
-      "pdf": "PDF",
-      "docx": "DOCX",
-      "importUrl": "URL importieren",
       "myProfile": "Mein Profil"
     },
     "toasts": {
-      "fileExtracted": "Text aus der Datei übernommen — bitte kurz prüfen.",
-      "extractFailed": "Datei konnte nicht gelesen werden. Bitte nutze ein PDF oder DOCX.",
-      "extractEmpty": "Es konnte kein Text aus der Datei bzw. Seite extrahiert werden.",
-      "urlImported": "Text von der Seite übernommen — bitte kurz prüfen.",
-      "urlImportFailed": "URL-Import fehlgeschlagen. Bitte kopiere die Stellenbeschreibung stattdessen als Text.",
-      "urlNotHtml": "Diese URL liefert kein lesbares HTML.",
       "openProfile": "Öffne Mein Profil im Menü."
     },
     "jobDescriptionLabel": "Job Description",
@@ -179,10 +169,7 @@
       "hint": "PDF oder DOCX — wird zusätzlich zu deinem Profil für die Analyse und die CV-Generierung genutzt.",
       "chooseFile": "Datei auswählen",
       "remove": "Entfernen",
-      "selected": "{name} ausgewählt",
-      "extracting": "Lese Datei…",
-      "urlPlaceholder": "https://…",
-      "importButton": "Importieren"
+      "selected": "{name} ausgewählt"
     },
     "analyzing": "Analysiere…",
     "submit": "Match analysieren"
