@@ -206,6 +206,12 @@ svg.icon{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;str
 .usage-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-2));}
 
 /* dashboard kpis */
+.guide-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:18px 0 24px;}
+.guide-step{display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:16px;text-align:left;cursor:pointer;border:1px solid transparent;}
+.guide-step:hover{border-color:rgba(14,169,139,.3);}
+.guide-step-num{width:26px;height:26px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;font-family:var(--font-mono);font-size:12px;font-weight:700;background:rgba(18,51,45,.08);color:var(--text-muted);}
+.guide-step.done .guide-step-num{background:var(--success);color:#fff;}
+.guide-step-label{font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.3;}
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:16px;}
 .kpi-card{padding:20px 22px;}
 .kpi-label{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);}
@@ -420,7 +426,7 @@ textarea.input-area:focus{outline:none;border-color:var(--accent);box-shadow:0 0
 .auth-switch{margin-top:18px;font-size:13.5px;color:var(--text-muted);}
 
 @media (max-width:980px){
-  .steps-row,.features-grid,.stats-grid,.kpi-grid,.field-grid,.grid-2,.builder-grid,.doc-grid,.compare-box,.chat-shell{grid-template-columns:1fr;}
+  .steps-row,.features-grid,.guide-row,.stats-grid,.kpi-grid,.field-grid,.grid-2,.builder-grid,.doc-grid,.compare-box,.chat-shell{grid-template-columns:1fr;}
   .mock-body{grid-template-columns:1fr;}
   #app-shell{flex-direction:column;}
   .sidebar{width:100%;height:auto;position:relative;flex-direction:row;overflow-x:auto;align-items:center;}

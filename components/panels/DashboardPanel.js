@@ -22,7 +22,7 @@ function dotColor(str) {
 }
 
 export default function DashboardPanel() {
-  const { setPanel, isPro, analysesUsed, FREE_ANALYSIS_LIMIT, profile, userEmail, applications } = useApp();
+  const { setPanel, isPro, analysesUsed, FREE_ANALYSIS_LIMIT, profile, userEmail, applications, workExperience, education, cvVersions } = useApp();
   const t = useTranslations("dashboard");
   const tStatus = useTranslations("common");
   const usagePct = Math.min((analysesUsed / FREE_ANALYSIS_LIMIT) * 100, 100);
@@ -50,11 +50,29 @@ export default function DashboardPanel() {
     .sort((a, b) => new Date(b.applied_at || b.created_at) - new Date(a.applied_at || a.created_at))
     .slice(0, 3);
 
+  const guideSteps = [
+    { key: "step1", done: workExperience.length > 0 || education.length > 0, panel: "profile" },
+    { key: "step2", done: applications.length > 0, panel: "analyze" },
+    { key: "step3", done: applications.some((a) => a.match_score != null), panel: "applications" },
+    { key: "step4", done: cvVersions.length > 0, panel: "builder" },
+    { key: "step5", done: applications.length > 0, panel: "applications" },
+  ];
+
   return (
     <div className="panel">
       <div className="panel-head">
         <h1>{t("greeting")}{firstName ? `, ${firstName}` : ""} 👋</h1>
         <p>{t("subtitle")}</p>
+      </div>
+
+      <div className="mock-label" style={{ marginTop: 8 }}>{t("guide.title")}</div>
+      <div className="guide-row">
+        {guideSteps.map((step, i) => (
+          <button key={step.key} className={`glass guide-step${step.done ? " done" : ""}`} onClick={() => setPanel(step.panel)}>
+            <span className="guide-step-num">{step.done ? "✓" : i + 1}</span>
+            <span className="guide-step-label">{t(`guide.${step.key}`)}</span>
+          </button>
+        ))}
       </div>
 
       {!isPro && (

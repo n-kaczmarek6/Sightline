@@ -5,7 +5,7 @@ import { useApp } from "@/context/AppContext";
 
 export default function BuilderPanel() {
   const {
-    isPro, downloadCv,
+    isPro, downloadCv, setPanel,
     applications,
     cvVersions, selectedVersionId, setSelectedVersionId,
     createCvVersion, updateVersionField, saveCvVersion, deleteCvVersion,
@@ -29,6 +29,9 @@ export default function BuilderPanel() {
     return (
       <div className="panel">
         <div className="panel-head"><h1>{t("title")}</h1><p>{t("subtitle")}</p></div>
+        <div className="note-box" style={{ marginBottom: 18 }}>
+          💡 {t("aiHintPre")} <a href="#" onClick={(e) => { e.preventDefault(); setPanel("analyze"); }}>{t("aiHintLink")}</a> {t("aiHintPost")}
+        </div>
         <div className="glass" style={{ padding: 32, textAlign: "center" }}>
           <p style={{ fontSize: 13.5, color: "var(--text-muted)", marginBottom: 16 }}>
             {t("noVersionsYet")}
@@ -53,6 +56,12 @@ export default function BuilderPanel() {
   return (
     <div className="panel">
       <div className="panel-head"><h1>{t("title")}</h1><p>{t("subtitle")}</p></div>
+
+      {!linkedApp && (
+        <div className="note-box" style={{ marginBottom: 18 }}>
+          💡 {t("aiHintPre")} <a href="#" onClick={(e) => { e.preventDefault(); setPanel("analyze"); }}>{t("aiHintLink")}</a> {t("aiHintPost")}
+        </div>
+      )}
 
       <div className="glass" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 14, padding: "18px 22px" }}>
         <div>

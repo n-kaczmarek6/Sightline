@@ -139,6 +139,14 @@
   "dashboard": {
     "greeting": "Good morning",
     "subtitle": "Your job search at a glance.",
+    "guide": {
+      "title": "Your path to an application",
+      "step1": "Create your profile",
+      "step2": "Add a job",
+      "step3": "Get a match analysis",
+      "step4": "Optimize your CV",
+      "step5": "Track"
+    },
     "usage": "{used} of {limit} job analyses used this month",
     "unlockUnlimited": "Unlock unlimited",
     "kpi": {
@@ -265,6 +273,9 @@
   "builder": {
     "title": "CV Builder",
     "subtitle": "Tailored to the target role — every section is directly editable.",
+    "aiHintPre": "Want a CV tailored to a specific role? Analyze a job first under",
+    "aiHintLink": "Analyze Job",
+    "aiHintPost": "— from there you can generate a tailored CV directly.",
     "noVersionsYet": "No CV version created yet.",
     "createFirst": "Create first version",
     "noVersionSelected": "No version selected.",

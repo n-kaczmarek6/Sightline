@@ -139,6 +139,14 @@
   "dashboard": {
     "greeting": "Guten Morgen",
     "subtitle": "Dein Job Search auf einen Blick.",
+    "guide": {
+      "title": "Dein Weg zur Bewerbung",
+      "step1": "Profil erstellen",
+      "step2": "Job hinzufügen",
+      "step3": "Match-Analyse erhalten",
+      "step4": "Lebenslauf optimieren",
+      "step5": "Tracking"
+    },
     "usage": "{used} von {limit} Job-Analysen diesen Monat genutzt",
     "unlockUnlimited": "Unlimited freischalten",
     "kpi": {
@@ -265,6 +273,9 @@
   "builder": {
     "title": "CV Builder",
     "subtitle": "Maßgeschneidert auf die Zielrolle — jeder Abschnitt direkt editierbar.",
+    "aiHintPre": "Willst du einen Lebenslauf passend zu einer bestimmten Stelle? Analysiere zuerst einen Job unter",
+    "aiHintLink": "Job analysieren",
+    "aiHintPost": "— danach kannst du dort direkt einen maßgeschneiderten Lebenslauf generieren lassen.",
     "noVersionsYet": "Noch keine CV-Version erstellt.",
     "createFirst": "Erste Version erstellen",
     "noVersionSelected": "Keine Version ausgewählt.",
