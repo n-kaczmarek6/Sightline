@@ -504,6 +504,7 @@
       "certificate": "Certificate",
       "review": "Review",
       "education": "Education record",
+      "cv": "CV",
       "other": "Other"
     },
     "form": {
@@ -552,6 +553,12 @@
     "statusPrefix": "Current status:",
     "statusSuffix": ". Drag the card to a different column on the Kanban board to change its status.",
     "deleteButton": "Delete application",
+    "cvTitle": "Linked CV",
+    "cvEmpty": "No CV linked to this application yet.",
+    "cvOpen": "Open in CV Builder",
+    "cvUnlink": "Remove",
+    "cvAttachPlaceholder": "Choose a CV version…",
+    "cvAttach": "Link",
     "documentsTitle": "Linked documents",
     "documentsEmpty": "No documents linked to this application yet.",
     "documentsDownload": "Download",
@@ -708,6 +715,7 @@
     "applicationDeleteError": "Application could not be deleted.",
     "versionCreateError": "Version could not be created.",
     "versionCreated": "New CV version created.",
+    "versionLinkError": "Link could not be saved.",
     "versionSaved": "CV version saved.",
     "versionDeleteError": "Version could not be deleted.",
     "downloadsProOnly": "CV downloads are a Pro feature.",

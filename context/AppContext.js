@@ -576,11 +576,48 @@ export function AppProvider({
         a.remove();
         URL.revokeObjectURL(url);
         toast(t("cvDownloaded"));
+
+        // Jeder Export landet zusätzlich in der Dokumente-Ablage — bei einer mit einer
+        // Bewerbung verknüpften CV-Version direkt mitverknüpft, damit in der Bewerbungs-
+        // ansicht der genau abgeschickte Lebenslauf als Nachweis auffindbar ist.
+        // Storage-Keys vertragen keine Sonderzeichen (z. B. "@" aus der E-Mail-Adresse
+        // oder Umlaute) — der hübsche Dateiname bleibt nur fürs a.download-Attribut oben,
+        // hier ein separater, ASCII-sicherer Pfad.
+        if (profile) {
+          const supabase = createClient();
+          const safeFilename = filename.normalize("NFKD").replace(/[^\w.-]+/g, "_");
+          const path = `${profile.id}/${Date.now()}-${safeFilename}`;
+          const { error: uploadError } = await supabase.storage.from("documents").upload(path, blob);
+          if (!uploadError) {
+            const { data: docData, error: docError } = await supabase
+              .from("documents")
+              .insert({
+                user_id: profile.id,
+                title: filename,
+                category: "cv",
+                file_path: path,
+                application_id: version.application_id || null,
+              })
+              .select()
+              .single();
+            if (!docError) setDocuments((d) => [docData, ...d]);
+          }
+        }
       } catch (err) {
         toast(t("exportFailed"));
       }
     },
     [isPro, cvVersions, selectedVersionId, profile, userEmail, toast, setPanel, t]
+  );
+
+  const linkCvVersionToApplication = useCallback(
+    async (versionId, applicationId) => {
+      const supabase = createClient();
+      setCvVersions((v) => v.map((ver) => (ver.id === versionId ? { ...ver, application_id: applicationId } : ver)));
+      const { error } = await supabase.from("cv_versions").update({ application_id: applicationId }).eq("id", versionId);
+      if (error) toast(t("versionLinkError"));
+    },
+    [toast, t]
   );
 
   const generateCv = useCallback(
@@ -654,7 +691,7 @@ export function AppProvider({
     toasts, toast,
     loading, loadingStep,
     cvVersions, selectedVersionId, setSelectedVersionId,
-    createCvVersion, updateVersionField, saveCvVersion, deleteCvVersion, downloadCv,
+    createCvVersion, updateVersionField, saveCvVersion, deleteCvVersion, downloadCv, linkCvVersionToApplication,
     generateCv, generatingCv,
     chatMessages, sendChatMessage,
     runAnalysis, currentAnalysis, analyzing,

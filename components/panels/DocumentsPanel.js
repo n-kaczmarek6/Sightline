@@ -3,11 +3,12 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useApp } from "@/context/AppContext";
 
-const CATEGORY_KEYS = ["certificate", "review", "education", "other"];
+const CATEGORY_KEYS = ["certificate", "review", "education", "cv", "other"];
 const CATEGORY_META = {
   certificate: { icon: "i-cert", bg: "var(--success-bg)", fg: "var(--success)" },
   review: { icon: "i-star", bg: "var(--warning-bg)", fg: "var(--warning)" },
   education: { icon: "i-cap", bg: "var(--violet-bg)", fg: "var(--violet)" },
+  cv: { icon: "i-edit", bg: "rgba(14,169,139,.1)", fg: "var(--accent)" },
   other: { icon: "i-docs", bg: "rgba(18,51,45,.06)", fg: "var(--text-muted)" },
 };
 

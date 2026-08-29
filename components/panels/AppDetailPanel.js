@@ -7,12 +7,14 @@ export default function AppDetailPanel() {
   const {
     setPanel, applications, selectedApplicationId, deleteApplication,
     documents, downloadDocument, linkDocumentToApplication, toast,
+    cvVersions, setSelectedVersionId, linkCvVersionToApplication,
   } = useApp();
   const t = useTranslations("appDetail");
   const tStatus = useTranslations("common");
   const locale = useLocale();
   const app = applications.find((a) => a.id === selectedApplicationId);
   const [docToAttach, setDocToAttach] = useState("");
+  const [cvToAttach, setCvToAttach] = useState("");
   const [prep, setPrep] = useState(null);
   const [prepLoading, setPrepLoading] = useState(false);
 
@@ -43,11 +45,24 @@ export default function AppDetailPanel() {
 
   const linkedDocs = documents.filter((d) => d.application_id === app.id);
   const unlinkedDocs = documents.filter((d) => d.application_id !== app.id);
+  const linkedCvVersions = cvVersions.filter((v) => v.application_id === app.id);
+  const unlinkedCvVersions = cvVersions.filter((v) => v.application_id !== app.id);
 
   const handleAttach = () => {
     if (!docToAttach) return;
     linkDocumentToApplication(docToAttach, app.id);
     setDocToAttach("");
+  };
+
+  const handleAttachCv = () => {
+    if (!cvToAttach) return;
+    linkCvVersionToApplication(cvToAttach, app.id);
+    setCvToAttach("");
+  };
+
+  const openInBuilder = (versionId) => {
+    setSelectedVersionId(versionId);
+    setPanel("builder");
   };
 
   const handleStartPrep = async () => {
@@ -136,6 +151,36 @@ export default function AppDetailPanel() {
             </div>
           )}
         </div>
+      </div>
+
+      <div className="glass" style={{ padding: 24, marginTop: 16 }}>
+        <h4 style={{ fontSize: 15, color: "var(--ink)", marginBottom: 14 }}>{t("cvTitle")}</h4>
+        {linkedCvVersions.length === 0 ? (
+          <p style={{ fontSize: 13.5, color: "var(--text-muted)" }}>{t("cvEmpty")}</p>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 }}>
+            {linkedCvVersions.map((v) => (
+              <div key={v.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: 13.5, color: "var(--text)" }}>{v.label}</span>
+                <div style={{ display: "flex", gap: 6 }}>
+                  <button className="btn btn-ghost btn-sm" onClick={() => openInBuilder(v.id)}>{t("cvOpen")}</button>
+                  <button className="btn btn-ghost btn-sm" onClick={() => linkCvVersionToApplication(v.id, null)}>{t("cvUnlink")}</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        {unlinkedCvVersions.length > 0 && (
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <select className="profile-input" style={{ marginTop: 0, flex: 1, minWidth: 200 }} value={cvToAttach} onChange={(e) => setCvToAttach(e.target.value)}>
+              <option value="">{t("cvAttachPlaceholder")}</option>
+              {unlinkedCvVersions.map((v) => (
+                <option key={v.id} value={v.id}>{v.label}</option>
+              ))}
+            </select>
+            <button className="btn btn-secondary btn-sm" disabled={!cvToAttach} onClick={handleAttachCv}>{t("cvAttach")}</button>
+          </div>
+        )}
       </div>
 
       <div className="glass" style={{ padding: 24, marginTop: 16 }}>

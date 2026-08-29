@@ -4,8 +4,8 @@ import { useApp } from "@/context/AppContext";
 
 const NAV = [
   { key: "dashboard", icon: "i-dashboard" },
-  { key: "analyze", icon: "i-search" },
   { key: "profile", icon: "i-user" },
+  { key: "analyze", icon: "i-search" },
   { key: "builder", icon: "i-edit" },
   { key: "applications", icon: "i-folder" },
   { key: "documents", icon: "i-docs" },

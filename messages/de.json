@@ -504,6 +504,7 @@
       "certificate": "Zertifikat",
       "review": "Review",
       "education": "Ausbildungsnachweis",
+      "cv": "Lebenslauf",
       "other": "Sonstiges"
     },
     "form": {
@@ -552,6 +553,12 @@
     "statusPrefix": "Aktueller Status:",
     "statusSuffix": ". Zieh die Karte im Kanban-Board auf eine andere Spalte, um den Status zu ändern.",
     "deleteButton": "Bewerbung löschen",
+    "cvTitle": "Verknüpfter Lebenslauf",
+    "cvEmpty": "Noch kein Lebenslauf mit dieser Bewerbung verknüpft.",
+    "cvOpen": "Im CV Builder öffnen",
+    "cvUnlink": "Entfernen",
+    "cvAttachPlaceholder": "CV-Version auswählen…",
+    "cvAttach": "Verknüpfen",
     "documentsTitle": "Verknüpfte Dokumente",
     "documentsEmpty": "Noch keine Dokumente mit dieser Bewerbung verknüpft.",
     "documentsDownload": "Herunterladen",
@@ -708,6 +715,7 @@
     "applicationDeleteError": "Bewerbung konnte nicht gelöscht werden.",
     "versionCreateError": "Version konnte nicht erstellt werden.",
     "versionCreated": "Neue CV-Version erstellt.",
+    "versionLinkError": "Verknüpfung konnte nicht gespeichert werden.",
     "versionSaved": "CV-Version gespeichert.",
     "versionDeleteError": "Version konnte nicht gelöscht werden.",
     "downloadsProOnly": "CV-Downloads sind ein Pro-Feature.",
