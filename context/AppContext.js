@@ -38,6 +38,7 @@ export function AppProvider({
   const [currentAnalysis, setCurrentAnalysis] = useState(initialAnalysis || null);
   const [analyzing, setAnalyzing] = useState(false);
   const [generatingCv, setGeneratingCv] = useState(false);
+  const [scoringCv, setScoringCv] = useState(false);
 
   // ---- plan / paywall ----
   const [isPro, setIsPro] = useState(false);
@@ -608,6 +609,38 @@ export function AppProvider({
     [toast, t]
   );
 
+  const scoreCvVersion = useCallback(
+    async (versionId) => {
+      if (!isPro) {
+        toast(t("cvScoreProOnly"));
+        setPanel("pricing");
+        return;
+      }
+      setScoringCv(true);
+      try {
+        const res = await fetch("/api/cv/score", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ versionId }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          if (data?.error === "not_linked") toast(t("cvScoreNotLinked"));
+          else if (data?.error === "no_job_description") toast(t("cvScoreNoAnalysis"));
+          else toast(t("cvScoreFailed"));
+          return;
+        }
+        setCvVersions((v) => v.map((ver) => (ver.id === versionId ? data.version : ver)));
+        toast(t("cvScored"));
+      } catch {
+        toast(t("cvScoreFailed"));
+      } finally {
+        setScoringCv(false);
+      }
+    },
+    [isPro, toast, setPanel, t]
+  );
+
   const generateCv = useCallback(
     async (analysisId) => {
       if (!isPro) {
@@ -659,7 +692,7 @@ export function AppProvider({
     loading, loadingStep,
     cvVersions, selectedVersionId, setSelectedVersionId,
     createCvVersion, updateVersionField, saveCvVersion, deleteCvVersion, downloadCv, linkCvVersionToApplication,
-    generateCv, generatingCv,
+    generateCv, generatingCv, scoreCvVersion, scoringCv,
     runAnalysis, currentAnalysis, analyzing,
   };
 

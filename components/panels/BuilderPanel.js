@@ -9,6 +9,7 @@ export default function BuilderPanel() {
     applications,
     cvVersions, selectedVersionId, setSelectedVersionId,
     createCvVersion, updateVersionField, saveCvVersion, deleteCvVersion,
+    scoreCvVersion, scoringCv,
   } = useApp();
   const t = useTranslations("builder");
   const [newLabel, setNewLabel] = useState("");
@@ -141,10 +142,30 @@ export default function BuilderPanel() {
         </div>
 
         <div className="dark-card ai-panel">
-          <h4>{t("aiSuggestions")}</h4>
-          <div className="ai-suggestion">
-            {t("aiSuggestionsPlaceholder")}
-          </div>
+          <h4>{t("scoreTitle")}</h4>
+          {linkedApp ? (
+            <div className="ai-suggestion">
+              {linkedApp.match_score != null && version.match_score != null ? (
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+                  <span>{t("scoreBefore", { score: linkedApp.match_score })}</span>
+                  <span>→</span>
+                  <strong style={{ color: "var(--accent-2)" }}>{t("scoreNow", { score: version.match_score })}</strong>
+                </div>
+              ) : version.match_score != null ? (
+                <div style={{ marginBottom: 10 }}>{t("scoreNow", { score: version.match_score })}</div>
+              ) : (
+                <div style={{ marginBottom: 10 }}>{t("scorePlaceholder")}</div>
+              )}
+              <button className="btn btn-dark btn-sm" disabled={scoringCv} onClick={() => scoreCvVersion(version.id)}>
+                {scoringCv ? t("scoring") : version.match_score != null ? t("scoreRefresh") : t("scoreCalculate")}
+                {!isPro && <span className="pro-tag">PRO</span>}
+              </button>
+            </div>
+          ) : (
+            <div className="ai-suggestion">
+              {t("aiSuggestionsPlaceholder")}
+            </div>
+          )}
           <button className="btn btn-save btn-sm" onClick={saveCvVersion}>{t("saveChanges")}</button>
           <button className="btn btn-outline btn-sm" style={{ marginTop: 8, color: "var(--error)" }}
             onClick={() => deleteCvVersion(version.id)}>
