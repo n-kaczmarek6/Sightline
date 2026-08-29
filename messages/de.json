@@ -433,7 +433,8 @@
       "zoom": "Zoom",
       "dragHint": "Zum Verschieben ziehen.",
       "cropCancel": "Abbrechen",
-      "cropConfirm": "Übernehmen"
+      "cropConfirm": "Übernehmen",
+      "cropError": "Dieses Bild kann nicht angezeigt werden (z.B. HEIC von iPhone). Bitte als JPG oder PNG speichern und erneut versuchen."
     },
     "interview": {
       "banner": "Schnell starten: Beantworte ein paar Fragen, die KI trägt die wichtigsten Infos für dich ins Profil ein.",

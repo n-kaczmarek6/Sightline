@@ -433,7 +433,8 @@
       "zoom": "Zoom",
       "dragHint": "Drag to reposition.",
       "cropCancel": "Cancel",
-      "cropConfirm": "Apply"
+      "cropConfirm": "Apply",
+      "cropError": "This image can't be displayed (e.g. iPhone HEIC). Please save it as JPG or PNG and try again."
     },
     "interview": {
       "banner": "Quick start: answer a few questions and the AI fills in the most important parts of your profile for you.",

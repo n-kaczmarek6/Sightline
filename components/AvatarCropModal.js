@@ -18,6 +18,7 @@ export default function AvatarCropModal({ file, onCancel, onConfirm }) {
   const [natural, setNatural] = useState({ w: 0, h: 0 });
   const [zoom, setZoom] = useState(1);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [error, setError] = useState(false);
   const dragState = useRef(null);
   const imgRef = useRef(null);
 
@@ -44,9 +45,18 @@ export default function AvatarCropModal({ file, onCancel, onConfirm }) {
   );
 
   const handleImgLoad = (e) => {
+    if (!e.target.naturalWidth || !e.target.naturalHeight) {
+      setError(true);
+      return;
+    }
+    setError(false);
     setNatural({ w: e.target.naturalWidth, h: e.target.naturalHeight });
     setZoom(1);
     setOffset({ x: 0, y: 0 });
+  };
+
+  const handleImgError = () => {
+    setError(true);
   };
 
   const onPointerDown = (e) => {
@@ -71,25 +81,37 @@ export default function AvatarCropModal({ file, onCancel, onConfirm }) {
 
   const handleConfirm = () => {
     const img = imgRef.current;
-    if (!img) return;
+    if (!img || !natural.w || !natural.h) {
+      setError(true);
+      return;
+    }
     const canvas = document.createElement("canvas");
     canvas.width = AVATAR_OUTPUT_WIDTH;
     canvas.height = AVATAR_OUTPUT_HEIGHT;
     const ctx = canvas.getContext("2d");
-    ctx.save();
-    ctx.beginPath();
-    ctx.ellipse(AVATAR_OUTPUT_WIDTH / 2, AVATAR_OUTPUT_HEIGHT / 2, AVATAR_OUTPUT_WIDTH / 2, AVATAR_OUTPUT_HEIGHT / 2, 0, 0, Math.PI * 2);
-    ctx.clip();
-    const imgLeft = VIEWPORT_W / 2 - dispW / 2 + offset.x;
-    const imgTop = VIEWPORT_H / 2 - dispH / 2 + offset.y;
-    const srcX = -imgLeft / scale;
-    const srcY = -imgTop / scale;
-    const srcW = VIEWPORT_W / scale;
-    const srcH = VIEWPORT_H / scale;
-    ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, AVATAR_OUTPUT_WIDTH, AVATAR_OUTPUT_HEIGHT);
-    ctx.restore();
+    try {
+      ctx.save();
+      ctx.beginPath();
+      ctx.ellipse(AVATAR_OUTPUT_WIDTH / 2, AVATAR_OUTPUT_HEIGHT / 2, AVATAR_OUTPUT_WIDTH / 2, AVATAR_OUTPUT_HEIGHT / 2, 0, 0, Math.PI * 2);
+      ctx.clip();
+      const imgLeft = VIEWPORT_W / 2 - dispW / 2 + offset.x;
+      const imgTop = VIEWPORT_H / 2 - dispH / 2 + offset.y;
+      const srcX = -imgLeft / scale;
+      const srcY = -imgTop / scale;
+      const srcW = VIEWPORT_W / scale;
+      const srcH = VIEWPORT_H / scale;
+      ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, AVATAR_OUTPUT_WIDTH, AVATAR_OUTPUT_HEIGHT);
+      ctx.restore();
+    } catch {
+      setError(true);
+      return;
+    }
     canvas.toBlob((blob) => {
-      if (blob) onConfirm(blob);
+      if (blob) {
+        onConfirm(blob);
+      } else {
+        setError(true);
+      }
     }, "image/png");
   };
 
@@ -122,6 +144,7 @@ export default function AvatarCropModal({ file, onCancel, onConfirm }) {
               ref={imgRef}
               src={imageUrl}
               onLoad={handleImgLoad}
+              onError={handleImgError}
               draggable={false}
               alt=""
               style={{
@@ -136,16 +159,19 @@ export default function AvatarCropModal({ file, onCancel, onConfirm }) {
             />
           )}
         </div>
+        {error && (
+          <p style={{ fontSize: 12, color: "#C0392B", marginTop: 12, marginBottom: 0 }}>{t("avatar.cropError")}</p>
+        )}
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 16 }}>
           <span style={{ fontSize: 12, color: "var(--text-muted)" }}>{t("avatar.zoom")}</span>
-          <input type="range" min="1" max="3" step="0.01" value={zoom} onChange={handleZoomChange} style={{ flex: 1 }} />
+          <input type="range" min="1" max="3" step="0.01" value={zoom} onChange={handleZoomChange} style={{ flex: 1 }} disabled={error} />
         </div>
         <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6, marginBottom: 0 }}>{t("avatar.dragHint")}</p>
         <div style={{ display: "flex", gap: 8, justifyContent: "flex-end", marginTop: 18 }}>
           <button type="button" className="btn btn-ghost btn-sm" onClick={onCancel}>
             {t("avatar.cropCancel")}
           </button>
-          <button type="button" className="btn btn-primary btn-sm" onClick={handleConfirm}>
+          <button type="button" className="btn btn-primary btn-sm" onClick={handleConfirm} disabled={error}>
             {t("avatar.cropConfirm")}
           </button>
         </div>

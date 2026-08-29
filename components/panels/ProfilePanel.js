@@ -507,7 +507,7 @@ export default function ProfilePanel() {
                   {profile.avatar_url ? t("avatar.change") : t("avatar.upload")}
                   <input
                     type="file"
-                    accept=".jpg,.jpeg,.png"
+                    accept="image/*"
                     style={{ display: "none" }}
                     onChange={(e) => {
                       const file = e.target.files?.[0];
