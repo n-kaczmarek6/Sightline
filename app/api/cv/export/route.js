@@ -8,6 +8,20 @@ function sanitizeFilenamePart(value) {
   return (value || "CV").replace(/[^\w-]+/g, "_").replace(/_+/g, "_").slice(0, 60);
 }
 
+function buildContactLine(profile, email) {
+  const location = profile?.location?.trim();
+  const country = profile?.country?.trim();
+  const parts = [];
+  if (location) parts.push(location);
+  if (country && !(location && location.toLowerCase().includes(country.toLowerCase()))) {
+    parts.push(country);
+  }
+  if (profile?.phone) parts.push(profile.phone);
+  if (profile?.linkedin_url) parts.push(profile.linkedin_url);
+  parts.push(email);
+  return parts.join(" · ");
+}
+
 export async function GET(request) {
   const supabase = createClient();
   const {
@@ -62,9 +76,7 @@ export async function GET(request) {
 
   const cvData = {
     name: profile?.full_name || user.email,
-    contact: [profile?.location, profile?.country, profile?.phone, profile?.linkedin_url, user.email]
-      .filter(Boolean)
-      .join(" · "),
+    contact: buildContactLine(profile, user.email),
     label: version.label,
     summary: version.summary,
     experience: version.experience_text,
