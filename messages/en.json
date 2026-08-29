@@ -647,7 +647,8 @@
       "included": ["3 job analyses per month", "Match score + top strengths & gaps", "1 CV profile", "Up to 5 tracked applications"],
       "notIncluded": ["Full keyword & recommendation analysis", "CV downloads (PDF / DOCX)", "AI interview prep"],
       "currentPlan": "Current plan",
-      "downgrade": "Downgrade to Free"
+      "downgrade": "Downgrade to Free",
+      "publicCta": "Start for free"
     },
     "pro": {
       "name": "Pro",
@@ -667,7 +668,8 @@
         "AI interview prep (topics & practice questions)"
       ],
       "currentPlan": "Current plan",
-      "upgrade": "Upgrade to Pro"
+      "upgrade": "Upgrade to Pro",
+      "publicCta": "Sign up & upgrade"
     },
     "sprintNote": "Sprint is a one-time 14-day pass — ideal if you're applying intensively for a few weeks. No auto-renewal."
   },

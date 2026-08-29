@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import IconSprite from "@/components/IconSprite";
+import PublicPricingSection from "@/components/PublicPricingSection";
 
 export default async function LandingPage() {
   const t = await getTranslations("landing");
@@ -14,8 +15,8 @@ export default async function LandingPage() {
             <div className="logo"><div className="logo-mark"></div>Sightline</div>
             <div className="landing-nav-links">
               <a href="#how">{t("nav.how")}</a>
+              <a href="#pricing">{t("nav.pricing")}</a>
               <a href="#trust">{t("nav.trust")}</a>
-              <Link href="/app?panel=pricing">{t("nav.pricing")}</Link>
               <Link href="/blog">{t("nav.blog")}</Link>
             </div>
             <div className="landing-nav-cta">
@@ -185,6 +186,8 @@ export default async function LandingPage() {
             </div>
           </div>
         </section>
+
+        <PublicPricingSection />
 
         <section className="section" id="trust">
           <div className="section-head">

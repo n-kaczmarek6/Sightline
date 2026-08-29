@@ -647,7 +647,8 @@
       "included": ["3 Job-Analysen pro Monat", "Match Score + Top-Stärken & Lücken", "1 CV-Profil", "Bis zu 5 getrackte Bewerbungen"],
       "notIncluded": ["Volle Keyword- & Empfehlungs-Analyse", "CV-Downloads (PDF / DOCX)", "KI-Interview-Vorbereitung"],
       "currentPlan": "Aktueller Plan",
-      "downgrade": "Downgrade zu Free"
+      "downgrade": "Downgrade zu Free",
+      "publicCta": "Kostenlos starten"
     },
     "pro": {
       "name": "Pro",
@@ -667,7 +668,8 @@
         "KI-Interview-Vorbereitung (Themen & Übungsfragen)"
       ],
       "currentPlan": "Aktueller Plan",
-      "upgrade": "Upgrade auf Pro"
+      "upgrade": "Upgrade auf Pro",
+      "publicCta": "Registrieren & upgraden"
     },
     "sprintNote": "Sprint ist ein einmaliger 14-Tage-Pass — ideal, wenn du ein paar Wochen intensiv bewirbst. Keine automatische Verlängerung."
   },
