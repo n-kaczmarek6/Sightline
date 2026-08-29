@@ -300,6 +300,9 @@
       "achievements": "Certifications & Achievements",
       "languages": "Languages"
     },
+    "experienceBlockPlaceholder": "New role",
+    "removeBlock": "Remove",
+    "addBlock": "+ Add role",
     "aiSuggestions": "AI Suggestions",
     "aiSuggestionsPlaceholder": "AI-powered improvement suggestions will appear here once you link a job match analysis to this version.",
     "scoreTitle": "Match Score",

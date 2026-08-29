@@ -300,6 +300,9 @@
       "achievements": "Zertifikate & Erfolge",
       "languages": "Sprachen"
     },
+    "experienceBlockPlaceholder": "Neue Station",
+    "removeBlock": "Entfernen",
+    "addBlock": "+ Station hinzufügen",
     "aiSuggestions": "KI-Vorschläge",
     "aiSuggestionsPlaceholder": "KI-gestützte Verbesserungsvorschläge erscheinen hier, sobald du eine Job-Match-Analyse mit dieser Version verknüpfst.",
     "scoreTitle": "Match-Score",

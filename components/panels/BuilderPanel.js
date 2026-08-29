@@ -1,7 +1,69 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useApp } from "@/context/AppContext";
+
+// experience_text ist ein einzelner Freitext-String (siehe /api/cv/generate) —
+// je Station ein durch Leerzeile getrennter Block mit "Titel, Firma (Zeitraum)"
+// als erster Zeile. Wir splitten hier nur für die Anzeige/Bearbeitung in
+// eigene Karten und fügen beim Speichern wieder zu einem String zusammen,
+// ohne das Datenmodell zu ändern.
+function splitExperienceBlocks(text) {
+  const trimmed = (text || "").trim();
+  if (!trimmed) return [];
+  return trimmed.split(/\n{2,}/).map((b) => b.trim()).filter(Boolean);
+}
+
+function blockHeading(block) {
+  return (block.split("\n")[0] || "").trim();
+}
+
+function ExperienceBlocks({ version, updateVersionField, t }) {
+  const [blocks, setBlocks] = useState(() => splitExperienceBlocks(version.experience_text));
+
+  useEffect(() => {
+    setBlocks(splitExperienceBlocks(version.experience_text));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [version.id]);
+
+  const commit = (next) => {
+    setBlocks(next);
+    updateVersionField("experience_text", next.join("\n\n"));
+  };
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      {blocks.map((block, i) => (
+        <div key={i} className="glass cv-section">
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+            <h4 style={{ margin: 0 }}>{blockHeading(block) || t("experienceBlockPlaceholder")}</h4>
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm"
+              onClick={() => commit(blocks.filter((_, idx) => idx !== i))}
+            >
+              {t("removeBlock")}
+            </button>
+          </div>
+          <textarea
+            className="cv-editable"
+            style={{ width: "100%", border: "none", resize: "vertical", background: "transparent", marginTop: 6 }}
+            rows={4}
+            value={block}
+            onChange={(e) => {
+              const next = blocks.slice();
+              next[i] = e.target.value;
+              commit(next);
+            }}
+          />
+        </div>
+      ))}
+      <button type="button" className="btn btn-secondary btn-sm" style={{ alignSelf: "flex-start" }} onClick={() => commit([...blocks, ""])}>
+        {t("addBlock")}
+      </button>
+    </div>
+  );
+}
 
 export default function BuilderPanel() {
   const {
@@ -119,10 +181,9 @@ export default function BuilderPanel() {
             <textarea className="cv-editable" style={{ width: "100%", border: "none", resize: "vertical", background: "transparent" }}
               rows={2} value={version.summary || ""} onChange={(e) => updateVersionField("summary", e.target.value)} />
           </div>
-          <div className="glass cv-section">
-            <h4>{t("sections.experience")}</h4>
-            <textarea className="cv-editable" style={{ width: "100%", border: "none", resize: "vertical", background: "transparent" }}
-              rows={3} value={version.experience_text || ""} onChange={(e) => updateVersionField("experience_text", e.target.value)} />
+          <div>
+            <h4 style={{ margin: "0 0 8px", fontSize: 13, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: ".04em" }}>{t("sections.experience")}</h4>
+            <ExperienceBlocks version={version} updateVersionField={updateVersionField} t={t} />
           </div>
           <div className="glass cv-section">
             <h4>{t("sections.education")}</h4>
