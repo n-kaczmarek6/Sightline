@@ -11,10 +11,14 @@ const CvDraftSchema = z.object({
   experience_text: z
     .string()
     .describe(
-      "Je Station EINE Kopfzeile 'Titel, Firma (Zeitraum)', darunter maximal 3 kurze Aufzählungspunkte mit '•' — nur die relevantesten 2-3 Stationen, nur echte, im Profil belegte Erfahrung. Insgesamt kompakt genug für eine DIN-A4-Seite."
+      "Je Station EINE Kopfzeile 'Titel, Firma (Zeitraum)', darunter 3-4 aussagekräftige Aufzählungspunkte mit '•' — die relevantesten 3-4 Stationen, nur echte, im Profil belegte Erfahrung. Sei ausführlich genug, dass der Lebenslauf gut gefüllt wirkt, nicht künstlich verknappt."
     ),
-  skills_text: z.string().describe("8-12 relevante Skills aus dem Profil, kommagetrennt, nach Relevanz für die Stelle sortiert — keine Sätze, keine Beschreibungen"),
-  education_text: z.string().describe("Je Abschluss EINE Zeile: 'Abschluss, Fach — Institution (Jahr)'. Nur echte, im Profil belegte Ausbildung. Leer lassen falls keine Ausbildung im Profil steht."),
+  skills_text: z.string().describe("8-12 relevante Fach- und Methodenskills aus dem Profil, kommagetrennt, nach Relevanz für die Stelle sortiert — keine Sätze, keine Beschreibungen, keine Sprachen (die stehen in einem eigenen Abschnitt)"),
+  education_text: z
+    .string()
+    .describe(
+      "Je Abschluss EIN Absatz: erste Zeile 'Abschluss, Fach — Institution (Jahr)', danach falls im Profil vorhanden weitere Aufzählungspunkte mit '•' zu relevanten Kursen/Modulen/Schwerpunkten, Note und Studienprojekten/Abschlussarbeit — das sind wertvolle, belegbare Erfahrung und sollten nicht weggelassen werden, wenn sie im Profil stehen. Nur echte, im Profil belegte Ausbildung, nichts erfinden. Leer lassen falls keine Ausbildung im Profil steht."
+    ),
   achievements_text: z.string().describe("Maximal 3 kurze Aufzählungspunkte mit '•' zu konkreten Erfolgen/Kennzahlen aus der echten Erfahrung, falls im Profil vorhanden — sonst leer lassen"),
 });
 
@@ -24,7 +28,7 @@ function systemPrompt(outputLocale) {
 
 WICHTIGSTE REGEL: Erfinde niemals Skills, Erfahrungen, Firmen, Titel oder Kennzahlen, die nicht im Profil bzw. im hochgeladenen Lebenslauf stehen. Nutze ausschließlich echte Angaben aus diesen Quellen — formuliere sie klarer, ordne sie nach Relevanz für die Stelle und hebe hervor, was zur Stellenausschreibung passt. Was dort fehlt, wird einfach weggelassen, niemals erfunden.
 
-LÄNGE IST KRITISCH: Der gesamte Lebenslauf muss auf eine einzige DIN-A4-Seite passen (bei sehr umfangreicher, hoch relevanter Erfahrung maximal 1,5 Seiten). Sei bewusst knapp: lieber wenige, präzise, wirklich aussagekräftige Punkte als viele mittelmäßige. Bei mehreren Berufserfahrungen nur die für DIESE Stelle relevantesten 2-3 Stationen ausführen, ältere/weniger relevante Stationen weglassen statt vollständig aufzulisten.
+LÄNGE: Der Lebenslauf soll eine DIN-A4-Seite gut füllen (bei umfangreicher, hoch relevanter Erfahrung maximal 1,5 Seiten) — nicht mehr, aber auch nicht deutlich weniger. Eine halbleere Seite wirkt genauso unprofessionell wie eine überladene. Nutze den Platz: führe die relevantesten 3-4 Stationen mit jeweils 3-4 aussagekräftigen Punkten aus, und übernimm bei der Ausbildung auch relevante Module, Noten und Studienprojekte aus dem Profil, sofern vorhanden — das sind reale, wertvolle Erfahrungen. Bei mehreren Berufserfahrungen ältere/weniger relevante Stationen eher kürzen als komplett weglassen.
 
 Schreibe ATS-freundlich: klare Formulierungen, ehrlich zutreffende Keywords aus der Stellenausschreibung, keine Tabellen oder Grafik-Beschreibungen, kurze prägnante Sätze bzw. Aufzählungspunkte mit '•'.
 
