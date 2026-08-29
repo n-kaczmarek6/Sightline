@@ -212,27 +212,27 @@ export default function ProfileInterview({ onClose }) {
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         <div>
           <div className="field-lbl">{t("qExperience")}</div>
-          <textarea className="cv-editable" style={{ width: "100%", resize: "vertical" }} rows={3}
+          <textarea className="profile-input" style={{ width: "100%", resize: "vertical", marginTop: 4 }} rows={3}
             placeholder={t("qExperiencePlaceholder")} value={answers.experience} onChange={(e) => setAnswer("experience", e.target.value)} />
         </div>
         <div>
           <div className="field-lbl">{t("qEducation")}</div>
-          <textarea className="cv-editable" style={{ width: "100%", resize: "vertical" }} rows={2}
+          <textarea className="profile-input" style={{ width: "100%", resize: "vertical", marginTop: 4 }} rows={2}
             placeholder={t("qEducationPlaceholder")} value={answers.education} onChange={(e) => setAnswer("education", e.target.value)} />
         </div>
         <div>
           <div className="field-lbl">{t("qSkills")}</div>
-          <textarea className="cv-editable" style={{ width: "100%", resize: "vertical" }} rows={2}
+          <textarea className="profile-input" style={{ width: "100%", resize: "vertical", marginTop: 4 }} rows={2}
             placeholder={t("qSkillsPlaceholder")} value={answers.skills} onChange={(e) => setAnswer("skills", e.target.value)} />
         </div>
         <div>
           <div className="field-lbl">{t("qLanguages")}</div>
-          <textarea className="cv-editable" style={{ width: "100%", resize: "vertical" }} rows={2}
+          <textarea className="profile-input" style={{ width: "100%", resize: "vertical", marginTop: 4 }} rows={2}
             placeholder={t("qLanguagesPlaceholder")} value={answers.languages} onChange={(e) => setAnswer("languages", e.target.value)} />
         </div>
         <div>
           <div className="field-lbl">{t("qGoals")}</div>
-          <textarea className="cv-editable" style={{ width: "100%", resize: "vertical" }} rows={2}
+          <textarea className="profile-input" style={{ width: "100%", resize: "vertical", marginTop: 4 }} rows={2}
             placeholder={t("qGoalsPlaceholder")} value={answers.goals} onChange={(e) => setAnswer("goals", e.target.value)} />
         </div>
       </div>
