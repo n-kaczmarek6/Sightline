@@ -96,7 +96,7 @@ export default function RegisterPage() {
           </button>
         </form>
         <p className="auth-switch">
-          Schon ein Konto? <Link href="/login">Log in</Link>
+          Schon ein Konto? <Link href="/login">Anmelden</Link>
         </p>
       </div>
     </div>

@@ -110,7 +110,7 @@
     "defaultUser": "Nutzer:in",
     "notifications": "Benachrichtigungen",
     "notificationsToast": "Du hast 3 ungelesene Benachrichtigungen.",
-    "logout": "Log out",
+    "logout": "Abmelden",
     "breadcrumbs": {
       "dashboard": "Dashboard",
       "analyze": "Job analysieren",
@@ -128,12 +128,12 @@
   },
   "common": {
     "status": {
-      "saved": "Saved",
-      "applied": "Applied",
-      "screening": "Screening",
+      "saved": "Gespeichert",
+      "applied": "Beworben",
+      "screening": "Sichtung",
       "interview": "Interview",
-      "offer": "Offer",
-      "rejected": "Rejected"
+      "offer": "Angebot",
+      "rejected": "Abgelehnt"
     }
   },
   "dashboard": {
@@ -150,11 +150,11 @@
     "usage": "{used} von {limit} Job-Analysen diesen Monat genutzt",
     "unlockUnlimited": "Unlimited freischalten",
     "kpi": {
-      "applicationsSent": "Applications Sent",
+      "applicationsSent": "Bewerbungen versendet",
       "total": "Insgesamt",
       "interviews": "Interviews",
       "conversion": "{pct}% Conversion",
-      "offers": "Offers",
+      "offers": "Angebote",
       "decisionPending": "Entscheidung offen",
       "noneYet": "Noch keine",
       "avgMatch": "Ø Match Score",
@@ -180,7 +180,7 @@
     "toasts": {
       "openProfile": "Öffne Mein Profil im Menü."
     },
-    "jobDescriptionLabel": "Job Description",
+    "jobDescriptionLabel": "Stellenbeschreibung",
     "jobDescriptionPlaceholder": "Füge hier die vollständige Stellenbeschreibung ein…",
     "yourProfileLabel": "Dein Profil",
     "profileReady": "Profil wird für die Analyse genutzt",
@@ -211,11 +211,11 @@
       "weak": "Ausbaufähiger Match"
     },
     "scores": {
-      "skills_match": "Skills Match",
-      "experience_match": "Experience Match",
-      "keyword_coverage": "Keyword Coverage",
-      "education_match": "Education Match",
-      "ats_readiness": "ATS Readiness"
+      "skills_match": "Skills-Match",
+      "experience_match": "Erfahrungs-Match",
+      "keyword_coverage": "Keyword-Abdeckung",
+      "education_match": "Ausbildungs-Match",
+      "ats_readiness": "ATS-Bereitschaft"
     },
     "whatWorks": "Was funktioniert",
     "whatsMissing": "Was fehlt",
@@ -232,7 +232,7 @@
     "noAnalysis": "Noch keine Analyse vorhanden.",
     "analyzeNow": "Jetzt einen Job analysieren →",
     "categories": {
-      "skills": "Core Skills",
+      "skills": "Kernkompetenzen",
       "tools": "Tools",
       "soft_skills": "Soft Skills"
     },
@@ -299,7 +299,7 @@
     },
     "aiSuggestions": "KI-Vorschläge",
     "aiSuggestionsPlaceholder": "KI-gestützte Verbesserungsvorschläge erscheinen hier, sobald du eine Job-Match-Analyse mit dieser Version verknüpfst.",
-    "scoreTitle": "Match Score",
+    "scoreTitle": "Match-Score",
     "scoreBefore": "Vorher {score}%",
     "scoreNow": "Jetzt {score}%",
     "scorePlaceholder": "Noch kein aktueller Score für diese Version.",
@@ -316,12 +316,12 @@
     "saveChanges": "Änderungen speichern",
     "notLoaded": "Profil konnte nicht geladen werden.",
     "sections": {
-      "personalInfo": "Personal Information",
-      "workExperience": "Work Experience",
+      "personalInfo": "Persönliche Informationen",
+      "workExperience": "Berufserfahrung",
       "education": "Ausbildung",
       "skills": "Skills",
       "languages": "Sprachen",
-      "careerPreferences": "Career Preferences"
+      "careerPreferences": "Karrierepräferenzen"
     },
     "fields": {
       "name": "Name",
@@ -546,7 +546,7 @@
     "uploadButton": "+ Dokument hochladen",
     "categories": {
       "certificate": "Zertifikat",
-      "review": "Review",
+      "review": "Bewertung",
       "education": "Ausbildungsnachweis",
       "cv": "Lebenslauf",
       "other": "Sonstiges"

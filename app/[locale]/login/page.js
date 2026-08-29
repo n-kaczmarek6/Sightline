@@ -58,7 +58,7 @@ export default function LoginPage() {
           </label>
           {error && <div className="auth-error">{error}</div>}
           <button className="btn btn-primary" type="submit" disabled={loading}>
-            {loading ? "Wird angemeldet…" : "Log in"}
+            {loading ? "Wird angemeldet…" : "Anmelden"}
           </button>
         </form>
         <p className="auth-switch">
