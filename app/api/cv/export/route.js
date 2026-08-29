@@ -8,6 +8,14 @@ function sanitizeFilenamePart(value) {
   return (value || "CV").replace(/[^\w-]+/g, "_").replace(/_+/g, "_").slice(0, 60);
 }
 
+function headerTagline(label) {
+  if (!label) return "";
+  // Das Label enthält oft "Titel — Firma" (siehe CvDraftSchema.label) zur
+  // Identifikation in der CV-Builder-Liste — im Kopfbereich des Lebenslaufs
+  // wird nur der Titel als Tagline unter dem Namen gezeigt, ohne Firma.
+  return label.split(" — ")[0].trim();
+}
+
 function buildContactLine(profile, email) {
   const location = profile?.location?.trim();
   const country = profile?.country?.trim();
@@ -77,7 +85,7 @@ export async function GET(request) {
   const cvData = {
     name: profile?.full_name || user.email,
     contact: buildContactLine(profile, user.email),
-    label: version.label,
+    label: headerTagline(version.label),
     summary: version.summary,
     experience: version.experience_text,
     education: version.education_text,
