@@ -1,5 +1,6 @@
 "use client";
-import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { useApp } from "@/context/AppContext";
 
 const SCORE_KEYS = ["skills_match", "experience_match", "keyword_coverage", "education_match", "ats_readiness"];
@@ -7,6 +8,8 @@ const SCORE_KEYS = ["skills_match", "experience_match", "keyword_coverage", "edu
 export default function MatchAnalysisPanel() {
   const { setPanel, currentAnalysis, generateCv, generatingCv, isPro } = useApp();
   const t = useTranslations("matchAnalysis");
+  const uiLocale = useLocale();
+  const [cvLanguage, setCvLanguage] = useState(uiLocale === "en" ? "en" : "de");
 
   if (!currentAnalysis) {
     return (
@@ -74,10 +77,20 @@ export default function MatchAnalysisPanel() {
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: 10, marginTop: 22, flexWrap: "wrap" }}>
+      <div style={{ display: "flex", gap: 10, marginTop: 22, flexWrap: "wrap", alignItems: "center" }}>
         <button className="btn btn-secondary" onClick={() => setPanel("keywords")}>{t("keywordAnalysis")}</button>
         <button className="btn btn-secondary" onClick={() => setPanel("recommendations")}>{t("cvRecommendations")}</button>
-        <button className="btn btn-primary" disabled={generatingCv} onClick={() => generateCv(currentAnalysis.id)}>
+        <select
+          className="profile-input"
+          style={{ marginTop: 0, width: "auto" }}
+          value={cvLanguage}
+          onChange={(e) => setCvLanguage(e.target.value)}
+          aria-label={t("cvLanguage")}
+        >
+          <option value="de">Deutsch</option>
+          <option value="en">English</option>
+        </select>
+        <button className="btn btn-primary" disabled={generatingCv} onClick={() => generateCv(currentAnalysis.id, cvLanguage)}>
           {generatingCv ? t("generatingCv") : t("generateCv")} {!isPro && <span className="pro-tag">PRO</span>}
         </button>
       </div>

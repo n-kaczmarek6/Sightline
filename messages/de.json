@@ -223,7 +223,8 @@
     "keywordAnalysis": "Keyword-Analyse →",
     "cvRecommendations": "CV-Empfehlungen →",
     "generateCv": "Lebenslauf generieren",
-    "generatingCv": "Generiere Lebenslauf…"
+    "generatingCv": "Generiere Lebenslauf…",
+    "cvLanguage": "Sprache des Lebenslaufs"
   },
   "keywords": {
     "title": "Wonach die Job Description sucht",

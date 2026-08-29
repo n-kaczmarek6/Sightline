@@ -223,7 +223,8 @@
     "keywordAnalysis": "Keyword Analysis →",
     "cvRecommendations": "CV Recommendations →",
     "generateCv": "Generate CV",
-    "generatingCv": "Generating CV…"
+    "generatingCv": "Generating CV…",
+    "cvLanguage": "CV language"
   },
   "keywords": {
     "title": "What the job description is looking for",

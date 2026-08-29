@@ -471,6 +471,7 @@ export function AppProvider({
         .insert({
           user_id: profile.id,
           label,
+          language: source?.language || null,
           summary: source?.summary || "",
           experience_text: source?.experience_text || "",
           education_text:
@@ -636,7 +637,7 @@ export function AppProvider({
   );
 
   const generateCv = useCallback(
-    async (analysisId) => {
+    async (analysisId, outputLanguage) => {
       if (!isPro) {
         toast(t("cvGenerateProOnly"));
         setPanel("pricing");
@@ -648,7 +649,7 @@ export function AppProvider({
         const res = await fetch("/api/cv/generate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ analysisId }),
+          body: JSON.stringify({ analysisId, outputLanguage }),
         });
         const data = await res.json();
         if (!res.ok) {

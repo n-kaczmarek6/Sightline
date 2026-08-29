@@ -56,7 +56,9 @@ export async function GET(request) {
     return NextResponse.json({ error: "not_found" }, { status: 404 });
   }
 
-  const locale = profile?.locale || "de";
+  // Die Sprache dieser CV-Version (unabhängig von der UI-Spracheinstellung des
+  // Profils, siehe /api/cv/generate) bestimmt die Sprache der Export-Labels.
+  const locale = version.language || profile?.locale || "de";
   const t = await getTranslations({ locale, namespace: "builder" });
 
   // avatar_url speichert einen Pfad im privaten "documents"-Bucket (nicht wirklich

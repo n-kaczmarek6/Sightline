@@ -56,6 +56,7 @@ export async function POST(request) {
   if (!analysisId) {
     return NextResponse.json({ error: "analysis_id_required" }, { status: 400 });
   }
+  const outputLanguage = body?.outputLanguage === "en" ? "en" : body?.outputLanguage === "de" ? "de" : null;
 
   const { data: analysis } = await supabase
     .from("job_analyses")
@@ -75,6 +76,11 @@ export async function POST(request) {
     supabase.from("skills").select("*").eq("profile_id", user.id).order("created_at"),
   ]);
 
+  // Sprache der Anfrage hat Vorrang vor der UI-Spracheinstellung — so lässt
+  // sich z.B. bei deutschsprachiger Oberfläche trotzdem ein englischer
+  // Lebenslauf für eine internationale Stelle erstellen.
+  const language = outputLanguage || profile?.locale || "de";
+
   const anthropic = new Anthropic();
   const profileSummary = buildProfileSummary(profile, workExperience, skills, education);
   const cvSection = analysis.source_cv_text
@@ -87,7 +93,7 @@ export async function POST(request) {
       model: "claude-opus-5",
       max_tokens: 8000,
       thinking: { type: "adaptive" },
-      system: systemPrompt(profile?.locale),
+      system: systemPrompt(language),
       messages: [
         {
           role: "user",
@@ -111,6 +117,7 @@ export async function POST(request) {
     .insert({
       user_id: user.id,
       application_id: analysis.application_id,
+      language,
       label: parsed.label,
       summary: parsed.summary,
       experience_text: parsed.experience_text,
