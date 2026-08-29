@@ -586,6 +586,8 @@
     "documentsAttach": "Link",
     "interviewPrepTitle": "Interview Prep",
     "interviewPrepSubtitle": "AI-generated from the job description and your profile.",
+    "prepUpsell": "With Pro, you get AI-generated topics and practice questions tailored to this role and your profile.",
+    "upgradeToPro": "Upgrade to Pro",
     "startPrep": "Start prep",
     "preparing": "Generating…",
     "prepError": "Couldn't generate prep. Please try again.",
@@ -605,7 +607,7 @@
       "price": "€0",
       "tagline": "Your first match score, no card required.",
       "included": ["3 job analyses per month", "Match score + top strengths & gaps", "1 CV profile", "Up to 5 tracked applications"],
-      "notIncluded": ["Full keyword & recommendation analysis", "CV downloads (PDF / DOCX)"],
+      "notIncluded": ["Full keyword & recommendation analysis", "CV downloads (PDF / DOCX)", "AI interview prep"],
       "currentPlan": "Current plan",
       "downgrade": "Downgrade to Free"
     },
@@ -623,7 +625,8 @@
         "Full keyword & recommendation analysis",
         "Unlimited CV downloads & versions",
         "Unlimited evidence documents",
-        "Unlimited tracked applications"
+        "Unlimited tracked applications",
+        "AI interview prep (topics & practice questions)"
       ],
       "currentPlan": "Current plan",
       "upgrade": "Upgrade to Pro"

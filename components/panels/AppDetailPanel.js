@@ -7,7 +7,7 @@ export default function AppDetailPanel() {
   const {
     setPanel, applications, selectedApplicationId, deleteApplication,
     documents, downloadDocument, linkDocumentToApplication, toast,
-    cvVersions, setSelectedVersionId, linkCvVersionToApplication,
+    cvVersions, setSelectedVersionId, linkCvVersionToApplication, isPro,
   } = useApp();
   const t = useTranslations("appDetail");
   const tStatus = useTranslations("common");
@@ -66,6 +66,10 @@ export default function AppDetailPanel() {
   };
 
   const handleStartPrep = async () => {
+    if (!isPro) {
+      setPanel("pricing");
+      return;
+    }
     setPrepLoading(true);
     try {
       const res = await fetch("/api/interview-prep", {
@@ -119,7 +123,14 @@ export default function AppDetailPanel() {
           <p style={{ fontSize: 13, color: "rgba(255,255,255,.6)", lineHeight: 1.6, marginBottom: 14 }}>
             {t("interviewPrepSubtitle")}
           </p>
-          {!prep ? (
+          {!isPro ? (
+            <div>
+              <p style={{ fontSize: 13, color: "rgba(255,255,255,.6)", lineHeight: 1.6, marginBottom: 14 }}>
+                {t("prepUpsell")}
+              </p>
+              <button className="btn btn-dark btn-sm" onClick={() => setPanel("pricing")}>{t("upgradeToPro")}</button>
+            </div>
+          ) : !prep ? (
             <button className="btn btn-dark btn-sm" disabled={prepLoading} onClick={handleStartPrep}>
               {prepLoading ? t("preparing") : t("startPrep")}
             </button>

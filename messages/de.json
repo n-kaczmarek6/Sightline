@@ -586,6 +586,8 @@
     "documentsAttach": "Verknüpfen",
     "interviewPrepTitle": "Interview-Vorbereitung",
     "interviewPrepSubtitle": "AI-generiert aus Job Description und deinem Profil.",
+    "prepUpsell": "Mit Pro bekommst du KI-generierte Themen und Übungsfragen passend zu dieser Stelle und deinem Profil.",
+    "upgradeToPro": "Upgrade auf Pro",
     "startPrep": "Vorbereitung starten",
     "preparing": "Generiere…",
     "prepError": "Vorbereitung konnte nicht erstellt werden. Bitte versuch es erneut.",
@@ -605,7 +607,7 @@
       "price": "€0",
       "tagline": "Erster Match Score, ohne Karte.",
       "included": ["3 Job-Analysen pro Monat", "Match Score + Top-Stärken & Lücken", "1 CV-Profil", "Bis zu 5 getrackte Bewerbungen"],
-      "notIncluded": ["Volle Keyword- & Empfehlungs-Analyse", "CV-Downloads (PDF / DOCX)"],
+      "notIncluded": ["Volle Keyword- & Empfehlungs-Analyse", "CV-Downloads (PDF / DOCX)", "KI-Interview-Vorbereitung"],
       "currentPlan": "Aktueller Plan",
       "downgrade": "Downgrade zu Free"
     },
@@ -623,7 +625,8 @@
         "Volle Keyword- & Empfehlungs-Analyse",
         "Unlimited CV-Downloads & Versionen",
         "Unlimited Nachweis-Dokumente",
-        "Unlimited getrackte Bewerbungen"
+        "Unlimited getrackte Bewerbungen",
+        "KI-Interview-Vorbereitung (Themen & Übungsfragen)"
       ],
       "currentPlan": "Aktueller Plan",
       "upgrade": "Upgrade auf Pro"
