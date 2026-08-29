@@ -109,6 +109,58 @@ function TextBlockCards({ version, field, section, updateVersionField, t, placeh
   );
 }
 
+function PolishableField({ version, field, section, updateVersionField, t, label, rows }) {
+  const { isPro, setPanel, toast, profile } = useApp();
+  const [polishing, setPolishing] = useState(false);
+
+  const handlePolish = async () => {
+    if (!isPro) {
+      toast(t("polishProOnly"));
+      setPanel("pricing");
+      return;
+    }
+    const current = version[field] || "";
+    if (!current.trim()) return;
+    setPolishing(true);
+    try {
+      const res = await fetch("/api/cv/polish-block", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: current, section, language: version.language || profile?.locale || "de" }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast(data?.message || t("polishFailed"));
+        return;
+      }
+      updateVersionField(field, data.text);
+      toast(t("polishSuccess"));
+    } catch {
+      toast(t("polishFailed"));
+    } finally {
+      setPolishing(false);
+    }
+  };
+
+  return (
+    <div className="glass cv-section">
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+        <h4>{label}</h4>
+        <button type="button" className="btn btn-secondary btn-sm" disabled={polishing} onClick={handlePolish}>
+          {polishing ? t("polishing") : t("polish")} {!isPro && <span className="pro-tag">PRO</span>}
+        </button>
+      </div>
+      <textarea
+        className="cv-editable"
+        style={{ width: "100%", border: "none", resize: "vertical", background: "transparent" }}
+        rows={rows}
+        value={version[field] || ""}
+        onChange={(e) => updateVersionField(field, e.target.value)}
+      />
+    </div>
+  );
+}
+
 export default function BuilderPanel() {
   const {
     isPro, downloadCv, setPanel,
@@ -220,11 +272,7 @@ export default function BuilderPanel() {
             <input className="cv-editable" style={{ width: "100%", border: "none", background: "transparent" }}
               value={version.label} onChange={(e) => updateVersionField("label", e.target.value)} />
           </div>
-          <div className="glass cv-section">
-            <h4>{t("sections.summary")}</h4>
-            <textarea className="cv-editable" style={{ width: "100%", border: "none", resize: "vertical", background: "transparent" }}
-              rows={2} value={version.summary || ""} onChange={(e) => updateVersionField("summary", e.target.value)} />
-          </div>
+          <PolishableField version={version} field="summary" section="summary" updateVersionField={updateVersionField} t={t} label={t("sections.summary")} rows={2} />
           <div>
             <h4 style={{ margin: "0 0 8px", fontSize: 13, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: ".04em" }}>{t("sections.experience")}</h4>
             <TextBlockCards
@@ -249,16 +297,8 @@ export default function BuilderPanel() {
               addLabel={t("addEducationBlock")}
             />
           </div>
-          <div className="glass cv-section">
-            <h4>{t("sections.skills")}</h4>
-            <textarea className="cv-editable" style={{ width: "100%", border: "none", resize: "vertical", background: "transparent" }}
-              rows={2} value={version.skills_text || ""} onChange={(e) => updateVersionField("skills_text", e.target.value)} />
-          </div>
-          <div className="glass cv-section">
-            <h4>{t("sections.achievements")}</h4>
-            <textarea className="cv-editable" style={{ width: "100%", border: "none", resize: "vertical", background: "transparent" }}
-              rows={2} value={version.achievements_text || ""} onChange={(e) => updateVersionField("achievements_text", e.target.value)} />
-          </div>
+          <PolishableField version={version} field="skills_text" section="skills" updateVersionField={updateVersionField} t={t} label={t("sections.skills")} rows={2} />
+          <PolishableField version={version} field="achievements_text" section="achievements" updateVersionField={updateVersionField} t={t} label={t("sections.achievements")} rows={2} />
         </div>
 
         <div className="dark-card ai-panel">

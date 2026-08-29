@@ -8,20 +8,40 @@ const PolishSchema = z.object({
   text: z.string().describe("Der überarbeitete Block, exakt im vorgegebenen Format"),
 });
 
+const FORMATS = {
+  experience: {
+    instruction: "Erste Zeile: 'Titel, Firma (Zeitraum)'. Danach 2-4 Zeilen mit '•' zu Aufgaben/Erfolgen, klar und ATS-freundlich formuliert.",
+    subject: "einen einzelnen CV-Block (eine Station)",
+  },
+  education: {
+    instruction: "Erste Zeile: 'Abschluss, Fach — Institution (Zeitraum)'. Danach, falls im Text vorhanden, weitere Zeilen mit '•' zu relevanten Modulen/Schwerpunkten, Note, Studienprojekten oder Abschlussarbeit.",
+    subject: "einen einzelnen CV-Block (einen Ausbildungsabschnitt)",
+  },
+  summary: {
+    instruction: "Maximal 2 prägnante, zusammenhängende Sätze als Fließtext — keine Aufzählungspunkte, keine Zeilenumbrüche.",
+    subject: "die Zusammenfassung (Summary) eines Lebenslaufs",
+  },
+  skills: {
+    instruction: "Eine einzige, kommagetrennte Liste von Fach- und Methodenskills — keine Sätze, keine Beschreibungen, keine Sprachen, keine Aufzählungspunkte.",
+    subject: "die Skills-Liste eines Lebenslaufs",
+  },
+  achievements: {
+    instruction: "Maximal 3 kurze, prägnante Zeilen mit '•' zu konkreten Erfolgen/Kennzahlen.",
+    subject: "die Erfolge/Zertifikate eines Lebenslaufs",
+  },
+};
+
 function systemPrompt(section, outputLocale) {
   const language = outputLocale === "en" ? "Englisch" : "Deutsch";
-  const format =
-    section === "education"
-      ? "Erste Zeile: 'Abschluss, Fach — Institution (Zeitraum)'. Danach, falls im Text vorhanden, weitere Zeilen mit '•' zu relevanten Modulen/Schwerpunkten, Note, Studienprojekten oder Abschlussarbeit."
-      : "Erste Zeile: 'Titel, Firma (Zeitraum)'. Danach 2-4 Zeilen mit '•' zu Aufgaben/Erfolgen, klar und ATS-freundlich formuliert.";
+  const { instruction, subject } = FORMATS[section] || FORMATS.experience;
 
-  return `Du bist der CV-Assistent von Sightline. Der Nutzer / die Nutzerin hat einen einzelnen CV-Block (eine Station bzw. einen Ausbildungsabschnitt) als Rohtext eingegeben. Bringe diesen Text in das saubere Zielformat.
+  return `Du bist der CV-Assistent von Sightline. Der Nutzer / die Nutzerin hat ${subject} als Rohtext eingegeben. Bringe diesen Text in das saubere Zielformat.
 
-FORMAT: ${format}
+FORMAT: ${instruction}
 
-WICHTIGSTE REGEL: Erfinde nichts, was nicht im Rohtext steht — keine zusätzlichen Firmen, Titel, Zeiträume, Aufgaben oder Kennzahlen. Nur vorhandene Angaben umformulieren, strukturieren und ATS-freundlich formulieren. Fehlt etwas (z.B. der Zeitraum), lässt du es einfach weg, statt es zu erfinden.
+WICHTIGSTE REGEL: Erfinde nichts, was nicht im Rohtext steht — keine zusätzlichen Firmen, Titel, Zeiträume, Skills, Aufgaben oder Kennzahlen. Nur vorhandene Angaben umformulieren, strukturieren und ATS-freundlich formulieren. Fehlt etwas, lässt du es einfach weg, statt es zu erfinden.
 
-Antworte ausschließlich mit dem fertigen Block (keine Erklärungen drumherum), auf ${language}.`;
+Antworte ausschließlich mit dem fertigen Text (keine Erklärungen drumherum), auf ${language}.`;
 }
 
 export async function POST(request) {
@@ -42,7 +62,7 @@ export async function POST(request) {
   }
 
   const rawText = (body?.text || "").trim();
-  const section = body?.section === "education" ? "education" : "experience";
+  const section = FORMATS[body?.section] ? body.section : "experience";
   const language = body?.language === "en" ? "en" : "de";
 
   if (!rawText) {
