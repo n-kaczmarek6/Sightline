@@ -110,8 +110,6 @@
       "proSprint": "Pro · Sprint"
     },
     "defaultUser": "User",
-    "notifications": "Notifications",
-    "notificationsToast": "You have 3 unread notifications.",
     "logout": "Log out",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
@@ -433,7 +431,12 @@
       "empty": "No skills added yet.",
       "addPlaceholder": "Add a skill…",
       "removeAria": "Remove {name}",
-      "suggestionsLabel": "Suggestions"
+      "suggestionsLabel": "Suggestions",
+      "aiQueryPlaceholder": "Profession or role, e.g. \"electrician\", \"office admin\", \"physician\"…",
+      "aiSuggestButton": "Suggest skills with AI",
+      "aiSuggesting": "Suggesting…",
+      "aiSuggestedLabel": "AI suggestions",
+      "aiSuggestError": "Couldn't load suggestions."
     },
     "languagesBlock": {
       "empty": "No languages added yet.",
@@ -697,10 +700,6 @@
       "mismatch": "Passwords don't match.",
       "saving": "Saving…",
       "update": "Update password"
-    },
-    "notifications": {
-      "heading": "Notifications",
-      "description": "Email when a recruiter views your application, plus weekly match digests."
     },
     "deleteAccount": {
       "heading": "Delete Account",

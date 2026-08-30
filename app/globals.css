@@ -185,8 +185,6 @@ svg.icon{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;str
 .topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:14px;padding:14px 30px;background:rgba(242,246,243,.75);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border-bottom:1px solid rgba(18,51,45,.07);}
 .topbar-left{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);font-weight:600;}
 .topbar-right{margin-left:auto;display:flex;align-items:center;gap:8px;position:relative;}
-.icon-btn{position:relative;width:36px;height:36px;border-radius:12px;border:1px solid rgba(18,51,45,.1);background:rgba(255,255,255,.7);display:grid;place-items:center;color:var(--ink);}
-.notif-dot{position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:99px;background:var(--coral);border:1.5px solid #fff;}
 .user-chip{display:flex;align-items:center;gap:9px;padding:5px 13px 5px 5px;border-radius:999px;border:1px solid rgba(18,51,45,.1);background:rgba(255,255,255,.7);max-width:220px;}
 .user-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .user-menu{position:absolute;top:56px;right:0;min-width:170px;padding:6px;border-radius:16px;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border:1px solid rgba(18,51,45,.08);box-shadow:0 26px 50px -30px rgba(18,51,45,.9);display:flex;flex-direction:column;z-index:30;}

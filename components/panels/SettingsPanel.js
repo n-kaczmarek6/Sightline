@@ -107,13 +107,6 @@ export default function SettingsPanel() {
           </form>
         </div>
 
-        <div className="glass profile-section">
-          <h4>{t("notifications.heading")}</h4>
-          <p style={{ fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.6 }}>
-            {t("notifications.description")}
-          </p>
-        </div>
-
         <div className="glass profile-section" style={{ borderColor: "rgba(226,76,58,.3)" }}>
           <h4 style={{ color: "var(--error)" }}>{t("deleteAccount.heading")}</h4>
           <p style={{ fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.6, marginBottom: 12 }}>

@@ -414,6 +414,7 @@ export default function ProfilePanel() {
     workExperience, addWorkExperience, removeWorkExperience,
     education, addEducation, removeEducation,
     skills, addSkill, removeSkill,
+    toast,
   } = useApp();
   const t = useTranslations("profile");
   const locale = useLocale();
@@ -422,6 +423,32 @@ export default function ProfilePanel() {
   const [showInterview, setShowInterview] = useState(false);
   const [avatarSignedUrl, setAvatarSignedUrl] = useState(null);
   const [cropFile, setCropFile] = useState(null);
+  const [skillQuery, setSkillQuery] = useState("");
+  const [skillSuggesting, setSkillSuggesting] = useState(false);
+  const [aiSuggestedSkills, setAiSuggestedSkills] = useState([]);
+
+  const handleAiSuggestSkills = async () => {
+    if (!skillQuery.trim()) return;
+    setSkillSuggesting(true);
+    setAiSuggestedSkills([]);
+    try {
+      const res = await fetch("/api/skills/suggest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ description: skillQuery }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast(t("skillsBlock.aiSuggestError"));
+        return;
+      }
+      setAiSuggestedSkills(data.skills || []);
+    } catch {
+      toast(t("skillsBlock.aiSuggestError"));
+    } finally {
+      setSkillSuggesting(false);
+    }
+  };
 
   useEffect(() => {
     if (!profile?.avatar_url) {
@@ -663,6 +690,48 @@ export default function ProfilePanel() {
           </div>
           <div className="suggestion-lbl-sm">{t("skillsBlock.suggestionsLabel")}</div>
           <SuggestionChips options={skillSuggestions} current={skills.map((s) => s.name)} onPick={addSkill} />
+
+          <div style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid var(--border)" }}>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", maxWidth: 480 }}>
+              <input
+                className="profile-input"
+                style={{ marginTop: 0, flex: "1 1 240px" }}
+                placeholder={t("skillsBlock.aiQueryPlaceholder")}
+                value={skillQuery}
+                onChange={(e) => setSkillQuery(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleAiSuggestSkills(); } }}
+              />
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                disabled={!skillQuery.trim() || skillSuggesting}
+                onClick={handleAiSuggestSkills}
+              >
+                {skillSuggesting ? t("skillsBlock.aiSuggesting") : t("skillsBlock.aiSuggestButton")}
+              </button>
+            </div>
+            {aiSuggestedSkills.length > 0 && (
+              <>
+                <div className="suggestion-lbl-sm">{t("skillsBlock.aiSuggestedLabel")}</div>
+                <div className="tag-row">
+                  {aiSuggestedSkills.map((s) => {
+                    const alreadyAdded = skills.some((sk) => sk.name === s);
+                    return (
+                      <button
+                        key={s}
+                        type="button"
+                        className="tag suggestion-chip"
+                        disabled={alreadyAdded}
+                        onClick={() => { addSkill(s); setAiSuggestedSkills((prev) => prev.filter((x) => x !== s)); }}
+                      >
+                        {alreadyAdded ? "✓ " : "+ "}{s}
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
         <div className="glass profile-section">

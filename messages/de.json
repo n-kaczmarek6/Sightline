@@ -110,8 +110,6 @@
       "proSprint": "Pro · Sprint"
     },
     "defaultUser": "Nutzer:in",
-    "notifications": "Benachrichtigungen",
-    "notificationsToast": "Du hast 3 ungelesene Benachrichtigungen.",
     "logout": "Abmelden",
     "openMenu": "Menü öffnen",
     "closeMenu": "Menü schließen",
@@ -433,7 +431,12 @@
       "empty": "Noch keine Skills hinzugefügt.",
       "addPlaceholder": "Skill hinzufügen…",
       "removeAria": "{name} entfernen",
-      "suggestionsLabel": "Vorschläge"
+      "suggestionsLabel": "Vorschläge",
+      "aiQueryPlaceholder": "Beruf oder Tätigkeit, z. B. „Elektriker“, „Bürokauffrau“, „Ärztin“…",
+      "aiSuggestButton": "Skills per KI vorschlagen",
+      "aiSuggesting": "Wird vorgeschlagen…",
+      "aiSuggestedLabel": "KI-Vorschläge",
+      "aiSuggestError": "Vorschläge konnten nicht geladen werden."
     },
     "languagesBlock": {
       "empty": "Noch keine Sprachen hinzugefügt.",
@@ -697,10 +700,6 @@
       "mismatch": "Passwörter stimmen nicht überein.",
       "saving": "Wird gespeichert…",
       "update": "Passwort aktualisieren"
-    },
-    "notifications": {
-      "heading": "Benachrichtigungen",
-      "description": "E-Mail, wenn ein Recruiter deine Bewerbung ansieht, plus wöchentliche Match-Digests."
     },
     "deleteAccount": {
       "heading": "Konto löschen",

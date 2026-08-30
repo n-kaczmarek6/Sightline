@@ -14,7 +14,7 @@ function initials(name, email) {
 }
 
 export default function Topbar({ onMenuClick }) {
-  const { panel, setPanel, toast, profile, userEmail, applications, selectedApplicationId } = useApp();
+  const { panel, setPanel, profile, userEmail, applications, selectedApplicationId } = useApp();
   const t = useTranslations("shell");
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
@@ -38,14 +38,6 @@ export default function Topbar({ onMenuClick }) {
       </button>
       <div className="topbar-left">{crumb}</div>
       <div className="topbar-right">
-        <button
-          className="icon-btn"
-          title={t("notifications")}
-          onClick={() => toast(t("notificationsToast"))}
-        >
-          <svg className="icon" style={{ width: 17, height: 17 }}><use href="#i-bell" /></svg>
-          <span className="notif-dot"></span>
-        </button>
         <button className="user-chip" onClick={() => setMenuOpen((v) => !v)}>
           <span className="avatar" style={{ width: 26, height: 26, fontSize: 10.5 }}>{initials(profile?.full_name, userEmail)}</span>
           <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>{displayName}</span>

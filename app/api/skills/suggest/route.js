@@ -3,11 +3,9 @@ import Anthropic from "@anthropic-ai/sdk";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
-import deMessages from "@/messages/de.json";
-import enMessages from "@/messages/en.json";
 
 const SuggestSchema = z.object({
-  skills: z.array(z.string()).describe("Passende Skills aus der gegebenen Liste, maximal 8"),
+  skills: z.array(z.string()).describe("Passende, konkrete Skills — maximal 8, sortiert nach Relevanz"),
 });
 
 export async function POST(request) {
@@ -28,25 +26,34 @@ export async function POST(request) {
   }
 
   const description = (body?.description || "").trim();
-  if (description.length < 10) {
+  if (description.length < 3) {
     return NextResponse.json({ error: "description_too_short" }, { status: 400 });
   }
 
   const { data: profile } = await supabase.from("profiles").select("locale").eq("id", user.id).single();
   const locale = profile?.locale === "en" ? "en" : "de";
-  const skillList = (locale === "en" ? enMessages : deMessages).profile.suggestions.allSkills;
+  const language = locale === "en" ? "Englisch" : "Deutsch";
 
   const anthropic = new Anthropic();
 
+  // Bewusst NICHT auf eine feste, vorab kuratierte Liste beschränkt: die Liste
+  // kann unmöglich jeden Beruf abdecken (Arzt, Elektriker, Bürokauffrau, ...),
+  // die KI kennt aber die üblichen Fachbegriffe/Skills für praktisch jeden
+  // Beruf. Einzige Regel bleibt: nur echte, durch die Beschreibung belegte
+  // Skills, nichts erfinden, das nicht erkennbar ist.
   let parsed;
   try {
     const response = await anthropic.messages.parse({
       model: "claude-sonnet-5",
       max_tokens: 1024,
-      system: `Du bist ein Assistent, der aus einer Berufserfahrungs-Beschreibung passende Skills auswählt. Wähle NUR Skills aus der unten gegebenen Liste, die durch die Beschreibung wirklich belegt sind — erfinde keine neuen Skills und wähle nichts, das nicht klar erkennbar ist. Maximal 8 Skills, sortiert nach Relevanz.
+      system: `Du bist ein Assistent, der passende, konkrete Skills für einen Lebenslauf vorschlägt — unabhängig davon, um welchen Beruf es sich handelt (Handwerk, Medizin, Verwaltung, IT, Handel, Pflege, etc.). Der Nutzer gibt entweder eine ausführliche Tätigkeitsbeschreibung ODER nur einen Berufsnamen/Stichwort (z. B. "Elektriker" oder "Ärztin").
 
-Verfügbare Skills (nur exakt aus dieser Liste wählen):
-${skillList.join(", ")}`,
+- Bei einer ausführlichen Beschreibung: wähle nur Skills, die durch den Text wirklich erkennbar belegt sind.
+- Bei einem reinen Berufsnamen/Stichwort: nenne die typischen, in diesem Beruf üblichen Fach-Skills, Tools, Zertifikate und Methoden, die auf einem deutschen Lebenslauf für diesen Beruf realistisch und erwartbar sind.
+
+Nenne kurze, prägnante Skill-Bezeichnungen, keine ganzen Sätze. Maximal 8 Skills, sortiert nach Relevanz.
+
+Antworte auf ${language}.`,
       messages: [{ role: "user", content: description }],
       output_config: { format: zodOutputFormat(SuggestSchema) },
     });
@@ -60,9 +67,6 @@ ${skillList.join(", ")}`,
     return NextResponse.json({ error: "parse_failed" }, { status: 502 });
   }
 
-  // Safety net: only keep skills that actually exist in our curated list.
-  const byLowerCase = new Map(skillList.map((s) => [s.toLowerCase(), s]));
-  const matched = [...new Set(parsed.skills.map((s) => byLowerCase.get(s.trim().toLowerCase())).filter(Boolean))];
-
-  return NextResponse.json({ skills: matched });
+  const skills = [...new Set(parsed.skills.map((s) => s.trim()).filter(Boolean))].slice(0, 8);
+  return NextResponse.json({ skills });
 }

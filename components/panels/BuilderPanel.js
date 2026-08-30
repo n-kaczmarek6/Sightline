@@ -69,8 +69,8 @@ function TextBlockCards({ version, field, section, updateVersionField, t, placeh
     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
       {blocks.map((block, i) => (
         <div key={i} className="glass cv-section">
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
-            <h4 style={{ margin: 0 }}>{blockHeading(block) || placeholder}</h4>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, flexWrap: "wrap" }}>
+            <h4 style={{ margin: 0, minWidth: 0, flex: "1 1 180px" }}>{blockHeading(block) || placeholder}</h4>
             <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
               <button
                 type="button"
@@ -144,9 +144,9 @@ function PolishableField({ version, field, section, updateVersionField, t, label
 
   return (
     <div className="glass cv-section">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
-        <h4>{label}</h4>
-        <button type="button" className="btn btn-secondary btn-sm" disabled={polishing} onClick={handlePolish}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, flexWrap: "wrap" }}>
+        <h4 style={{ minWidth: 0, flex: "1 1 120px" }}>{label}</h4>
+        <button type="button" className="btn btn-secondary btn-sm" style={{ flexShrink: 0 }} disabled={polishing} onClick={handlePolish}>
           {polishing ? t("polishing") : t("polish")} {!isPro && <span className="pro-tag">PRO</span>}
         </button>
       </div>
@@ -257,8 +257,8 @@ export default function BuilderPanel() {
       </div>
 
       {showNewForm && (
-        <form className="glass profile-section" style={{ padding: 18, display: "flex", gap: 10, marginTop: 14, alignItems: "center" }} onSubmit={handleCreate}>
-          <input className="profile-input" style={{ marginTop: 0, flex: 1 }} placeholder={t("newVersionNamePlaceholder")}
+        <form className="glass profile-section" style={{ padding: 18, display: "flex", gap: 10, marginTop: 14, alignItems: "center", flexWrap: "wrap" }} onSubmit={handleCreate}>
+          <input className="profile-input" style={{ marginTop: 0, flex: "1 1 160px" }} placeholder={t("newVersionNamePlaceholder")}
             value={newLabel} onChange={(e) => setNewLabel(e.target.value)} />
           <button className="btn btn-primary btn-sm" type="submit">{t("createCopyOf", { label: version.label })}</button>
           <button className="btn btn-ghost btn-sm" type="button" onClick={() => setShowNewForm(false)}>{t("cancel")}</button>

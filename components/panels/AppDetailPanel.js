@@ -171,9 +171,9 @@ export default function AppDetailPanel() {
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 14 }}>
             {linkedCvVersions.map((v) => (
-              <div key={v.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: 13.5, color: "var(--text)" }}>{v.label}</span>
-                <div style={{ display: "flex", gap: 6 }}>
+              <div key={v.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                <span style={{ fontSize: 13.5, color: "var(--text)", minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: "1 1 160px" }}>{v.label}</span>
+                <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
                   <button className="btn btn-ghost btn-sm" onClick={() => openInBuilder(v.id)}>{t("cvOpen")}</button>
                   <button className="btn btn-ghost btn-sm" onClick={() => linkCvVersionToApplication(v.id, null)}>{t("cvUnlink")}</button>
                 </div>
