@@ -442,14 +442,22 @@ textarea.input-area:focus{outline:none;border-color:var(--accent);box-shadow:0 0
 .blog-content pre code{background:none;padding:0;}
 .blog-content img{max-width:100%;border-radius:12px;margin:0 0 18px;}
 
+.hamburger-btn{display:none;flex-direction:column;justify-content:center;align-items:center;gap:4px;width:36px;height:36px;border-radius:12px;border:1px solid rgba(18,51,45,.1);background:rgba(255,255,255,.7);flex-shrink:0;}
+.hamburger-btn span{display:block;width:16px;height:2px;background:var(--ink);border-radius:2px;}
+.sidebar-mobile-head{display:flex;align-items:center;justify-content:space-between;}
+.sidebar-close{display:none;}
+.sidebar-backdrop{display:none;}
+
 @media (max-width:980px){
   .steps-row,.features-grid,.guide-row,.stats-grid,.kpi-grid,.field-grid,.grid-2,.builder-grid,.doc-grid,.compare-box,.chat-shell{grid-template-columns:1fr;}
   .mock-body{grid-template-columns:1fr;}
   #app-shell{flex-direction:column;min-width:0;}
   .app-main{min-width:0;}
-  .sidebar{width:100%;min-width:0;height:auto;position:relative;flex-direction:row;overflow-x:auto;align-items:center;}
-  .sidebar-logo,.sidebar-footer{display:none;}
-  .nav-group{flex-direction:row;min-width:0;flex-shrink:0;}
+  .hamburger-btn{display:flex;}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:270px;max-width:82vw;height:auto;transform:translateX(-100%);transition:transform .25s ease;z-index:200;overflow-y:auto;overflow-x:hidden;}
+  .sidebar.mobile-open{transform:translateX(0);}
+  .sidebar-close{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:10px;border:1px solid hsla(0,0%,100%,.15);background:transparent;color:#fff;font-size:20px;line-height:1;flex-shrink:0;}
+  .sidebar-backdrop.open{display:block;position:fixed;inset:0;background:rgba(15,26,22,.5);z-index:190;}
   .kanban{grid-template-columns:1fr;}
 }
 

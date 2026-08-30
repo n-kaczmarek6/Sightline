@@ -13,7 +13,7 @@ function initials(name, email) {
   return (email || "?").slice(0, 2).toUpperCase();
 }
 
-export default function Topbar() {
+export default function Topbar({ onMenuClick }) {
   const { panel, setPanel, toast, profile, userEmail, applications, selectedApplicationId } = useApp();
   const t = useTranslations("shell");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -33,6 +33,9 @@ export default function Topbar() {
 
   return (
     <div className="topbar">
+      <button className="hamburger-btn" onClick={onMenuClick} aria-label={t("openMenu")}>
+        <span></span><span></span><span></span>
+      </button>
       <div className="topbar-left">{crumb}</div>
       <div className="topbar-right">
         <button

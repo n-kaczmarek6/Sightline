@@ -113,6 +113,8 @@
     "notifications": "Notifications",
     "notificationsToast": "You have 3 unread notifications.",
     "logout": "Log out",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
     "breadcrumbs": {
       "dashboard": "Dashboard",
       "analyze": "Analyze Job",

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { AppProvider, useApp } from "@/context/AppContext";
 import IconSprite from "@/components/IconSprite";
@@ -52,15 +52,16 @@ function InitialPanelFromQuery() {
 function ShellInner() {
   const { panel } = useApp();
   const Panel = PANELS[panel] || DashboardPanel;
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   return (
     <div id="app-shell" style={{ display: "flex", minHeight: "100vh" }}>
       <IconSprite />
       <Toasts />
       <LoadingOverlay />
       <InitialPanelFromQuery />
-      <Sidebar />
+      <Sidebar mobileOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
       <main className="app-main">
-        <Topbar />
+        <Topbar onMenuClick={() => setMobileNavOpen(true)} />
         <div className="panel-wrap">
           <Panel />
         </div>

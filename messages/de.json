@@ -113,6 +113,8 @@
     "notifications": "Benachrichtigungen",
     "notificationsToast": "Du hast 3 ungelesene Benachrichtigungen.",
     "logout": "Abmelden",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen",
     "breadcrumbs": {
       "dashboard": "Dashboard",
       "analyze": "Job analysieren",
