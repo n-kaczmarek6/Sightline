@@ -3,7 +3,8 @@ import { Link } from "@/i18n/navigation";
 import IconSprite from "@/components/IconSprite";
 import PublicPricingSection from "@/components/PublicPricingSection";
 
-export default async function LandingPage() {
+export default async function LandingPage({ params }) {
+  const { locale } = await params;
   const t = await getTranslations("landing");
 
   return (
@@ -20,6 +21,10 @@ export default async function LandingPage() {
               <Link href="/blog">{t("nav.blog")}</Link>
             </div>
             <div className="landing-nav-cta">
+              <div className="landing-locale-switch">
+                <Link href="/" locale="de" className={locale === "de" ? "active" : ""}>DE</Link>
+                <Link href="/" locale="en" className={locale === "en" ? "active" : ""}>EN</Link>
+              </div>
               <Link className="btn btn-ghost btn-sm" href="/login">{t("nav.login")}</Link>
               <Link className="btn btn-primary btn-sm" href="/app?panel=analyze">{t("nav.cta")}</Link>
             </div>

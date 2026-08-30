@@ -106,6 +106,8 @@ svg.icon{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;str
 .landing-nav-links{display:flex;gap:24px;margin-left:14px;font-size:14px;font-weight:500;}
 .landing-nav-links a{color:var(--text-muted);}
 .landing-nav-cta{margin-left:auto;display:flex;gap:10px;align-items:center;}
+.landing-locale-switch{display:flex;gap:6px;font-size:12.5px;font-weight:700;color:var(--text-faint);}
+.landing-locale-switch a.active{color:var(--accent);}
 
 .hero{max-width:1180px;margin:0 auto;padding:72px 28px 20px;text-align:center;}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 15px;border-radius:999px;background:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.8);box-shadow:0 8px 24px -18px rgba(18,51,45,.9);font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.12em;color:#0C9077;text-transform:uppercase;}
