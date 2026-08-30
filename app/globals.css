@@ -458,3 +458,10 @@ textarea.input-area:focus{outline:none;border-color:var(--accent);box-shadow:0 0
   .landing-nav-links{display:none;}
   .landing-nav-cta{margin-left:auto;}
 }
+
+@media (max-width:480px){
+  .topbar{padding:10px 14px;gap:8px;}
+  .topbar-left{font-size:10px;letter-spacing:.02em;}
+  .user-chip{padding:5px;max-width:44px;}
+  .user-chip span:last-of-type{display:none;}
+}
