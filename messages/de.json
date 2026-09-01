@@ -603,7 +603,8 @@
     "usageBannerSub": "Du trackst gerade {count} — Pro hebt das Limit auf.",
     "unlockUnlimited": "Unlimited freischalten",
     "matchScore": "Match {score}%",
-    "noMatchScore": "Kein Match-Score"
+    "noMatchScore": "Kein Match-Score",
+    "cvLinked": "CV verknüpft"
   },
   "appDetail": {
     "back": "← Zurück zu Bewerbungen",
@@ -615,6 +616,11 @@
     "statusPrefix": "Aktueller Status:",
     "statusSuffix": ". Zieh die Karte im Kanban-Board auf eine andere Spalte, um den Status zu ändern.",
     "deleteButton": "Bewerbung löschen",
+    "analysisTitle": "Keyword-Analyse",
+    "analysisEmpty": "Noch keine Analyse für diese Bewerbung. Führe eine Job-Analyse durch, um Match-Score, Keywords und Empfehlungen zu sehen.",
+    "analysisOpen": "Analyse ansehen",
+    "analysisKeywords": "Keywords ansehen",
+    "analysisRecommendations": "Empfehlungen ansehen",
     "cvTitle": "Verknüpfter Lebenslauf",
     "cvEmpty": "Noch kein Lebenslauf mit dieser Bewerbung verknüpft.",
     "cvOpen": "Im CV Builder öffnen",

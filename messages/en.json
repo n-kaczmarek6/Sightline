@@ -603,7 +603,8 @@
     "usageBannerSub": "You're currently tracking {count} — Pro removes the limit.",
     "unlockUnlimited": "Unlock unlimited",
     "matchScore": "Match {score}%",
-    "noMatchScore": "No match score"
+    "noMatchScore": "No match score",
+    "cvLinked": "CV linked"
   },
   "appDetail": {
     "back": "← Back to Applications",
@@ -615,6 +616,11 @@
     "statusPrefix": "Current status:",
     "statusSuffix": ". Drag the card to a different column on the Kanban board to change its status.",
     "deleteButton": "Delete application",
+    "analysisTitle": "Keyword Analysis",
+    "analysisEmpty": "No analysis for this application yet. Run a job analysis to see the match score, keywords, and recommendations.",
+    "analysisOpen": "View analysis",
+    "analysisKeywords": "View keywords",
+    "analysisRecommendations": "View recommendations",
     "cvTitle": "Linked CV",
     "cvEmpty": "No CV linked to this application yet.",
     "cvOpen": "Open in CV Builder",

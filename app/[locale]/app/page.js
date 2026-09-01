@@ -26,7 +26,7 @@ export default async function AppPage() {
     { data: documents },
     { data: applications },
     { data: cvVersions },
-    { data: latestAnalysisRows },
+    { data: jobAnalyses },
     { count: analysesUsed },
     { data: blogPosts },
   ] = await Promise.all([
@@ -41,8 +41,7 @@ export default async function AppPage() {
       .from("job_analyses")
       .select("*")
       .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
-      .limit(1),
+      .order("created_at", { ascending: false }),
     supabase
       .from("job_analyses")
       .select("id", { count: "exact", head: true })
@@ -62,7 +61,8 @@ export default async function AppPage() {
         initialDocuments={documents ?? []}
         initialApplications={applications ?? []}
         initialCvVersions={cvVersions ?? []}
-        initialAnalysis={latestAnalysisRows?.[0] ?? null}
+        initialAnalysis={jobAnalyses?.[0] ?? null}
+        initialJobAnalyses={jobAnalyses ?? []}
         initialAnalysesUsed={analysesUsed ?? 0}
         initialBlogPosts={blogPosts ?? []}
       />

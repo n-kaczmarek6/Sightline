@@ -8,6 +8,7 @@ export default function AppDetailPanel() {
     setPanel, applications, selectedApplicationId, deleteApplication,
     documents, downloadDocument, linkDocumentToApplication, toast,
     cvVersions, setSelectedVersionId, linkCvVersionToApplication, isPro,
+    jobAnalyses, viewAnalysis,
   } = useApp();
   const t = useTranslations("appDetail");
   const tStatus = useTranslations("common");
@@ -43,6 +44,7 @@ export default function AppDetailPanel() {
     setPanel("applications");
   };
 
+  const analysis = jobAnalyses.find((a) => a.application_id === app.id);
   const linkedDocs = documents.filter((d) => d.application_id === app.id);
   const unlinkedDocs = documents.filter((d) => d.application_id !== app.id);
   const linkedCvVersions = cvVersions.filter((v) => v.application_id === app.id);
@@ -162,6 +164,20 @@ export default function AppDetailPanel() {
             </div>
           )}
         </div>
+      </div>
+
+      <div className="glass" style={{ padding: 24, marginTop: 16 }}>
+        <h4 style={{ fontSize: 15, color: "var(--ink)", marginBottom: 14 }}>{t("analysisTitle")}</h4>
+        {!analysis ? (
+          <p style={{ fontSize: 13.5, color: "var(--text-muted)" }}>{t("analysisEmpty")}</p>
+        ) : (
+          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+            {analysis.match_score != null && <span className="badge badge-success">{t("match", { score: analysis.match_score })}</span>}
+            <button className="btn btn-secondary btn-sm" onClick={() => viewAnalysis(app.id, "analysis")}>{t("analysisOpen")}</button>
+            <button className="btn btn-ghost btn-sm" onClick={() => viewAnalysis(app.id, "keywords")}>{t("analysisKeywords")}</button>
+            <button className="btn btn-ghost btn-sm" onClick={() => viewAnalysis(app.id, "recommendations")}>{t("analysisRecommendations")}</button>
+          </div>
+        )}
       </div>
 
       <div className="glass" style={{ padding: 24, marginTop: 16 }}>

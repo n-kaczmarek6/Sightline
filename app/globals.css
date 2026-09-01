@@ -361,6 +361,7 @@ textarea.input-area:focus{outline:none;border-color:var(--accent);box-shadow:0 0
 .kanban-card .co{font-size:13px;font-weight:800;color:var(--ink);}
 .kanban-card .role{font-size:12px;color:var(--text-muted);margin-top:3px;line-height:1.4;}
 .kanban-card .match{font-family:var(--font-mono);font-size:11px;color:#0C9077;margin-top:9px;}
+.kanban-cv-tag{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;color:var(--text-muted);margin-top:6px;}
 
 /* app detail */
 .timeline{display:flex;flex-direction:column;gap:16px;}

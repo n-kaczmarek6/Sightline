@@ -20,6 +20,7 @@ export function AppProvider({
   initialApplications,
   initialCvVersions,
   initialAnalysis,
+  initialJobAnalyses,
   initialAnalysesUsed,
   initialBlogPosts,
 }) {
@@ -37,6 +38,7 @@ export function AppProvider({
   const [cvVersions, setCvVersions] = useState(initialCvVersions || []);
   const [selectedVersionId, setSelectedVersionId] = useState(initialCvVersions?.[0]?.id || null);
   const [currentAnalysis, setCurrentAnalysis] = useState(initialAnalysis || null);
+  const [jobAnalyses, setJobAnalyses] = useState(initialJobAnalyses || []);
   const [analyzing, setAnalyzing] = useState(false);
   const [generatingCv, setGeneratingCv] = useState(false);
   const [blogPosts, setBlogPosts] = useState(initialBlogPosts || []);
@@ -111,6 +113,7 @@ export function AppProvider({
         }
         setLoadingStep(4);
         setCurrentAnalysis(data.analysis);
+        setJobAnalyses((list) => [data.analysis, ...list]);
         setApplications((a) => [data.application, ...a]);
         if (!isPro) setAnalysesUsed((n) => n + 1);
         setPanel("analysis");
@@ -123,6 +126,16 @@ export function AppProvider({
       }
     },
     [isPro, analysesUsed, toast, setPanel, t]
+  );
+
+  const viewAnalysis = useCallback(
+    (applicationId, targetPanel = "analysis") => {
+      const analysis = jobAnalyses.find((a) => a.application_id === applicationId);
+      if (!analysis) return;
+      setCurrentAnalysis(analysis);
+      setPanel(targetPanel);
+    },
+    [jobAnalyses, setPanel]
   );
 
   const updateProfileField = useCallback((field, value) => {
@@ -760,7 +773,7 @@ export function AppProvider({
     cvVersions, selectedVersionId, setSelectedVersionId,
     createCvVersion, updateVersionField, saveCvVersion, deleteCvVersion, downloadCv, linkCvVersionToApplication,
     generateCv, generatingCv, scoreCvVersion, scoringCv,
-    runAnalysis, currentAnalysis, analyzing,
+    runAnalysis, currentAnalysis, analyzing, jobAnalyses, viewAnalysis,
     blogPosts, selectedBlogPostId, setSelectedBlogPostId, savingBlogPost,
     createBlogPost, updateBlogPost, deleteBlogPost, uploadBlogCoverImage,
   };

@@ -35,7 +35,7 @@ export default function ApplicationsPanel() {
   const {
     isPro, setPanel, toast,
     applications, addApplication, updateApplicationStatus, FREE_APPLICATION_LIMIT,
-    setSelectedApplicationId,
+    setSelectedApplicationId, cvVersions,
   } = useApp();
   const t = useTranslations("applications");
   const tStatus = useTranslations("common");
@@ -111,19 +111,28 @@ export default function ApplicationsPanel() {
             <div className="kanban-col-head">
               {tStatus(`status.${key}`)} <span className="kanban-count">{columns[key].length}</span>
             </div>
-            {columns[key].map((app) => (
-              <div
-                key={app.id}
-                className="kanban-card"
-                draggable
-                onDragStart={() => setDragInfo({ cardId: app.id, fromCol: key })}
-                onClick={() => openDetail(app.id)}
-              >
-                <div className="co">{app.company}</div>
-                <div className="role">{app.role_title}</div>
-                <div className="match">{app.match_score != null ? t("matchScore", { score: app.match_score }) : t("noMatchScore")}</div>
-              </div>
-            ))}
+            {columns[key].map((app) => {
+              const linkedCv = cvVersions.find((v) => v.application_id === app.id);
+              return (
+                <div
+                  key={app.id}
+                  className="kanban-card"
+                  draggable
+                  onDragStart={() => setDragInfo({ cardId: app.id, fromCol: key })}
+                  onClick={() => openDetail(app.id)}
+                >
+                  <div className="co">{app.company}</div>
+                  <div className="role">{app.role_title}</div>
+                  <div className="match">{app.match_score != null ? t("matchScore", { score: app.match_score }) : t("noMatchScore")}</div>
+                  {linkedCv && (
+                    <div className="kanban-cv-tag" title={linkedCv.label}>
+                      <svg className="icon" style={{ width: 12, height: 12 }}><use href="#i-docs" /></svg>
+                      <span>{t("cvLinked")}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         ))}
       </div>
