@@ -44,8 +44,8 @@ export default function PricingCards({ t, priceMode, setPriceMode, freeCta, proC
               <div className="plan-name">{t("pro.name")}</div>
               <span className="plan-badge-pop">{t("pro.popular")}</span>
             </div>
-            <div className="plan-price">{price}<span> {unit}</span></div>
-            <div className="plan-tagline">{tagline}</div>
+            <div className="plan-price price-crossfade" key={`price-${priceMode}`}>{price}<span> {unit}</span></div>
+            <div className="plan-tagline price-crossfade" key={`tagline-${priceMode}`}>{tagline}</div>
             <div className="plan-feature-list">
               {proFeatures.map((f) => (
                 <div className="plan-feature" key={f}><svg className="icon" style={{ width: 16, height: 16 }}><use href="#i-check" /></svg><span>{f}</span></div>

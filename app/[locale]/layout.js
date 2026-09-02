@@ -1,4 +1,5 @@
 import { Manrope, JetBrains_Mono } from "next/font/google";
+import Script from "next/script";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -48,6 +49,7 @@ export default async function LocaleLayout({ children, params }) {
       </head>
       <body>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <Script src="/sl-scene.js" strategy="afterInteractive" />
       </body>
     </html>
   );

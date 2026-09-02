@@ -26,7 +26,8 @@
       "jobDescLabel": "Job Description — HubSpot",
       "matchLabel": "Match-Analyse",
       "strongMatch": "Starker Match",
-      "strengthsGaps": "5 Stärken · 4 Lücken gefunden"
+      "strengthsGaps": "5 Stärken · 4 Lücken gefunden",
+      "marquee": ["ATS-optimiert", "Keyword-Matching", "KI-Profil-Interview", "PDF- & DOCX-Export", "Kanban-Tracking", "Interview-Vorbereitung", "Ehrliche Lücken-Analyse", "Erfindet nie Erfahrung"]
     },
     "how": {
       "eyebrow": "So funktioniert's",
