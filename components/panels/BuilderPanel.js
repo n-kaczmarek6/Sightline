@@ -23,9 +23,13 @@ function TextBlockCards({ version, field, section, updateVersionField, t, placeh
   const { isPro, setPanel, toast, profile } = useApp();
   const [blocks, setBlocks] = useState(() => splitBlocks(version[field]));
   const [polishingIndex, setPolishingIndex] = useState(null);
+  const [diffs, setDiffs] = useState({}); // { [index]: { old, new } }
+  const [dragIndex, setDragIndex] = useState(null);
+  const [dropIndex, setDropIndex] = useState(null);
 
   useEffect(() => {
     setBlocks(splitBlocks(version[field]));
+    setDiffs({});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [version.id, field]);
 
@@ -57,6 +61,8 @@ function TextBlockCards({ version, field, section, updateVersionField, t, placeh
       const next = blocks.slice();
       next[i] = data.text;
       commit(next);
+      setDiffs((prev) => ({ ...prev, [i]: { old: block, new: data.text } }));
+      setTimeout(() => setDiffs((prev) => { const { [i]: _drop, ...rest } = prev; return rest; }), 6000);
       toast(t("polishSuccess"));
     } catch {
       toast(t("polishFailed"));
@@ -65,12 +71,34 @@ function TextBlockCards({ version, field, section, updateVersionField, t, placeh
     }
   };
 
+  const reorder = (from, to) => {
+    if (from === to) return;
+    const next = blocks.slice();
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    commit(next);
+  };
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
       {blocks.map((block, i) => (
-        <div key={i} className="glass cv-section">
+        <div
+          key={i}
+          className={`glass cv-section${polishingIndex === i ? " cv-polishing" : ""}${dragIndex === i ? " cv-dragging" : ""}${dropIndex === i && dragIndex !== i ? " cv-drop-target" : ""}`}
+          draggable
+          onDragStart={() => setDragIndex(i)}
+          onDragOver={(e) => { e.preventDefault(); setDropIndex(i); }}
+          onDragLeave={() => setDropIndex((d) => (d === i ? null : d))}
+          onDrop={(e) => { e.preventDefault(); if (dragIndex !== null) reorder(dragIndex, i); setDragIndex(null); setDropIndex(null); }}
+          onDragEnd={() => { setDragIndex(null); setDropIndex(null); }}
+        >
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, flexWrap: "wrap" }}>
-            <h4 style={{ margin: 0, minWidth: 0, flex: "1 1 180px" }}>{blockHeading(block) || placeholder}</h4>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0, flex: "1 1 180px" }}>
+              <span className="cv-drag-handle" title={t("dragToReorder")}>
+                <svg className="icon" style={{ width: 14, height: 14 }}><use href="#i-grip" /></svg>
+              </span>
+              <h4 style={{ margin: 0, minWidth: 0 }}>{blockHeading(block) || placeholder}</h4>
+            </div>
             <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
               <button
                 type="button"
@@ -100,6 +128,12 @@ function TextBlockCards({ version, field, section, updateVersionField, t, placeh
               commit(next);
             }}
           />
+          {diffs[i] && (
+            <div className="cv-diff">
+              <span className="old">{diffs[i].old}</span>
+              <span className="new">{diffs[i].new}</span>
+            </div>
+          )}
         </div>
       ))}
       <button type="button" className="btn btn-secondary btn-sm" style={{ alignSelf: "flex-start" }} onClick={() => commit([...blocks, ""])}>
@@ -246,14 +280,6 @@ export default function BuilderPanel() {
             <span className="badge" style={{ background: "rgba(18,51,45,.06)", color: "var(--text-muted)" }}>{t("generalCv")}</span>
           )}
         </div>
-        <div style={{ marginLeft: "auto", display: "flex", gap: 8, flexWrap: "wrap" }}>
-          <button className="btn btn-secondary btn-sm" onClick={() => downloadCv("DOCX")}>
-            {t("docx")} {!isPro && <span className="pro-tag">PRO</span>}
-          </button>
-          <button className="btn btn-primary btn-sm" onClick={() => downloadCv("PDF")}>
-            {t("pdf")} {!isPro && <span className="pro-tag">PRO</span>}
-          </button>
-        </div>
       </div>
 
       {showNewForm && (
@@ -332,6 +358,16 @@ export default function BuilderPanel() {
             {t("deleteVersion")}
           </button>
         </div>
+      </div>
+
+      <div className="builder-export-bar">
+        <span style={{ fontSize: 12.5, color: "var(--text-muted)", marginRight: "auto" }}>{version.label}</span>
+        <button className="btn btn-secondary btn-sm" data-magnet onClick={() => downloadCv("DOCX")}>
+          {t("docx")} {!isPro && <span className="pro-tag">PRO</span>}
+        </button>
+        <button className="btn btn-primary btn-sm" data-magnet onClick={() => downloadCv("PDF")}>
+          {t("pdf")} {!isPro && <span className="pro-tag">PRO</span>}
+        </button>
       </div>
     </div>
   );

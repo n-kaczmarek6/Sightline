@@ -354,6 +354,7 @@
       "languages": "Languages"
     },
     "experienceBlockPlaceholder": "New role",
+    "dragToReorder": "Drag to reorder",
     "removeBlock": "Remove",
     "addBlock": "+ Add role",
     "educationBlockPlaceholder": "New degree",

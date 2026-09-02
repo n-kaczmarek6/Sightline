@@ -354,6 +354,7 @@
       "languages": "Sprachen"
     },
     "experienceBlockPlaceholder": "Neue Station",
+    "dragToReorder": "Ziehen zum Umsortieren",
     "removeBlock": "Entfernen",
     "addBlock": "+ Station hinzufügen",
     "educationBlockPlaceholder": "Neuer Abschluss",

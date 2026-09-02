@@ -113,14 +113,19 @@ export default function ApplicationsPanel() {
             </div>
             {columns[key].map((app) => {
               const linkedCv = cvVersions.find((v) => v.application_id === app.id);
+              const donutColor = app.match_score == null ? null : app.match_score >= 75 ? "var(--accent-2)" : app.match_score >= 50 ? "var(--warning)" : "var(--coral)";
               return (
                 <div
                   key={app.id}
-                  className="kanban-card"
+                  className={`kanban-card${dragInfo?.cardId === app.id ? " kanban-dragging" : ""}`}
                   draggable
                   onDragStart={() => setDragInfo({ cardId: app.id, fromCol: key })}
+                  onDragEnd={() => setDragInfo(null)}
                   onClick={() => openDetail(app.id)}
                 >
+                  {app.match_score != null && (
+                    <div className="kanban-donut" style={{ "--pct": `${app.match_score}%`, "--donut-color": donutColor }} title={t("matchScore", { score: app.match_score })} />
+                  )}
                   <div className="co">{app.company}</div>
                   <div className="role">{app.role_title}</div>
                   <div className="match">{app.match_score != null ? t("matchScore", { score: app.match_score }) : t("noMatchScore")}</div>

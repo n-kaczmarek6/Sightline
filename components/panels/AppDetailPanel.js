@@ -30,7 +30,8 @@ export default function AppDetailPanel() {
 
   if (!app) {
     return (
-      <div className="panel">
+      <div className="slideover">
+        <button className="slideover-close" onClick={() => setPanel("applications")} aria-label={t("back")}>×</button>
         <button className="btn btn-ghost btn-sm" style={{ paddingLeft: 4, marginBottom: 14 }} onClick={() => setPanel("applications")}>
           {t("back")}
         </button>
@@ -93,7 +94,8 @@ export default function AppDetailPanel() {
   };
 
   return (
-    <div className="panel">
+    <div className="slideover">
+      <button className="slideover-close" onClick={() => setPanel("applications")} aria-label={t("back")}>×</button>
       <button className="btn btn-ghost btn-sm" style={{ paddingLeft: 4, marginBottom: 14 }} onClick={() => setPanel("applications")}>
         {t("back")}
       </button>

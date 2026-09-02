@@ -51,9 +51,20 @@ function InitialPanelFromQuery() {
 }
 
 function ShellInner() {
-  const { panel } = useApp();
-  const Panel = PANELS[panel] || DashboardPanel;
+  const { panel, setPanel } = useApp();
+  const isDetailOverlay = panel === "appdetail";
+  const Panel = (isDetailOverlay ? ApplicationsPanel : PANELS[panel]) || DashboardPanel;
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isDetailOverlay) return;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setPanel("applications");
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isDetailOverlay, setPanel]);
+
   return (
     <div id="app-shell" style={{ display: "flex", minHeight: "100vh" }}>
       <IconSprite />
@@ -68,6 +79,12 @@ function ShellInner() {
           <Panel />
         </div>
       </main>
+      {isDetailOverlay && (
+        <>
+          <div className="slideover-backdrop" onClick={() => setPanel("applications")} />
+          <AppDetailPanel />
+        </>
+      )}
     </div>
   );
 }

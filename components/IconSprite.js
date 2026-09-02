@@ -23,6 +23,7 @@ export default function IconSprite() {
 <symbol id="i-checklist" viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M7.5 9l1.4 1.4L11.5 7.5"/><line x1="13.5" y1="8.7" x2="17" y2="8.7"/><path d="M7.5 15l1.4 1.4L11.5 13.5"/><line x1="13.5" y1="14.7" x2="17" y2="14.7"/></symbol>
 <symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
 <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-grip" viewBox="0 0 24 24" style={{ fill: "currentColor", stroke: "none" }}><circle cx="9" cy="6" r="1.3"/><circle cx="15" cy="6" r="1.3"/><circle cx="9" cy="12" r="1.3"/><circle cx="15" cy="12" r="1.3"/><circle cx="9" cy="18" r="1.3"/><circle cx="15" cy="18" r="1.3"/></symbol>
 </defs>
 </svg>
   );
