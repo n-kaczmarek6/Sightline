@@ -4,12 +4,13 @@ import { useTranslations } from "next-intl";
 import { useApp } from "@/context/AppContext";
 
 export default function AnalyzePanel() {
-  const { runAnalysis, analyzing, toast, workExperience, skills } = useApp();
+  const { runAnalysis, analyzing, toast, workExperience, skills, applications, analyzeTargetApplicationId, setAnalyzeTargetApplicationId } = useApp();
   const t = useTranslations("analyze");
   const [jobDescription, setJobDescription] = useState("");
   const [cvFile, setCvFile] = useState(null);
 
   const hasProfileData = workExperience.length > 0 || skills.length > 0;
+  const targetApp = analyzeTargetApplicationId ? applications.find((a) => a.id === analyzeTargetApplicationId) : null;
 
   return (
     <div className="panel">
@@ -17,6 +18,12 @@ export default function AnalyzePanel() {
         <h1>{t("title")}</h1>
         <p>{t("subtitle")}</p>
       </div>
+      {targetApp && (
+        <div className="note-box" style={{ marginBottom: 14, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+          <span>🎯 {t("targetingApp", { role: targetApp.role_title, company: targetApp.company })}</span>
+          <button className="btn btn-ghost btn-sm" onClick={() => setAnalyzeTargetApplicationId(null)}>{t("targetingClear")}</button>
+        </div>
+      )}
       <div className="grid-2">
         <div className="glass" style={{ padding: 22 }}>
           <div className="mock-label">{t("jobDescriptionLabel")}</div>
@@ -78,7 +85,7 @@ export default function AnalyzePanel() {
         </div>
       </div>
       <div style={{ marginTop: 22 }}>
-        <button className="btn btn-primary" disabled={analyzing} onClick={() => runAnalysis(jobDescription, cvFile)}>
+        <button className="btn btn-primary" disabled={analyzing} onClick={() => runAnalysis(jobDescription, cvFile, analyzeTargetApplicationId)}>
           {analyzing ? t("analyzing") : t("submit")}
         </button>
       </div>

@@ -74,6 +74,7 @@ export async function POST(request) {
   if (jobDescription.length < 20) {
     return NextResponse.json({ error: "job_description_too_short" }, { status: 400 });
   }
+  const targetApplicationId = (form.get("applicationId") || "").toString().trim() || null;
 
   const cvFile = form.get("cvFile");
   let sourceCvText = null;
@@ -124,20 +125,35 @@ export async function POST(request) {
     return NextResponse.json({ error: "parse_failed" }, { status: 502 });
   }
 
-  const { data: application, error: appError } = await supabase
-    .from("applications")
-    .insert({
-      user_id: user.id,
-      company: parsed.company,
-      role_title: parsed.job_title,
-      match_score: parsed.match_score,
-      status: "saved",
-    })
-    .select()
-    .single();
-
-  if (appError) {
-    return NextResponse.json({ error: "db_error", message: appError.message }, { status: 500 });
+  let application;
+  if (targetApplicationId) {
+    const { data: updatedApp, error: updateErr } = await supabase
+      .from("applications")
+      .update({ match_score: parsed.match_score })
+      .eq("id", targetApplicationId)
+      .eq("user_id", user.id)
+      .select()
+      .single();
+    if (updateErr || !updatedApp) {
+      return NextResponse.json({ error: "application_not_found" }, { status: 404 });
+    }
+    application = updatedApp;
+  } else {
+    const { data: newApp, error: appError } = await supabase
+      .from("applications")
+      .insert({
+        user_id: user.id,
+        company: parsed.company,
+        role_title: parsed.job_title,
+        match_score: parsed.match_score,
+        status: "saved",
+      })
+      .select()
+      .single();
+    if (appError) {
+      return NextResponse.json({ error: "db_error", message: appError.message }, { status: 500 });
+    }
+    application = newApp;
   }
 
   const { data: analysis, error: analysisError } = await supabase

@@ -8,7 +8,7 @@ export default function AppDetailPanel() {
     setPanel, applications, selectedApplicationId, deleteApplication,
     documents, downloadDocument, linkDocumentToApplication, toast,
     cvVersions, setSelectedVersionId, linkCvVersionToApplication, isPro,
-    jobAnalyses, viewAnalysis,
+    jobAnalyses, viewAnalysis, startAnalysisForApplication,
   } = useApp();
   const t = useTranslations("appDetail");
   const tStatus = useTranslations("common");
@@ -172,13 +172,26 @@ export default function AppDetailPanel() {
       <div className="glass" style={{ padding: 24, marginTop: 16 }}>
         <h4 style={{ fontSize: 15, color: "var(--ink)", marginBottom: 14 }}>{t("analysisTitle")}</h4>
         {!analysis ? (
-          <p style={{ fontSize: 13.5, color: "var(--text-muted)" }}>{t("analysisEmpty")}</p>
+          <div>
+            <p style={{ fontSize: 13.5, color: "var(--text-muted)", marginBottom: 12 }}>{t("analysisEmpty")}</p>
+            <button className="btn btn-secondary btn-sm" onClick={() => startAnalysisForApplication(app.id)}>{t("analysisStart")}</button>
+          </div>
         ) : (
-          <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-            {analysis.match_score != null && <span className="badge badge-success">{t("match", { score: analysis.match_score })}</span>}
-            <button className="btn btn-secondary btn-sm" onClick={() => viewAnalysis(app.id, "analysis")}>{t("analysisOpen")}</button>
-            <button className="btn btn-ghost btn-sm" onClick={() => viewAnalysis(app.id, "keywords")}>{t("analysisKeywords")}</button>
-            <button className="btn btn-ghost btn-sm" onClick={() => viewAnalysis(app.id, "recommendations")}>{t("analysisRecommendations")}</button>
+          <div>
+            <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+              {analysis.match_score != null && <span className="badge badge-success">{t("match", { score: analysis.match_score })}</span>}
+              <button className="btn btn-secondary btn-sm" onClick={() => viewAnalysis(app.id, "analysis")}>{t("analysisOpen")}</button>
+              <button className="btn btn-ghost btn-sm" onClick={() => viewAnalysis(app.id, "keywords")}>{t("analysisKeywords")}</button>
+              <button className="btn btn-ghost btn-sm" onClick={() => viewAnalysis(app.id, "recommendations")}>{t("analysisRecommendations")}</button>
+            </div>
+            {analysis.job_description && (
+              <details style={{ marginTop: 14 }}>
+                <summary style={{ cursor: "pointer", fontSize: 12.5, fontWeight: 600, color: "var(--text-muted)" }}>{t("jobDescriptionToggle")}</summary>
+                <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.6, marginTop: 10, whiteSpace: "pre-wrap", maxHeight: 260, overflowY: "auto" }}>
+                  {analysis.job_description}
+                </p>
+              </details>
+            )}
           </div>
         )}
       </div>

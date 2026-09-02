@@ -235,6 +235,8 @@
     "toasts": {
       "openProfile": "Öffne Mein Profil im Menü."
     },
+    "targetingApp": "Diese Analyse wird mit der Bewerbung {role} — {company} verknüpft.",
+    "targetingClear": "Verknüpfung aufheben",
     "jobDescriptionLabel": "Stellenbeschreibung",
     "jobDescriptionPlaceholder": "Füge hier die vollständige Stellenbeschreibung ein…",
     "yourProfileLabel": "Dein Profil",
@@ -678,8 +680,10 @@
     "analysisTitle": "Keyword-Analyse",
     "analysisEmpty": "Noch keine Analyse für diese Bewerbung. Führe eine Job-Analyse durch, um Match-Score, Keywords und Empfehlungen zu sehen.",
     "analysisOpen": "Analyse ansehen",
+    "analysisStart": "Job-Analyse für diese Bewerbung starten",
     "analysisKeywords": "Keywords ansehen",
     "analysisRecommendations": "Empfehlungen ansehen",
+    "jobDescriptionToggle": "Stellenausschreibung anzeigen",
     "cvTitle": "Verknüpfter Lebenslauf",
     "cvEmpty": "Noch kein Lebenslauf mit dieser Bewerbung verknüpft.",
     "cvOpen": "Im CV Builder öffnen",

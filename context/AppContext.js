@@ -39,6 +39,7 @@ export function AppProvider({
   const [selectedVersionId, setSelectedVersionId] = useState(initialCvVersions?.[0]?.id || null);
   const [currentAnalysis, setCurrentAnalysis] = useState(initialAnalysis || null);
   const [jobAnalyses, setJobAnalyses] = useState(initialJobAnalyses || []);
+  const [analyzeTargetApplicationId, setAnalyzeTargetApplicationId] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [generatingCv, setGeneratingCv] = useState(false);
   const [blogPosts, setBlogPosts] = useState(initialBlogPosts || []);
@@ -80,7 +81,7 @@ export function AppProvider({
   );
 
   const runAnalysis = useCallback(
-    async (jobDescription, cvFile) => {
+    async (jobDescription, cvFile, targetApplicationId) => {
       if (!isPro && analysesUsed >= FREE_ANALYSIS_LIMIT) {
         toast(t("analysisLimitReached", { limit: FREE_ANALYSIS_LIMIT }));
         setPanel("pricing");
@@ -102,6 +103,7 @@ export function AppProvider({
         const formData = new FormData();
         formData.append("jobDescription", jobDescription);
         if (cvFile) formData.append("cvFile", cvFile);
+        if (targetApplicationId) formData.append("applicationId", targetApplicationId);
         const res = await fetch("/api/analyze", {
           method: "POST",
           body: formData,
@@ -114,8 +116,13 @@ export function AppProvider({
         setLoadingStep(4);
         setCurrentAnalysis(data.analysis);
         setJobAnalyses((list) => [data.analysis, ...list]);
-        setApplications((a) => [data.application, ...a]);
+        if (targetApplicationId) {
+          setApplications((list) => list.map((a) => (a.id === data.application.id ? data.application : a)));
+        } else {
+          setApplications((a) => [data.application, ...a]);
+        }
         if (!isPro) setAnalysesUsed((n) => n + 1);
+        setAnalyzeTargetApplicationId(null);
         setPanel("analysis");
       } catch (err) {
         toast(t("analysisFailed"));
@@ -126,6 +133,14 @@ export function AppProvider({
       }
     },
     [isPro, analysesUsed, toast, setPanel, t]
+  );
+
+  const startAnalysisForApplication = useCallback(
+    (applicationId) => {
+      setAnalyzeTargetApplicationId(applicationId);
+      setPanel("analyze");
+    },
+    [setPanel]
   );
 
   const viewAnalysis = useCallback(
@@ -774,6 +789,7 @@ export function AppProvider({
     createCvVersion, updateVersionField, saveCvVersion, deleteCvVersion, downloadCv, linkCvVersionToApplication,
     generateCv, generatingCv, scoreCvVersion, scoringCv,
     runAnalysis, currentAnalysis, analyzing, jobAnalyses, viewAnalysis,
+    analyzeTargetApplicationId, setAnalyzeTargetApplicationId, startAnalysisForApplication,
     blogPosts, selectedBlogPostId, setSelectedBlogPostId, savingBlogPost,
     createBlogPost, updateBlogPost, deleteBlogPost, uploadBlogCoverImage,
   };

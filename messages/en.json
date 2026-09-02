@@ -235,6 +235,8 @@
     "toasts": {
       "openProfile": "Open My Profile from the menu."
     },
+    "targetingApp": "This analysis will be linked to the application {role} — {company}.",
+    "targetingClear": "Clear link",
     "jobDescriptionLabel": "Job Description",
     "jobDescriptionPlaceholder": "Paste the full job description here…",
     "yourProfileLabel": "Your Profile",
@@ -678,8 +680,10 @@
     "analysisTitle": "Keyword Analysis",
     "analysisEmpty": "No analysis for this application yet. Run a job analysis to see the match score, keywords, and recommendations.",
     "analysisOpen": "View analysis",
+    "analysisStart": "Start a job analysis for this application",
     "analysisKeywords": "View keywords",
     "analysisRecommendations": "View recommendations",
+    "jobDescriptionToggle": "Show job posting",
     "cvTitle": "Linked CV",
     "cvEmpty": "No CV linked to this application yet.",
     "cvOpen": "Open in CV Builder",
