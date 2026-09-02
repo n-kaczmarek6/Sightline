@@ -21,6 +21,8 @@ export default function IconSprite() {
 <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 8.2L12 3.5l10 4.7-10 4.7z"/><path d="M6.2 10.4v4.3c0 1.7 2.6 3 5.8 3s5.8-1.3 5.8-3v-4.3"/></symbol>
 <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="3" y="7.3" width="18" height="12" rx="2"/><path d="M8.3 7.3V5.6a1.8 1.8 0 0 1 1.8-1.8h3.8a1.8 1.8 0 0 1 1.8 1.8v1.7"/><line x1="3" y1="12.5" x2="21" y2="12.5"/></symbol>
 <symbol id="i-checklist" viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M7.5 9l1.4 1.4L11.5 7.5"/><line x1="13.5" y1="8.7" x2="17" y2="8.7"/><path d="M7.5 15l1.4 1.4L11.5 13.5"/><line x1="13.5" y1="14.7" x2="17" y2="14.7"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+<symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
 </defs>
 </svg>
   );

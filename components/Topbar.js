@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
-import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { useTranslations, useLocale } from "next-intl";
+import { useRouter, usePathname } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useApp } from "@/context/AppContext";
+
+const LOCALES = ["de", "en"];
 
 function initials(name, email) {
   if (name) {
@@ -14,10 +16,12 @@ function initials(name, email) {
 }
 
 export default function Topbar({ onMenuClick }) {
-  const { panel, setPanel, profile, userEmail, applications, selectedApplicationId } = useApp();
+  const { panel, setPanel, profile, userEmail, applications, selectedApplicationId, isPro, analysesUsed, FREE_ANALYSIS_LIMIT, updateLocale } = useApp();
   const t = useTranslations("shell");
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+  const currentLocale = useLocale();
   const displayName = profile?.full_name || userEmail || t("defaultUser");
   const selectedApp = applications.find((a) => a.id === selectedApplicationId);
   const crumb = panel === "appdetail"
@@ -31,13 +35,31 @@ export default function Topbar({ onMenuClick }) {
     router.refresh();
   };
 
+  const handleLocaleSwitch = (locale) => {
+    if (locale === currentLocale) return;
+    updateLocale(locale);
+    router.replace(pathname, { locale });
+  };
+
   return (
-    <div className="topbar">
+    <div className="topbar" data-scroll-nav>
       <button className="hamburger-btn" onClick={onMenuClick} aria-label={t("openMenu")}>
         <span></span><span></span><span></span>
       </button>
       <div className="topbar-left">{crumb}</div>
       <div className="topbar-right">
+        {!isPro && (
+          <div className="topbar-usage-pill">
+            {t("analysesUsage", { used: analysesUsed, limit: FREE_ANALYSIS_LIMIT })}
+          </div>
+        )}
+        <div className="topbar-locale-switch">
+          {LOCALES.map((l) => (
+            <button key={l} className={currentLocale === l ? "active" : ""} onClick={() => handleLocaleSwitch(l)}>
+              {l.toUpperCase()}
+            </button>
+          ))}
+        </div>
         <button className="user-chip" onClick={() => setMenuOpen((v) => !v)}>
           <span className="avatar" style={{ width: 26, height: 26, fontSize: 10.5 }}>{initials(profile?.full_name, userEmail)}</span>
           <span style={{ fontSize: 13, fontWeight: 600, color: "var(--text)" }}>{displayName}</span>

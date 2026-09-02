@@ -146,12 +146,17 @@
       if (this._initialized) return;
       this._initialized = true;
 
+      // Render into a shadow root, never into light-DOM children: this element
+      // can be hydrated by React (SSR'd as an empty tag), and mutating our own
+      // light DOM here would race React's hydration diff and corrupt the tree
+      // it expects to find. Shadow DOM content is invisible to that diff.
+      const root = this.attachShadow({ mode: "open" });
       const container = document.createElement("div");
       container.style.cssText = "width:100%;height:100%;overflow:hidden;";
       const canvas = document.createElement("canvas");
       canvas.style.cssText = "width:100%;height:100%;display:block;";
       container.appendChild(canvas);
-      this.appendChild(container);
+      root.appendChild(container);
       this._canvas = canvas;
       this._container = container;
 

@@ -7,6 +7,7 @@ import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import Toasts from "@/components/ui/Toasts";
 import LoadingOverlay from "@/components/ui/LoadingOverlay";
+import SightlineMotion from "@/components/SightlineMotion";
 
 import DashboardPanel from "@/components/panels/DashboardPanel";
 import AnalyzePanel from "@/components/panels/AnalyzePanel";
@@ -59,6 +60,7 @@ function ShellInner() {
       <Toasts />
       <LoadingOverlay />
       <InitialPanelFromQuery />
+      <SightlineMotion key={panel} />
       <Sidebar mobileOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
       <main className="app-main">
         <Topbar onMenuClick={() => setMobileNavOpen(true)} />

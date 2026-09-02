@@ -1,6 +1,7 @@
 "use client";
 import { useTranslations } from "next-intl";
 import { useApp } from "@/context/AppContext";
+import SlScene from "@/components/SlScene";
 
 const STATUS_KEYS = ["saved", "applied", "screening", "interview", "offer", "rejected"];
 
@@ -60,15 +61,25 @@ export default function DashboardPanel() {
 
   return (
     <div className="panel">
-      <div className="panel-head">
-        <h1>{t("greeting")}{firstName ? `, ${firstName}` : ""} 👋</h1>
-        <p>{t("subtitle")}</p>
+      <div className="dashboard-hero">
+        <SlScene variant="orb" intensity={4} className="dashboard-hero-scene" />
+        <div className="dashboard-hero-content">
+          <h1>{t("greeting")}{firstName ? `, ${firstName}` : ""} 👋</h1>
+          <p>{t("subtitle")}</p>
+          {avgMatch != null && (
+            <div className="dashboard-hero-match">
+              <span className="v" data-count={avgMatch} data-count-suffix="%">{avgMatch}%</span>
+              <span className="l">{t("kpi.avgMatch")}</span>
+            </div>
+          )}
+          <button className="btn btn-dark" data-magnet onClick={() => setPanel("analyze")}>{t("analyzeNewJob")}</button>
+        </div>
       </div>
 
       <div className="mock-label" style={{ marginTop: 8 }}>{t("guide.title")}</div>
       <div className="guide-row">
         {guideSteps.map((step, i) => (
-          <button key={step.key} className={`glass guide-step${step.done ? " done" : ""}`} onClick={() => setPanel(step.panel)}>
+          <button key={step.key} className={`glass guide-step${step.done ? " done" : ""}`} data-reveal={String(i + 1)} onClick={() => setPanel(step.panel)}>
             <span className="guide-step-num">{step.done ? "✓" : i + 1}</span>
             <span className="guide-step-label">{t(`guide.${step.key}`)}</span>
           </button>
@@ -81,17 +92,17 @@ export default function DashboardPanel() {
             <div style={{ fontSize: 13.5, fontWeight: 700, color: "var(--ink)" }}>
               {t("usage", { used: analysesUsed, limit: FREE_ANALYSIS_LIMIT })}
             </div>
-            <div className="usage-bar"><div className="usage-bar-fill" style={{ width: `${usagePct}%` }} /></div>
+            <div className="usage-bar"><div className="usage-bar-fill" data-bar={`${usagePct}%`} style={{ width: 0 }} /></div>
           </div>
           <button className="btn btn-primary btn-sm" onClick={() => setPanel("pricing")}>{t("unlockUnlimited")}</button>
         </div>
       )}
 
-      <div className="kpi-grid">
-        <div className="glass kpi-card"><div className="kpi-label">{t("kpi.applicationsSent")}</div><div className="kpi-value">{sentCount}</div><div className="kpi-sub">{t("kpi.total")}</div></div>
-        <div className="glass kpi-card"><div className="kpi-label">{t("kpi.interviews")}</div><div className="kpi-value">{interviewCount}</div><div className="kpi-sub">{t("kpi.conversion", { pct: conversionPct })}</div></div>
-        <div className="glass kpi-card"><div className="kpi-label">{t("kpi.offers")}</div><div className="kpi-value">{offerCount}</div><div className="kpi-sub">{offerCount > 0 ? t("kpi.decisionPending") : t("kpi.noneYet")}</div></div>
-        <div className="dark-card kpi-card dark"><div className="kpi-label">{t("kpi.avgMatch")}</div><div className="kpi-value">{avgMatch != null ? `${avgMatch}%` : "–"}</div><div className="kpi-sub">{avgMatch != null ? t("kpi.overallFit") : t("kpi.noData")}</div></div>
+      <div className="kpi-grid tilt-perspective">
+        <div className="glass kpi-card" data-tilt data-tilt-strength="5"><div className="kpi-label">{t("kpi.applicationsSent")}</div><div className="kpi-value" data-count={sentCount}>{sentCount}</div><div className="kpi-sub">{t("kpi.total")}</div></div>
+        <div className="glass kpi-card" data-tilt data-tilt-strength="5"><div className="kpi-label">{t("kpi.interviews")}</div><div className="kpi-value" data-count={interviewCount}>{interviewCount}</div><div className="kpi-sub">{t("kpi.conversion", { pct: conversionPct })}</div></div>
+        <div className="glass kpi-card" data-tilt data-tilt-strength="5"><div className="kpi-label">{t("kpi.offers")}</div><div className="kpi-value" data-count={offerCount}>{offerCount}</div><div className="kpi-sub">{offerCount > 0 ? t("kpi.decisionPending") : t("kpi.noneYet")}</div></div>
+        <div className="dark-card kpi-card dark" data-tilt data-tilt-strength="5"><div className="kpi-label">{t("kpi.avgMatch")}</div><div className="kpi-value">{avgMatch != null ? <span data-count={avgMatch} data-count-suffix="%">{avgMatch}%</span> : "–"}</div><div className="kpi-sub">{avgMatch != null ? t("kpi.overallFit") : t("kpi.noData")}</div></div>
       </div>
 
       <div className="funnel">
@@ -111,10 +122,10 @@ export default function DashboardPanel() {
         <p style={{ fontSize: 13.5, color: "var(--text-muted)" }}>{t("noApplicationsYet")}</p>
       ) : (
         <div className="app-list">
-          {recent.map((app) => {
+          {recent.map((app, i) => {
             const meta = STATUS_BADGE[app.status] || STATUS_BADGE.saved;
             return (
-              <button className="app-row" key={app.id} onClick={() => setPanel("applications")}>
+              <button className="app-row" key={app.id} data-reveal={String(i + 1)} onClick={() => setPanel("applications")}>
                 <span className="company-dot" style={{ background: dotColor(app.company) }}>{app.company[0]?.toUpperCase()}</span>
                 <span style={{ flex: 1 }}>
                   <span className="app-row-title">{app.role_title} — {app.company}</span><br />
@@ -129,9 +140,6 @@ export default function DashboardPanel() {
           })}
         </div>
       )}
-      <div style={{ marginTop: 24 }}>
-        <button className="btn btn-primary" onClick={() => setPanel("analyze")}>{t("analyzeNewJob")}</button>
-      </div>
     </div>
   );
 }

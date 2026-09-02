@@ -162,6 +162,9 @@
     "logout": "Abmelden",
     "openMenu": "Menü öffnen",
     "closeMenu": "Menü schließen",
+    "collapseSidebar": "Sidebar einklappen",
+    "expandSidebar": "Sidebar ausklappen",
+    "analysesUsage": "{used}/{limit} Analysen",
     "breadcrumbs": {
       "dashboard": "Dashboard",
       "analyze": "Job analysieren",
