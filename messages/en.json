@@ -254,7 +254,8 @@
       "selected": "{name} selected"
     },
     "analyzing": "Analyzing…",
-    "submit": "Analyze match"
+    "submit": "Analyze match",
+    "loadingSteps": ["Analyzing job description…", "Extracting requirements…", "Comparing your experience…", "Building recommendations…"]
   },
   "matchAnalysis": {
     "title": "Your Match",

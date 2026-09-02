@@ -38,15 +38,16 @@ export default function RecommendationsPanel() {
       {!first ? (
         <p style={{ fontSize: 13.5, color: "var(--text-muted)" }}>{t("noRecommendations")}</p>
       ) : (
-        <div className="glass rec-card" style={{ opacity: states[0] === "ignored" ? 0.45 : 1 }}>
-          <span className={`badge ${IMPACT_BADGE[first.impact]}`}>{t("priority", { n: first.priority })} · {t(`impact.${first.impact}`)}</span>
+        <div className={`glass rec-card${states[0] === "applied" ? " flash" : ""}`} style={{ opacity: states[0] === "ignored" ? 0.45 : 1 }} data-tilt data-tilt-strength="5">
+          <span className="rec-number">{String(first.priority).padStart(2, "0")}</span>
+          <span className={`badge ${IMPACT_BADGE[first.impact]}`} style={{ marginLeft: 8 }}>{t(`impact.${first.impact}`)}</span>
           <h4 style={{ fontSize: 18, color: "var(--ink)", margin: "12px 0 4px" }}>{first.title}</h4>
           <div className="compare-box">
             <div className="compare-cell current"><div className="compare-lbl">{t("current")}</div>„{first.current}&quot;</div>
             <div className="compare-cell suggested"><div className="compare-lbl">{t("suggested")}</div>„{first.suggested}&quot;</div>
           </div>
           <div className="rec-actions">
-            <button className="btn btn-primary btn-sm" disabled={states[0] && states[0] !== "idle"} onClick={() => { setState(0, "applied"); toast(t("appliedToast")); }}>
+            <button className="btn btn-primary btn-sm" data-magnet disabled={states[0] && states[0] !== "idle"} onClick={() => { setState(0, "applied"); toast(t("appliedToast")); }}>
               {t("applySuggestion")}
             </button>
             <button className="btn btn-secondary btn-sm" onClick={() => setPanel("builder")}>{t("editInBuilder")}</button>
@@ -58,10 +59,11 @@ export default function RecommendationsPanel() {
 
       {rest.length > 0 && (
         <div className="lock-wrap" style={{ marginTop: 14 }}>
-          <div className={isPro ? "" : "lock-blur"} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <div className={`tilt-perspective${isPro ? "" : " lock-blur"}`} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {rest.map((r, i) => (
-              <div className="glass rec-card p3" key={i}>
-                <span className={`badge ${IMPACT_BADGE[r.impact]}`}>{t("priority", { n: r.priority })} · {t(`impact.${r.impact}`)}</span>
+              <div className="glass rec-card p3" key={i} data-tilt data-tilt-strength="5">
+                <span className="rec-number">{String(r.priority).padStart(2, "0")}</span>
+                <span className={`badge ${IMPACT_BADGE[r.impact]}`} style={{ marginLeft: 8 }}>{t(`impact.${r.impact}`)}</span>
                 <h4 style={{ fontSize: 18, color: "var(--ink)", margin: "12px 0 10px" }}>{r.title}</h4>
                 <div className="compare-box">
                   <div className="compare-cell current"><div className="compare-lbl">{t("current")}</div>„{r.current}&quot;</div>

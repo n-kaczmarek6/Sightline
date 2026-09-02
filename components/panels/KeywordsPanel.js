@@ -45,7 +45,7 @@ export default function KeywordsPanel() {
             {byCategory.skills.map((k) => {
               const meta = STATUS_META[k.status];
               return (
-                <button key={k.label} className={`kw-chip ${meta.cls}`} onClick={() => setSelected(k)}>
+                <button key={k.label} className={`kw-chip ${meta.cls}`} data-tip={k.detail} onClick={() => setSelected(k)}>
                   {meta.symbol} {k.label}
                 </button>
               );
@@ -63,7 +63,7 @@ export default function KeywordsPanel() {
                   {byCategory[key].map((k) => {
                     const meta = STATUS_META[k.status];
                     return (
-                      <button key={k.label} className={`kw-chip ${meta.cls}`} onClick={() => setSelected(k)}>
+                      <button key={k.label} className={`kw-chip ${meta.cls}`} data-tip={k.detail} onClick={() => setSelected(k)}>
                         {meta.symbol} {k.label}
                       </button>
                     );
@@ -83,7 +83,7 @@ export default function KeywordsPanel() {
         </div>
 
         {active && (
-          <div className="kw-detail">
+          <div className="kw-detail" data-tilt data-tilt-strength="5">
             <h4>{active.label}</h4>
             <span className={`badge ${STATUS_META[active.status].badge}`} style={{ marginTop: 8, display: "inline-flex" }}>
               {t(`status.${active.status}`)}

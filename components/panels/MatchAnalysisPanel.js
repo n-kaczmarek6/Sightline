@@ -29,14 +29,15 @@ export default function MatchAnalysisPanel() {
     : score >= 60
       ? { cls: "badge-warning", label: t("badges.good") }
       : { cls: "badge-error", label: t("badges.weak") };
+  const ringColor = score >= 75 ? "var(--accent-2)" : score >= 50 ? "var(--warning)" : "var(--coral)";
 
   return (
     <div className="panel">
       <div className="panel-head"><h1>{t("title")}</h1><p>{currentAnalysis.job_title} — {currentAnalysis.company}</p></div>
 
-      <div className="dark-card score-hero">
-        <div className="score-ring" style={{ "--pct": `${currentAnalysis.match_score}%` }}>
-          <div className="score-ring-inner"><div className="v">{currentAnalysis.match_score}</div><div className="m">/ 100</div></div>
+      <div className="dark-card score-hero" data-tilt data-tilt-strength="5">
+        <div className="score-ring" style={{ "--pct": `${currentAnalysis.match_score}%`, "--ring-color": ringColor }}>
+          <div className="score-ring-inner"><div className="v" data-count={currentAnalysis.match_score}>{currentAnalysis.match_score}</div><div className="m">/ 100</div></div>
         </div>
         <div style={{ flex: 1, minWidth: 260 }}>
           <span className={`badge ${badge.cls}`}>{badge.label}</span>
@@ -44,30 +45,30 @@ export default function MatchAnalysisPanel() {
             {SCORE_KEYS.map((key) => (
               <div className="bar-row" key={key}>
                 <div className="bar-row-head"><span className="n">{t(`scores.${key}`)}</span><span className="v">{currentAnalysis.scores?.[key] ?? 0}%</span></div>
-                <div className="bar-track"><div className="bar-fill" style={{ width: `${currentAnalysis.scores?.[key] ?? 0}%` }} /></div>
+                <div className="bar-track"><div className="bar-fill" data-bar={`${currentAnalysis.scores?.[key] ?? 0}%`} style={{ width: 0 }} /></div>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="grid-2" style={{ marginTop: 16 }}>
-        <div className="glass" style={{ padding: 22 }}>
+      <div className="grid-2 tilt-perspective" style={{ marginTop: 16 }}>
+        <div className="glass" style={{ padding: 22 }} data-tilt data-tilt-strength="5">
           <h4 style={{ fontSize: 15, color: "var(--ink)", marginBottom: 14 }}>{t("whatWorks")}</h4>
           <div className="chip-list">
-            {(currentAnalysis.strengths || []).map((s) => (
-              <div className="chip-item good" key={s}>
+            {(currentAnalysis.strengths || []).map((s, i) => (
+              <div className="chip-item good" key={s} data-reveal={String((i % 5) + 1)}>
                 <svg className="icon" style={{ width: 15, height: 15, color: "var(--success)", strokeWidth: 2.2 }}><use href="#i-check" /></svg>
                 <span>{s}</span>
               </div>
             ))}
           </div>
         </div>
-        <div className="glass" style={{ padding: 22 }}>
+        <div className="glass" style={{ padding: 22 }} data-tilt data-tilt-strength="5">
           <h4 style={{ fontSize: 15, color: "var(--ink)", marginBottom: 14 }}>{t("whatsMissing")}</h4>
           <div className="chip-list">
-            {(currentAnalysis.gaps || []).map((g) => (
-              <div className="chip-item bad" key={g}>
+            {(currentAnalysis.gaps || []).map((g, i) => (
+              <div className="chip-item bad" key={g} data-reveal={String((i % 5) + 1)}>
                 <svg className="icon" style={{ width: 15, height: 15, color: "var(--warning)" }}><use href="#i-alert" /></svg>
                 <span>{g}</span>
               </div>
