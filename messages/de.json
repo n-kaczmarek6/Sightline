@@ -3,6 +3,54 @@
     "title": "Sightline — Zielsicher bewerben.",
     "description": "Match dein CV mit jedem Job, sieh was Recruiter und ATS-Systeme wirklich suchen, und erstelle in Minuten eine stärkere Bewerbung."
   },
+  "auth": {
+    "login": {
+      "eyebrow": "Anmelden",
+      "title": "Willkommen zurück",
+      "subtitle": "Melde dich an, um mit deiner Jobsuche weiterzumachen.",
+      "emailLabel": "E-Mail",
+      "passwordLabel": "Passwort",
+      "submit": "Anmelden",
+      "submitting": "Wird angemeldet…",
+      "errorInvalidCredentials": "E-Mail oder Passwort ist falsch.",
+      "switchPrompt": "Noch kein Konto?",
+      "switchCta": "Registrieren",
+      "panelClaim": "Genau wissen, wie gut du zur Stelle passt — bevor du auf Senden klickst.",
+      "tile1Value": "92%",
+      "tile1Label": "Ø CV Match",
+      "tile2Value": "3",
+      "tile2Label": "Kostenlose Analysen",
+      "tile3Value": "5",
+      "tile3Label": "Bewerbungen tracken"
+    },
+    "register": {
+      "eyebrow": "Registrieren",
+      "title": "Konto erstellen",
+      "subtitle": "Starte kostenlos — deine erste Match-Analyse ist gratis.",
+      "emailLabel": "E-Mail",
+      "passwordLabel": "Passwort",
+      "passwordConfirmLabel": "Passwort bestätigen",
+      "submit": "Konto erstellen",
+      "submitting": "Wird erstellt…",
+      "errorPasswordMismatch": "Die Passwörter stimmen nicht überein.",
+      "switchPrompt": "Schon ein Konto?",
+      "switchCta": "Anmelden",
+      "checkEmailTitle": "Fast geschafft",
+      "checkEmailBody": "Wir haben dir eine Bestätigungs-E-Mail an <strong>{email}</strong> geschickt. Klick auf den Link darin, um dein Konto zu aktivieren.",
+      "panelClaim": "Ein Profil, einmal aufgebaut. Unzählige maßgeschneiderte Bewerbungen.",
+      "tile1Value": "0€",
+      "tile1Label": "Zum Start",
+      "tile2Value": "5 Min",
+      "tile2Label": "Bis zur ersten Analyse",
+      "tile3Value": "100%",
+      "tile3Label": "Deine echten Skills"
+    },
+    "progress": {
+      "step1": "Konto",
+      "step2": "Profil",
+      "step3": "Erste Analyse"
+    }
+  },
   "landing": {
     "nav": {
       "how": "So funktioniert's",

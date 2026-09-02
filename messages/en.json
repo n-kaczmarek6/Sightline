@@ -3,6 +3,54 @@
     "title": "Sightline — Apply with precision.",
     "description": "Match your resume to any job, see what recruiters and ATS systems really look for, and build a stronger application in minutes."
   },
+  "auth": {
+    "login": {
+      "eyebrow": "Log in",
+      "title": "Welcome back",
+      "subtitle": "Log in to keep going with your job search.",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Log in",
+      "submitting": "Logging in…",
+      "errorInvalidCredentials": "Email or password is incorrect.",
+      "switchPrompt": "No account yet?",
+      "switchCta": "Sign up",
+      "panelClaim": "Know exactly how well you match a role — before you hit send.",
+      "tile1Value": "92%",
+      "tile1Label": "Avg. CV match",
+      "tile2Value": "3",
+      "tile2Label": "Free analyses",
+      "tile3Value": "5",
+      "tile3Label": "Applications tracked"
+    },
+    "register": {
+      "eyebrow": "Sign up",
+      "title": "Create your account",
+      "subtitle": "Start for free — your first match analysis is on us.",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "passwordConfirmLabel": "Confirm password",
+      "submit": "Create account",
+      "submitting": "Creating account…",
+      "errorPasswordMismatch": "Passwords don't match.",
+      "switchPrompt": "Already have an account?",
+      "switchCta": "Log in",
+      "checkEmailTitle": "Almost there",
+      "checkEmailBody": "We've sent a confirmation email to <strong>{email}</strong>. Click the link inside to activate your account.",
+      "panelClaim": "Build your profile once. Tailor countless applications from it.",
+      "tile1Value": "$0",
+      "tile1Label": "To get started",
+      "tile2Value": "5 min",
+      "tile2Label": "To your first analysis",
+      "tile3Value": "100%",
+      "tile3Label": "Your real skills"
+    },
+    "progress": {
+      "step1": "Account",
+      "step2": "Profile",
+      "step3": "First analysis"
+    }
+  },
   "landing": {
     "nav": {
       "how": "How it works",
