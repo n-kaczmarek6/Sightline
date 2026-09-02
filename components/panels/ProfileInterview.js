@@ -3,10 +3,19 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useApp } from "@/context/AppContext";
 
+const QUESTIONS = [
+  { key: "experience", rows: 3 },
+  { key: "education", rows: 2 },
+  { key: "skills", rows: 2 },
+  { key: "languages", rows: 2 },
+  { key: "goals", rows: 2 },
+];
+
 export default function ProfileInterview({ onClose }) {
   const { profile, updateProfileField, addWorkExperience, addEducation, addSkill, toast } = useApp();
   const t = useTranslations("profile.interview");
   const [answers, setAnswers] = useState({ experience: "", education: "", skills: "", languages: "", goals: "" });
+  const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [excludedExp, setExcludedExp] = useState(new Set());
@@ -204,44 +213,48 @@ export default function ProfileInterview({ onClose }) {
     );
   }
 
+  const isLast = step === QUESTIONS.length - 1;
+  const current = QUESTIONS[step];
+
+  const goNext = () => {
+    if (isLast) {
+      handleSubmit();
+      return;
+    }
+    setStep((s) => Math.min(QUESTIONS.length - 1, s + 1));
+  };
+  const goBack = () => setStep((s) => Math.max(0, s - 1));
+
+  const qLabelKey = `q${current.key[0].toUpperCase()}${current.key.slice(1)}`;
+
   return (
-    <div className="glass profile-section">
+    <div className="glass profile-section" style={{ maxWidth: 640, margin: "0 auto" }}>
       <h4>{t("title")}</h4>
       <p style={{ fontSize: 13.5, color: "var(--text-muted)", marginBottom: 14 }}>{t("hint")}</p>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-        <div>
-          <div className="field-lbl">{t("qExperience")}</div>
-          <textarea className="profile-input" style={{ width: "100%", resize: "vertical", marginTop: 4 }} rows={3}
-            placeholder={t("qExperiencePlaceholder")} value={answers.experience} onChange={(e) => setAnswer("experience", e.target.value)} />
-        </div>
-        <div>
-          <div className="field-lbl">{t("qEducation")}</div>
-          <textarea className="profile-input" style={{ width: "100%", resize: "vertical", marginTop: 4 }} rows={2}
-            placeholder={t("qEducationPlaceholder")} value={answers.education} onChange={(e) => setAnswer("education", e.target.value)} />
-        </div>
-        <div>
-          <div className="field-lbl">{t("qSkills")}</div>
-          <textarea className="profile-input" style={{ width: "100%", resize: "vertical", marginTop: 4 }} rows={2}
-            placeholder={t("qSkillsPlaceholder")} value={answers.skills} onChange={(e) => setAnswer("skills", e.target.value)} />
-        </div>
-        <div>
-          <div className="field-lbl">{t("qLanguages")}</div>
-          <textarea className="profile-input" style={{ width: "100%", resize: "vertical", marginTop: 4 }} rows={2}
-            placeholder={t("qLanguagesPlaceholder")} value={answers.languages} onChange={(e) => setAnswer("languages", e.target.value)} />
-        </div>
-        <div>
-          <div className="field-lbl">{t("qGoals")}</div>
-          <textarea className="profile-input" style={{ width: "100%", resize: "vertical", marginTop: 4 }} rows={2}
-            placeholder={t("qGoalsPlaceholder")} value={answers.goals} onChange={(e) => setAnswer("goals", e.target.value)} />
-        </div>
+      <div className="interview-rail"><div className="interview-rail-fill" style={{ width: `${((step + 1) / QUESTIONS.length) * 100}%` }} /></div>
+
+      <div key={step} className="interview-question">
+        <div className="field-lbl">{t(qLabelKey)}</div>
+        <textarea
+          className="profile-input"
+          style={{ width: "100%", resize: "vertical", marginTop: 4 }}
+          rows={current.rows}
+          placeholder={t(`${qLabelKey}Placeholder`)}
+          value={answers[current.key]}
+          onChange={(e) => setAnswer(current.key, e.target.value)}
+          autoFocus
+        />
       </div>
 
-      <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
-        <button className="btn btn-primary btn-sm" disabled={!hasAnyAnswer || loading} onClick={handleSubmit}>
-          {loading ? t("analyzing") : t("submit")}
+      <div style={{ display: "flex", gap: 8, marginTop: 16, justifyContent: "space-between", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: 8 }}>
+          {step > 0 && <button className="btn btn-ghost btn-sm" type="button" onClick={goBack}>{t("back")}</button>}
+          <button className="btn btn-ghost btn-sm" type="button" onClick={onClose}>{t("cancel")}</button>
+        </div>
+        <button className="btn btn-primary btn-sm" disabled={(isLast && !hasAnyAnswer) || loading} onClick={goNext}>
+          {isLast ? (loading ? t("analyzing") : t("submit")) : t("next")}
         </button>
-        <button className="btn btn-ghost btn-sm" type="button" onClick={onClose}>{t("cancel")}</button>
       </div>
     </div>
   );

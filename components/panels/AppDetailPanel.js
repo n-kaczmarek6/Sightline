@@ -41,6 +41,7 @@ export default function AppDetailPanel() {
   }
 
   const handleDelete = () => {
+    if (!window.confirm(t("deleteConfirm"))) return;
     deleteApplication(app.id);
     setPanel("applications");
   };
@@ -118,7 +119,7 @@ export default function AppDetailPanel() {
           <p style={{ fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.6 }}>
             {t("statusPrefix")} <strong>{tStatus(`status.${app.status}`)}</strong>{t("statusSuffix")}
           </p>
-          <button className="btn btn-ghost btn-sm" style={{ marginTop: 16, color: "var(--error)", paddingLeft: 0 }} onClick={handleDelete}>
+          <button className="btn btn-ghost btn-sm" style={{ marginTop: 16, color: "var(--coral)", paddingLeft: 0 }} onClick={handleDelete}>
             {t("deleteButton")}
           </button>
         </div>

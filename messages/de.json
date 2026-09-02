@@ -375,11 +375,13 @@
     "scoring": "Berechne…",
     "saveChanges": "Änderungen speichern",
     "deleteVersion": "Version löschen",
+    "deleteVersionConfirm": "Diese CV-Version wirklich unwiderruflich löschen?",
     "defaultVersionName": "Version {n}"
   },
   "profile": {
     "title": "Dein Profil",
     "subtitle": "Alle Karriere-Infos an einem Ort — Basis für jede künftige Bewerbung.",
+    "completeness": "{pct}% vollständig",
     "saveChanges": "Änderungen speichern",
     "notLoaded": "Profil konnte nicht geladen werden.",
     "sections": {
@@ -525,6 +527,7 @@
       "qGoals": "Wonach suchst du?",
       "qGoalsPlaceholder": "Z. B. Zielrolle, Zielort, Remote/Hybrid/Vor Ort, Gehaltsvorstellung…",
       "submit": "Vorschläge generieren",
+      "next": "Weiter",
       "analyzing": "Analysiere…",
       "cancel": "Abbrechen",
       "errorGeneric": "Konnte die Antworten nicht analysieren. Bitte versuch es erneut.",
@@ -624,6 +627,7 @@
       "other": "Sonstiges"
     },
     "form": {
+      "dropzoneHint": "Datei hierher ziehen oder klicken zum Auswählen",
       "titlePlaceholder": "Titel (optional, sonst Dateiname)",
       "descriptionPlaceholder": "Beschreibung (optional)",
       "linkLabel": "Mit Bewerbung verknüpfen (optional)",
@@ -670,6 +674,7 @@
     "statusPrefix": "Aktueller Status:",
     "statusSuffix": ". Zieh die Karte im Kanban-Board auf eine andere Spalte, um den Status zu ändern.",
     "deleteButton": "Bewerbung löschen",
+    "deleteConfirm": "Diese Bewerbung wirklich unwiderruflich löschen?",
     "analysisTitle": "Keyword-Analyse",
     "analysisEmpty": "Noch keine Analyse für diese Bewerbung. Führe eine Job-Analyse durch, um Match-Score, Keywords und Empfehlungen zu sehen.",
     "analysisOpen": "Analyse ansehen",

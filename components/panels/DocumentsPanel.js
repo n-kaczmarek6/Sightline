@@ -19,6 +19,7 @@ function UploadForm({ onUpload, onCancel, t, applications }) {
   const [description, setDescription] = useState("");
   const [applicationId, setApplicationId] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +31,21 @@ function UploadForm({ onUpload, onCancel, t, applications }) {
 
   return (
     <form className="glass profile-section" style={{ padding: 18, display: "flex", flexDirection: "column", gap: 10, marginBottom: 18 }} onSubmit={handleSubmit}>
-      <input type="file" required onChange={(e) => setFile(e.target.files?.[0] || null)} />
+      <label
+        className={`doc-dropzone${dragOver ? " dragover" : ""}`}
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={(e) => {
+          e.preventDefault();
+          setDragOver(false);
+          const dropped = e.dataTransfer.files?.[0];
+          if (dropped) setFile(dropped);
+        }}
+      >
+        <svg className="icon" style={{ width: 22, height: 22, color: "var(--accent)" }}><use href="#i-docs" /></svg>
+        {file ? <span className="filename">{file.name}</span> : <p>{t("form.dropzoneHint")}</p>}
+        <input type="file" style={{ display: "none" }} onChange={(e) => setFile(e.target.files?.[0] || null)} />
+      </label>
       <div className="field-grid">
         <input className="profile-input" placeholder={t("form.titlePlaceholder")} value={title} onChange={(e) => setTitle(e.target.value)} />
         <select className="profile-input" value={category} onChange={(e) => setCategory(e.target.value)}>

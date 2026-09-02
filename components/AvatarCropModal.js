@@ -164,7 +164,7 @@ export default function AvatarCropModal({ file, onCancel, onConfirm }) {
         )}
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginTop: 16 }}>
           <span style={{ fontSize: 12, color: "var(--text-muted)" }}>{t("avatar.zoom")}</span>
-          <input type="range" min="1" max="3" step="0.01" value={zoom} onChange={handleZoomChange} style={{ flex: 1 }} disabled={error} />
+          <input type="range" className="mint-range" min="1" max="3" step="0.01" value={zoom} onChange={handleZoomChange} style={{ flex: 1 }} disabled={error} />
         </div>
         <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6, marginBottom: 0 }}>{t("avatar.dragHint")}</p>
         <div style={{ display: "flex", gap: 8, justifyContent: "flex-end", marginTop: 18 }}>

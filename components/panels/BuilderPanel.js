@@ -353,8 +353,8 @@ export default function BuilderPanel() {
             </div>
           )}
           <button className="btn btn-save btn-sm" onClick={saveCvVersion}>{t("saveChanges")}</button>
-          <button className="btn btn-outline btn-sm" style={{ marginTop: 8, color: "var(--error)" }}
-            onClick={() => deleteCvVersion(version.id)}>
+          <button className="btn btn-outline btn-sm" style={{ marginTop: 8, color: "var(--coral)" }}
+            onClick={() => { if (window.confirm(t("deleteVersionConfirm"))) deleteCvVersion(version.id); }}>
             {t("deleteVersion")}
           </button>
         </div>

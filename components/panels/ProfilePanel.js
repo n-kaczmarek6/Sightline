@@ -490,11 +490,12 @@ export default function ProfilePanel() {
     <div className="panel">
       <div className="panel-head panel-head-row">
         <div><h1>{t("title")}</h1><p>{t("subtitle")}</p></div>
-        <button className="btn btn-primary btn-sm" onClick={saveProfile}>{t("saveChanges")}</button>
-      </div>
-      <div className="profile-progress">
-        <div className="progress-track"><div className="progress-fill" style={{ width: `${pct}%` }} /></div>
-        <span className="mono" style={{ fontSize: 13, fontWeight: 700, color: "var(--ink)" }}>{pct}%</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div className="completeness-ring" style={{ "--pct": `${pct}%` }} title={t("completeness", { pct })}>
+            <div className="completeness-ring-inner"><span data-count={pct} data-count-suffix="%">{pct}%</span></div>
+          </div>
+          <button className="btn btn-primary btn-sm" onClick={saveProfile}>{t("saveChanges")}</button>
+        </div>
       </div>
 
       {!showInterview && (
@@ -511,23 +512,35 @@ export default function ProfilePanel() {
         <div className="glass profile-section">
           <h4>{t("sections.personalInfo")}</h4>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 18 }}>
-            {avatarSignedUrl ? (
-              <img
-                src={avatarSignedUrl}
-                alt=""
-                style={{ width: AVATAR_PREVIEW_W, height: AVATAR_PREVIEW_H, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
-              />
-            ) : (
-              <div
-                style={{
-                  width: AVATAR_PREVIEW_W, height: AVATAR_PREVIEW_H, borderRadius: "50%", flexShrink: 0,
-                  background: "rgba(18,51,45,.06)", display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 26,
+            <label className="avatar-slot" style={{ cursor: "pointer" }}>
+              {avatarSignedUrl ? (
+                <img
+                  src={avatarSignedUrl}
+                  alt=""
+                  style={{ width: AVATAR_PREVIEW_W, height: AVATAR_PREVIEW_H, borderRadius: "50%", objectFit: "cover", flexShrink: 0, display: "block" }}
+                />
+              ) : (
+                <div
+                  style={{
+                    width: AVATAR_PREVIEW_W, height: AVATAR_PREVIEW_H, borderRadius: "50%", flexShrink: 0,
+                    background: "rgba(18,51,45,.06)", display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: 26,
+                  }}
+                >
+                  👤
+                </div>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) setCropFile(file);
+                  e.target.value = "";
                 }}
-              >
-                👤
-              </div>
-            )}
+              />
+            </label>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 <label className="btn btn-secondary btn-sm" style={{ cursor: "pointer", margin: 0 }}>

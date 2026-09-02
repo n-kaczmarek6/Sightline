@@ -107,8 +107,8 @@ export default function SettingsPanel() {
           </form>
         </div>
 
-        <div className="glass profile-section" style={{ borderColor: "rgba(226,76,58,.3)" }}>
-          <h4 style={{ color: "var(--error)" }}>{t("deleteAccount.heading")}</h4>
+        <div className="glass profile-section" style={{ borderColor: "rgba(255,111,85,.3)" }}>
+          <h4 style={{ color: "var(--coral)" }}>{t("deleteAccount.heading")}</h4>
           <p style={{ fontSize: 13.5, color: "var(--text-muted)", lineHeight: 1.6, marginBottom: 12 }}>
             {t("deleteAccount.descriptionPre")}<strong>{userEmail}</strong>{t("deleteAccount.descriptionPost")}
           </p>
@@ -122,7 +122,7 @@ export default function SettingsPanel() {
             />
             <button
               className="btn btn-sm"
-              style={{ background: "var(--error)", color: "#fff", whiteSpace: "nowrap" }}
+              style={{ background: "var(--coral)", color: "#fff", whiteSpace: "nowrap" }}
               disabled={!canDelete || deleting}
               onClick={handleDelete}
             >

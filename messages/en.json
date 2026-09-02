@@ -375,11 +375,13 @@
     "scoring": "Calculating…",
     "saveChanges": "Save changes",
     "deleteVersion": "Delete version",
+    "deleteVersionConfirm": "Permanently delete this CV version?",
     "defaultVersionName": "Version {n}"
   },
   "profile": {
     "title": "Your Profile",
     "subtitle": "All your career info in one place — the basis for every future application.",
+    "completeness": "{pct}% complete",
     "saveChanges": "Save changes",
     "notLoaded": "Profile could not be loaded.",
     "sections": {
@@ -525,6 +527,7 @@
       "qGoals": "What are you looking for?",
       "qGoalsPlaceholder": "E.g. target role, target location, remote/hybrid/onsite, salary expectations…",
       "submit": "Generate suggestions",
+      "next": "Next",
       "analyzing": "Analyzing…",
       "cancel": "Cancel",
       "errorGeneric": "Couldn't analyze your answers. Please try again.",
@@ -624,6 +627,7 @@
       "other": "Other"
     },
     "form": {
+      "dropzoneHint": "Drag a file here or click to browse",
       "titlePlaceholder": "Title (optional, defaults to file name)",
       "descriptionPlaceholder": "Description (optional)",
       "linkLabel": "Link to an application (optional)",
@@ -670,6 +674,7 @@
     "statusPrefix": "Current status:",
     "statusSuffix": ". Drag the card to a different column on the Kanban board to change its status.",
     "deleteButton": "Delete application",
+    "deleteConfirm": "Permanently delete this application?",
     "analysisTitle": "Keyword Analysis",
     "analysisEmpty": "No analysis for this application yet. Run a job analysis to see the match score, keywords, and recommendations.",
     "analysisOpen": "View analysis",
