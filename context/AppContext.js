@@ -153,6 +153,33 @@ export function AppProvider({
     [jobAnalyses, setPanel]
   );
 
+  // Hängt eine bereits vorhandene Analyse nachträglich an eine andere Bewerbung --
+  // z.B. wenn sie (vor dem applicationId-Fix in /api/analyze) an der falschen
+  // Bewerbung gelandet ist. Kein neuer API-Call, nur das application_id-Feld
+  // umbiegen; RLS stellt sicher, dass user_id weiterhin passt.
+  const linkAnalysisToApplication = useCallback(
+    async (analysisId, applicationId) => {
+      const supabase = createClient();
+      setJobAnalyses((list) =>
+        list.map((a) => (a.id === analysisId ? { ...a, application_id: applicationId } : a))
+      );
+      const { data: updated, error } = await supabase
+        .from("job_analyses")
+        .update({ application_id: applicationId })
+        .eq("id", analysisId)
+        .select()
+        .single();
+      if (error) {
+        toast(t("analysisLinkError"));
+        return;
+      }
+      setApplications((list) =>
+        list.map((a) => (a.id === applicationId ? { ...a, match_score: updated.match_score } : a))
+      );
+    },
+    [toast, t]
+  );
+
   const updateProfileField = useCallback((field, value) => {
     setProfile((p) => ({ ...p, [field]: value }));
   }, []);
@@ -788,7 +815,7 @@ export function AppProvider({
     cvVersions, selectedVersionId, setSelectedVersionId,
     createCvVersion, updateVersionField, saveCvVersion, deleteCvVersion, downloadCv, linkCvVersionToApplication,
     generateCv, generatingCv, scoreCvVersion, scoringCv,
-    runAnalysis, currentAnalysis, analyzing, jobAnalyses, viewAnalysis,
+    runAnalysis, currentAnalysis, analyzing, jobAnalyses, viewAnalysis, linkAnalysisToApplication,
     analyzeTargetApplicationId, setAnalyzeTargetApplicationId, startAnalysisForApplication,
     blogPosts, selectedBlogPostId, setSelectedBlogPostId, savingBlogPost,
     createBlogPost, updateBlogPost, deleteBlogPost, uploadBlogCoverImage,

@@ -8,7 +8,7 @@ export default function AppDetailPanel() {
     setPanel, applications, selectedApplicationId, deleteApplication,
     documents, downloadDocument, linkDocumentToApplication, toast,
     cvVersions, setSelectedVersionId, linkCvVersionToApplication, isPro,
-    jobAnalyses, viewAnalysis, startAnalysisForApplication,
+    jobAnalyses, viewAnalysis, startAnalysisForApplication, linkAnalysisToApplication,
   } = useApp();
   const t = useTranslations("appDetail");
   const tStatus = useTranslations("common");
@@ -16,6 +16,8 @@ export default function AppDetailPanel() {
   const app = applications.find((a) => a.id === selectedApplicationId);
   const [docToAttach, setDocToAttach] = useState("");
   const [cvToAttach, setCvToAttach] = useState("");
+  const [analysisToLink, setAnalysisToLink] = useState("");
+  const [showLinkExisting, setShowLinkExisting] = useState(false);
   const [prep, setPrep] = useState(null);
   const [prepLoading, setPrepLoading] = useState(false);
 
@@ -47,6 +49,7 @@ export default function AppDetailPanel() {
   };
 
   const analysis = jobAnalyses.find((a) => a.application_id === app.id);
+  const otherAnalyses = jobAnalyses.filter((a) => a.application_id !== app.id);
   const linkedDocs = documents.filter((d) => d.application_id === app.id);
   const unlinkedDocs = documents.filter((d) => d.application_id !== app.id);
   const linkedCvVersions = cvVersions.filter((v) => v.application_id === app.id);
@@ -62,6 +65,13 @@ export default function AppDetailPanel() {
     if (!cvToAttach) return;
     linkCvVersionToApplication(cvToAttach, app.id);
     setCvToAttach("");
+  };
+
+  const handleLinkAnalysis = () => {
+    if (!analysisToLink) return;
+    linkAnalysisToApplication(analysisToLink, app.id);
+    setAnalysisToLink("");
+    setShowLinkExisting(false);
   };
 
   const openInBuilder = (versionId) => {
@@ -174,7 +184,25 @@ export default function AppDetailPanel() {
         {!analysis ? (
           <div>
             <p style={{ fontSize: 13.5, color: "var(--text-muted)", marginBottom: 12 }}>{t("analysisEmpty")}</p>
-            <button className="btn btn-secondary btn-sm" onClick={() => startAnalysisForApplication(app.id)}>{t("analysisStart")}</button>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+              <button className="btn btn-secondary btn-sm" onClick={() => startAnalysisForApplication(app.id)}>{t("analysisStart")}</button>
+              {otherAnalyses.length > 0 && !showLinkExisting && (
+                <button className="btn btn-ghost btn-sm" onClick={() => setShowLinkExisting(true)}>{t("analysisLinkExistingToggle")}</button>
+              )}
+            </div>
+            {showLinkExisting && (
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
+                <select className="profile-input" style={{ marginTop: 0, flex: 1, minWidth: 200 }} value={analysisToLink} onChange={(e) => setAnalysisToLink(e.target.value)}>
+                  <option value="">{t("analysisLinkPlaceholder")}</option>
+                  {otherAnalyses.map((a) => (
+                    <option key={a.id} value={a.id}>
+                      {a.company} — {a.job_title} ({formatDate(a.created_at)})
+                    </option>
+                  ))}
+                </select>
+                <button className="btn btn-secondary btn-sm" disabled={!analysisToLink} onClick={handleLinkAnalysis}>{t("analysisLinkButton")}</button>
+              </div>
+            )}
           </div>
         ) : (
           <div>
