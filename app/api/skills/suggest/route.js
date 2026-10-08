@@ -4,6 +4,9 @@ import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 
+// Vercel-Hobby-Default ist 10s -- Anthropic-Calls brauchen oft länger.
+export const maxDuration = 60;
+
 const SuggestSchema = z.object({
   skills: z.array(z.string()).describe("Passende, konkrete Skills — maximal 8, sortiert nach Relevanz"),
 });

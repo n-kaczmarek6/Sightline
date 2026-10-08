@@ -5,6 +5,9 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { buildProfileSummary } from "@/lib/ai/profile-summary";
 
+// Vercel-Hobby-Default ist 10s -- Anthropic-Calls brauchen oft länger.
+export const maxDuration = 60;
+
 const CvDraftSchema = z.object({
   label: z.string().describe("Kurzer Name für diese CV-Version, z.B. 'Product Marketing Manager — Firma X'"),
   summary: z.string().describe("Maximal 2 prägnante Sätze, zugeschnitten auf die Stellenausschreibung, nur echte Erfahrung"),

@@ -6,6 +6,13 @@ import { createClient } from "@/lib/supabase/server";
 import { buildProfileSummary } from "@/lib/ai/profile-summary";
 import { extractCvText } from "@/lib/cv-import/extract-text";
 
+// Ohne das hängt diese Route am Vercel-Hobby-Default von 10s fest -- der
+// Anthropic-Call mit adaptive thinking + dem vollen Analyse-Schema braucht
+// regelmäßig länger, sonst bricht Vercel mit 504 ab (siehe "Analyse
+// fehlgeschlagen" ohne konkrete Fehlermeldung: res.json() wirft auf der
+// nicht-JSON-504-Antwort, bevor die eigentliche API-Fehlerbehandlung greift).
+export const maxDuration = 60;
+
 // Kein next-intl-Locale-Routing für /api — die Middleware schließt /api explizit
 // aus (siehe middleware.js), Auth-Prüfung passiert deshalb hier manuell.
 

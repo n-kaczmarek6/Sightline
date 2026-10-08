@@ -4,6 +4,9 @@ import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 
+// Vercel-Hobby-Default ist 10s -- Anthropic-Calls brauchen oft länger.
+export const maxDuration = 60;
+
 const PolishSchema = z.object({
   text: z.string().describe("Der überarbeitete Block, exakt im vorgegebenen Format"),
 });

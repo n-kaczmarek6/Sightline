@@ -6,6 +6,9 @@ import { createClient } from "@/lib/supabase/server";
 import deMessages from "@/messages/de.json";
 import enMessages from "@/messages/en.json";
 
+// Vercel-Hobby-Default ist 10s -- Anthropic-Calls brauchen oft länger.
+export const maxDuration = 60;
+
 const InterviewSchema = z.object({
   work_experience: z.array(
     z.object({

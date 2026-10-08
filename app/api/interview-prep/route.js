@@ -5,6 +5,9 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { buildProfileSummary } from "@/lib/ai/profile-summary";
 
+// Vercel-Hobby-Default ist 10s -- Anthropic-Calls brauchen oft länger.
+export const maxDuration = 60;
+
 const InterviewPrepSchema = z.object({
   topics: z.array(z.string()).describe("3-6 kurze Themen-Labels, die im Interview wahrscheinlich drankommen"),
   questions: z.array(
